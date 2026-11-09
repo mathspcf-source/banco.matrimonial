@@ -32,7 +32,6 @@
   svg{display:block}
   .screen{display:none}.screen.active{display:block}
 
-  /* ===== LOGIN ===== */
   .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
   .login-card{
     width:100%;max-width:420px;
@@ -95,7 +94,6 @@
   .login-back:hover{color:var(--txt)}
   .login-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-  /* ===== PICKER ===== */
   .profiles{display:grid;gap:16px;grid-template-columns:1fr}
   @media(min-width:480px){.profiles{grid-template-columns:1fr 1fr}}
   .profile{
@@ -116,7 +114,6 @@
   .profile h3{margin:0;font-size:1.05rem;font-weight:700}
   .profile p{margin:0;color:var(--muted);font-size:.78rem}
 
-  /* ===== APP ===== */
   .app-header{
     position:sticky;top:0;z-index:30;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     background:rgba(8,11,20,.72);border-bottom:1px solid var(--line);padding:12px 16px;
@@ -143,7 +140,6 @@
   .app-main{max-width:1180px;margin:0 auto;padding:16px}
   @media(min-width:768px){.app-main{padding:24px}}
 
-  /* ===== TABS DO DASHBOARD ===== */
   .dash-tabs{
     display:flex;gap:6px;background:#070d18;border:1px solid var(--line);
     border-radius:14px;padding:5px;margin-bottom:16px;
@@ -153,10 +149,6 @@
     color:var(--muted);transition:.15s;
   }
   .dash-tabs button.active{background:var(--surface2);color:var(--txt)}
-  .dash-tabs button .badge-pill{
-    display:inline-block;margin-left:6px;background:var(--green);color:#03140e;
-    padding:1px 7px;border-radius:999px;font-size:.66rem;font-weight:800;
-  }
   .view{display:none}
   .view.active{display:block}
 
@@ -174,7 +166,6 @@
   .card .value{font-size:1.5rem;font-weight:800;margin-top:8px;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
   .card .sub{color:var(--muted);font-size:.76rem;margin-top:4px}
   .card.saldo .value{color:var(--green)}
-  .card.casal .value{color:var(--gold)}
   .card .value.good{color:var(--green)}
   .card .value.bad{color:var(--warn)}
   .card .value.gold{color:var(--gold)}
@@ -195,7 +186,6 @@
   .progress.k > i{background:linear-gradient(90deg,var(--kathleen),#c2569a,var(--green))}
   .progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem;margin-top:10px}
 
-  /* ===== VISÃO DO CASAL ===== */
   .duo-dash{display:grid;gap:14px;grid-template-columns:1fr}
   @media(min-width:600px){.duo-dash{grid-template-columns:1fr 1fr}}
   .person-card{
@@ -360,11 +350,20 @@
     border-radius:50%;animation:spin .8s linear infinite;
   }
   @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* overlay para evitar "flash" no boot */
+  #bootOverlay{
+    position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;z-index:200;
+    transition:opacity .25s ease;
+  }
+  #bootOverlay.hide{opacity:0;pointer-events:none}
+  #bootOverlay .spinner{width:36px;height:36px}
 </style>
 </head>
 <body>
 
-<!-- ============ PICKER ============ -->
+<div id="bootOverlay"><div class="spinner"></div></div>
+
 <section class="screen active" id="screen-picker">
   <div class="login-wrap">
     <div style="width:100%;max-width:520px">
@@ -388,7 +387,6 @@
   </div>
 </section>
 
-<!-- ============ LOGIN MATHEUS ============ -->
 <section class="screen" id="screen-login-matheus">
   <div class="login-wrap"><div class="login-card">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -405,7 +403,6 @@
   </div></div>
 </section>
 
-<!-- ============ LOGIN KATHLEEN ============ -->
 <section class="screen" id="screen-login-kathleen">
   <div class="login-wrap"><div class="login-card k">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -422,7 +419,6 @@
   </div></div>
 </section>
 
-<!-- ============ DASHBOARD ============ -->
 <section class="screen" id="screen-dash">
   <header class="app-header"><div class="app-header-inner">
     <div class="user-chip" id="chipPerfil" title="Editar perfil">
@@ -437,22 +433,18 @@
   </div></header>
 
   <main class="app-main">
-
-    <!-- TABS -->
     <div class="dash-tabs" id="dashTabs">
       <button class="active" data-view="casal">Visão do casal</button>
       <button data-view="pessoal">Meu painel</button>
     </div>
 
-    <!-- ===== VIEW: CASAL ===== -->
+    <!-- VIEW: CASAL -->
     <div class="view active" id="view-casal">
-
       <section class="total-casal" id="totalCasalBox"></section>
-
       <section class="duo-dash" id="duoPessoas"></section>
 
       <section class="panel">
-        <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal (os dois)</h2>
+        <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal</h2>
         <div class="chart-toggle" id="compToggle"><button class="active" data-mode="donut">Donut</button><button data-mode="line">Linha</button></div>
         <canvas id="dashComparativo" width="900" height="380"></canvas>
         <div class="sub" id="dashCompHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
@@ -464,23 +456,19 @@
       </section>
 
       <section class="panel">
-        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Últimos lançamentos do casal</h2>
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Últimos lançamentos</h2>
         <div class="list" id="listaCasal"></div>
       </section>
-
     </div>
 
-    <!-- ===== VIEW: PESSOAL ===== -->
+    <!-- VIEW: PESSOAL -->
     <div class="view" id="view-pessoal">
-
       <section class="cards" id="dashCards"></section>
       <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>Progresso pessoal</h2>
         <div class="progress" id="dashBarra"><i></i></div>
         <div class="progress-meta"><span id="dashBarraLeft">R$ 0</span><span id="dashBarraRight">Meta: R$ 10.000</span></div>
         <div class="progress-meta" style="margin-top:6px"><span id="dashStreak">0 meses em dia</span><span id="dashRitmo"></span></div>
       </section>
-
-      <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Meus selos</h2><div class="selos-grid" id="dashSelos"></div></section>
 
       <div class="split">
         <div>
@@ -526,7 +514,6 @@
   </main>
 </section>
 
-<!-- ============ MODAIS ============ -->
 <div class="modal" id="modalPerfil"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu perfil</h3>
   <div class="avatar-upload">
@@ -597,7 +584,7 @@
     aporteAlvo:1666.66,
     taxaMensal:0.8,
     aportes:[],
-    selos:{matheus:{},kathleen:{},casal:{}},
+    selos:{casal:{}},
     perfis:{matheus:{nome:"Matheus",avatar:null},kathleen:{nome:"Kathleen",avatar:null}}
   };
 
@@ -606,6 +593,7 @@
   let filtroMes = "todos", filtroTipo = "todos";
   let editingId = null;
   let compMode = "donut", indMode = "line";
+  let bootDone = false;
 
   const $ = (s,el=document)=>el.querySelector(s);
   const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
@@ -623,6 +611,7 @@
   let toastTimer;
   function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
   function loading(on){$("#loading").classList.toggle("show",!!on);}
+  function hideBoot(){ const el = $("#bootOverlay"); if(!el) return; el.classList.add("hide"); setTimeout(()=>el.remove(), 300); }
 
   const TIPO_LABEL={aporte:"Aporte",bonus:"Bônus",rendimento:"Rendimento",saque:"Saque"};
   const TIPO_SIGN={aporte:1,bonus:1,rendimento:1,saque:-1};
@@ -639,12 +628,13 @@
     chart:'<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>'
   };
 
+  /* Selos CONJUNTOS + moedinha no 10k */
   const SELOS=[
     {valor:2000,nome:"Primeiro Passo",svg:'<svg viewBox="0 0 24 24"><path d="M9 3l2 5h6l-5 4 2 6-4-3-4 3 2-6-5-4h6z"/></svg>'},
     {valor:4000,nome:"Raiz Forte",svg:'<svg viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12C8 12 5 9 5 5c4 0 7 3 7 7z"/><path d="M12 12c4 0 7-3 7-7-4 0-7 3-7 7z"/></svg>'},
     {valor:6000,nome:"Chama Acesa",svg:'<svg viewBox="0 0 24 24"><path d="M12 2c2 4 5 6 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 1-6 1-9z"/></svg>'},
     {valor:8000,nome:"Meio do Caminho",svg:'<svg viewBox="0 0 24 24"><path d="M4 22V4l8 4-8 4"/><line x1="4" y1="22" x2="20" y2="22"/><line x1="4" y1="12" x2="14" y2="12"/></svg>'},
-    {valor:10000,nome:"Cofre de Ouro",svg:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="9" x2="12" y2="7"/></svg>'},
+    {valor:10000,nome:"Moedinha de Ouro",svg:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><path d="M12 8v8"/><path d="M9.5 10.5h5"/><path d="M9.5 13.5h5"/></svg>'},
     {valor:12000,nome:"Asa da Liberdade",svg:'<svg viewBox="0 0 24 24"><path d="M3 12c4-6 9-8 14-8-2 4-5 7-9 9"/><path d="M21 12c-4-6-9-8-14-8 2 4 5 7 9 9"/><line x1="12" y1="15" x2="12" y2="22"/></svg>'},
     {valor:14000,nome:"Escudo do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>'},
     {valor:16000,nome:"Estrela Guia",svg:'<svg viewBox="0 0 24 24"><path d="M12 2l3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>'},
@@ -652,9 +642,9 @@
     {valor:20000,nome:"Lenda do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M6 3h12v4a6 6 0 0 1-12 0z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><line x1="12" y1="13" x2="12" y2="18"/><path d="M8 21h8l-1-3H9z"/></svg>'}
   ];
 
-  function garantirSelos(){ if(!state.selos)state.selos={matheus:{},kathleen:{},casal:{}};["matheus","kathleen","casal"].forEach(k=>{if(!state.selos[k])state.selos[k]={};}); }
-  function verificarSelos(chave,saldo){ garantirSelos(); const novos=[]; const hoje=hojeISO(); SELOS.forEach(s=>{ if(saldo>=s.valor && !state.selos[chave][s.valor]){ state.selos[chave][s.valor]=hoje; novos.push(s);} }); return novos; }
-  function renderSelos(id,chave,saldo){ const c=document.getElementById(id); if(!c)return; garantirSelos(); c.innerHTML=SELOS.map(s=>{ const un=!!state.selos[chave][s.valor]; const d=un?new Date(state.selos[chave][s.valor]+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):""; return `<div class="selo ${un?'unlocked':''}"><div class="lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div class="ic">${s.svg}</div><div class="nome">${s.nome}</div><div class="val">${brl(s.valor)}</div>${d?`<div class="data">${d}</div>`:""}</div>`; }).join(""); }
+  function garantirSelos(){ if(!state.selos||!state.selos.casal) state.selos = {casal:{}}; }
+  function verificarSelos(saldo){ garantirSelos(); const novos=[]; const hoje=hojeISO(); SELOS.forEach(s=>{ if(saldo>=s.valor && !state.selos.casal[s.valor]){ state.selos.casal[s.valor]=hoje; novos.push(s);} }); return novos; }
+  function renderSelos(id,saldo){ const c=document.getElementById(id); if(!c)return; garantirSelos(); c.innerHTML=SELOS.map(s=>{ const un=!!state.selos.casal[s.valor]; const d=un?new Date(state.selos.casal[s.valor]+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):""; return `<div class="selo ${un?'unlocked':''}"><div class="lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div class="ic">${s.svg}</div><div class="nome">${s.nome}</div><div class="val">${brl(s.valor)}</div>${d?`<div class="data">${d}</div>`:""}</div>`; }).join(""); }
 
   function saldoUsuario(u){ return state.aportes.filter(a=>a.user===u).reduce((s,a)=>s+(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0),0); }
   function saldoCasal(){ return state.aportes.reduce((s,a)=>s+(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0),0); }
@@ -689,9 +679,7 @@
           state.perfis[u] = {nome:p.nome||USERS[u].nome, avatar:p.avatar_url||null};
         });
       }
-      verificarSelos("matheus", saldoUsuario("matheus"));
-      verificarSelos("kathleen", saldoUsuario("kathleen"));
-      verificarSelos("casal", saldoCasal());
+      verificarSelos(saldoCasal());
       $("#footSync").textContent = "Sincronizado com Supabase ✓";
     }catch(e){
       console.warn("Erro carregando do Supabase:", e);
@@ -725,7 +713,7 @@
     await sb.from("aportes").delete().eq("id",id);
   }
 
-  /* ===== TABS DO DASHBOARD ===== */
+  /* TABS */
   $("#dashTabs").addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
     $$("#dashTabs button").forEach(x=>x.classList.remove("active"));
@@ -737,7 +725,6 @@
     window.scrollTo(0,0);
   });
 
-  /* ===== PICKER / LOGIN ===== */
   $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{
     const u = b.dataset.user;
     showScreen("screen-login-"+u);
@@ -789,7 +776,6 @@
     showScreen("screen-picker");
   });
 
-  /* ===== AVATARES / ENTRADA ===== */
   function renderAvatares(){
     const p = state.perfis;
     ["matheus","kathleen"].forEach(u=>{
@@ -826,12 +812,11 @@
     renderCasal();
     renderPessoal();
     showScreen("screen-dash");
+    hideBoot();
   }
 
-  /* ===== VIEW CASAL ===== */
   function renderCasal(){
     if(!currentUser) return;
-
     const total = saldoCasal();
     const meta = state.metaCasal;
     const p = meta>0 ? Math.min(100, (total/meta)*100) : 0;
@@ -851,7 +836,6 @@
       </div>
     `;
 
-    // Cards dos dois
     const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
     const mM = state.metaMatheus, mK = state.metaKathleen;
     const pM = mM>0 ? Math.min(100,(sM/mM)*100) : 0;
@@ -884,16 +868,14 @@
     `;
 
     renderComparativo();
-    renderSelos("selosCasal","casal",total);
+    renderSelos("selosCasal", total);
     renderListaCasal();
   }
 
   function renderListaCasal(){
     const box = $("#listaCasal");
     const arr = state.aportes.slice().sort((a,b)=>(b.data||"").localeCompare(a.data||"")||(b.id||"").localeCompare(a.id||"")).slice(0,20);
-    if(!arr.length){
-      box.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>'; return;
-    }
+    if(!arr.length){ box.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>'; return; }
     box.innerHTML = arr.map(a=>{
       const sinal = a.tipo==="saque" ? "- " : "+ ";
       const who = a.user==="matheus" ? "Matheus" : "Kathleen";
@@ -908,7 +890,6 @@
     }).join("");
   }
 
-  /* ===== VIEW PESSOAL ===== */
   function renderPessoal(){
     if(!currentUser) return;
     const saldo = saldoUsuario(currentUser);
@@ -935,9 +916,6 @@
     $("#dashStreak").textContent = streak+" "+(streak===1?"mês":"meses")+" em dia";
     $("#dashRitmo").textContent = "Prazo: "+mesLabel(fim);
 
-    const novos = verificarSelos(currentUser, saldo);
-    if(novos.length){ novos.forEach((s,i)=>setTimeout(()=>toast("Selo: "+s.nome),i*1100)); }
-    renderSelos("dashSelos", currentUser, saldo);
     renderLista(); renderListaMes(); renderChart();
   }
 
@@ -970,7 +948,6 @@
     $("#dashMes").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento neste mês.</div>';
   }
 
-  /* ===== LANÇAMENTOS ===== */
   $("#formLanc").addEventListener("submit", async e=>{
     e.preventDefault();
     if(!currentUser) return;
@@ -1020,7 +997,7 @@
   });
   $("#btnCloseEdit").addEventListener("click", ()=>{ $("#modalEditar").classList.remove("open"); editingId=null; });
 
-  /* ===== PERFIL ===== */
+  /* ===== PERFIL — upload robusto ===== */
   $("#chipPerfil").addEventListener("click", ()=>{
     if(!currentUser) return;
     const p = state.perfis[currentUser];
@@ -1039,6 +1016,36 @@
     reader.readAsDataURL(file);
   });
 
+  /* Redimensiona/comprime para caber no campo text e no bucket */
+  function redimensionarImagem(file, max=400, qualidade=0.82){
+    return new Promise((resolve)=>{
+      const reader = new FileReader();
+      reader.onload = e=>{
+        const img = new Image();
+        img.onload = ()=>{
+          const ratio = Math.min(max/img.width, max/img.height, 1);
+          const w = Math.round(img.width*ratio), h = Math.round(img.height*ratio);
+          const c = document.createElement("canvas"); c.width=w; c.height=h;
+          const ctx = c.getContext("2d"); ctx.drawImage(img,0,0,w,h);
+          resolve(c.toDataURL("image/jpeg", qualidade));
+        };
+        img.onerror = ()=>resolve(null);
+        img.src = e.target.result;
+      };
+      reader.onerror = ()=>resolve(null);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function dataURLtoBlob(dataurl){
+    const [head, body] = dataurl.split(",");
+    const mime = head.match(/:(.*?);/)[1];
+    const bin = atob(body);
+    const arr = new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], {type:mime});
+  }
+
   $("#btnSavePerfil").addEventListener("click", async ()=>{
     if(!currentUser) return;
     const nome = $("#perfilNome").value.trim() || USERS[currentUser].nome;
@@ -1046,44 +1053,56 @@
     let avatarUrl = state.perfis[currentUser]?.avatar || null;
 
     if(file){
-      if(file.size > 2*1024*1024){ toast("Imagem > 2MB."); return; }
+      if(file.size > 5*1024*1024){ toast("Imagem muito grande (máx 5MB)."); return; }
       loading(true);
-      let subiuNoBucket = false;
-      try{
-        const ext = file.name.split(".").pop().toLowerCase();
-        const {data:{user}} = await sb.auth.getUser();
-        const path = `${user.id}/${Date.now()}.${ext}`;
-        const {error:upErr} = await sb.storage.from("avatars").upload(path, file, {upsert:true, contentType:file.type});
-        if(!upErr){
-          const {data} = sb.storage.from("avatars").getPublicUrl(path);
-          avatarUrl = data.publicUrl;
-          subiuNoBucket = true;
-        }
-      }catch(ex){ console.warn("Falha no upload do bucket:", ex); }
 
-      if(!subiuNoBucket){
-        avatarUrl = await new Promise((res)=>{
-          const r = new FileReader();
-          r.onload = ev => res(ev.target.result);
-          r.onerror = () => res(null);
-          r.readAsDataURL(file);
-        });
-        if(!avatarUrl){ toast("Não foi possível ler a imagem."); loading(false); return; }
+      // 1) Redimensiona
+      const dataUrl = await redimensionarImagem(file, 400, 0.82);
+      if(!dataUrl){ toast("Não foi possível processar a imagem."); loading(false); return; }
+
+      // 2) Tenta upload no bucket
+      let subiu = false;
+      try{
+        const blob = dataURLtoBlob(dataUrl);
+        const {data:{user}} = await sb.auth.getUser();
+        if(user){
+          const path = `${user.id}/avatar_${Date.now()}.jpg`;
+          const {error:upErr} = await sb.storage.from("avatars").upload(path, blob, {upsert:true, contentType:"image/jpeg"});
+          if(!upErr){
+            const {data} = sb.storage.from("avatars").getPublicUrl(path);
+            avatarUrl = data.publicUrl;
+            subiu = true;
+          } else {
+            console.warn("Upload bucket falhou:", upErr);
+          }
+        }
+      }catch(ex){ console.warn("Exceção no upload:", ex); }
+
+      // 3) Fallback: dataURL (comprimida ~ 30-80KB)
+      if(!subiu){
+        avatarUrl = dataUrl;
       }
+
+      // 4) Persiste no localStorage imediatamente (pra não perder se recarregar)
+      try{ localStorage.setItem("bm_avatar_"+currentUser, avatarUrl); }catch(e){}
+
       loading(false);
     }
 
     state.perfis[currentUser] = { nome, avatar: avatarUrl };
 
+    // 5) Persiste no Supabase (profiles.avatar_url aceita text)
     if(sb){
       const {data:{user}} = await sb.auth.getUser();
       if(user){
-        await sb.from("profiles").upsert({
+        const {error:pErr} = await sb.from("profiles").upsert({
           id:user.id, nome, pessoa:currentUser,
           avatar_url:avatarUrl, updated_at:new Date().toISOString()
         });
+        if(pErr) console.warn("Erro ao salvar perfil:", pErr);
       }
     }
+
     renderAvatares();
     enterDashboard();
     $("#modalPerfil").classList.remove("open");
@@ -1091,6 +1110,17 @@
     toast("Perfil atualizado.");
   });
   $("#btnClosePerfil").addEventListener("click", ()=>{ $("#modalPerfil").classList.remove("open"); $("#fileAvatar").value=""; });
+
+  /* Carrega avatar salvo localmente (fallback offline) */
+  function carregarAvataresLocais(){
+    ["matheus","kathleen"].forEach(u=>{
+      try{
+        const v = localStorage.getItem("bm_avatar_"+u);
+        if(v && !state.perfis[u]?.avatar) state.perfis[u] = state.perfis[u]||{nome:USERS[u].nome, avatar:null};
+        if(v && state.perfis[u]) state.perfis[u].avatar = state.perfis[u].avatar || v;
+      }catch(e){}
+    });
+  }
 
   /* ===== GRÁFICOS ===== */
   function setupCanvas(cv, ratio){
@@ -1209,7 +1239,7 @@
     indMode = b.dataset.mode; renderChart();
   });
 
-  /* ===== CONFIG ===== */
+  /* CONFIG */
   $("#btnConfig").addEventListener("click", ()=>{
     $("#cfgMetaCasal").value = state.metaCasal; $("#cfgInicio").value = state.inicio; $("#cfgMeses").value = state.meses;
     $("#cfgMetaM").value = state.metaMatheus; $("#cfgMetaK").value = state.metaKathleen;
@@ -1231,11 +1261,11 @@
     if(!confirm("Zerar TODOS os dados? Apaga também no Supabase.")) return;
     if(sb) await sb.from("aportes").delete().neq("id","");
     state.aportes = [];
-    state.selos = {matheus:{},kathleen:{},casal:{}};
+    state.selos = {casal:{}};
     $("#modalConfig").classList.remove("open"); renderCasal(); renderPessoal(); toast("Dados zerados.");
   });
 
-  /* ===== PDF ===== */
+  /* PDF */
   $("#btnPdf").addEventListener("click", ()=>{
     $("#pdf-print").innerHTML = gerarPdfHtml();
     window.print();
@@ -1267,28 +1297,45 @@
     `;
   }
 
-  /* ===== BOOT ===== */
   $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m) m.classList.remove("open"); }));
   let rt;
   window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){ renderChart(); renderComparativo(); } },180); });
 
+  /* ===== BOOT ROBUSTO ===== */
   async function boot(){
-    if(!sb){ $("#footSync").textContent = "Supabase não carregado"; return; }
-    const {data:{session}} = await sb.auth.getSession();
-    if(session){
-      const {data:{user}} = await sb.auth.getUser();
-      const email = (user?.email||"").toLowerCase();
-      currentUser = email.includes("matheus") ? "matheus" : email.includes("kathleen") ? "kathleen" : null;
-      if(currentUser){
-        loading(true);
-        await carregarTudoDoSupabase();
-        enterDashboard();
-        loading(false);
+    if(!sb){ $("#footSync").textContent = "Supabase não carregado"; hideBoot(); return; }
+
+    // Restaura avatares locais antes de qualquer coisa
+    carregarAvataresLocais();
+
+    try{
+      const {data:{session}} = await sb.auth.getSession();
+      if(session && session.user){
+        const email = (session.user.email||"").toLowerCase();
+        currentUser = email.includes("matheus") ? "matheus" : email.includes("kathleen") ? "kathleen" : null;
+        if(currentUser){
+          await carregarTudoDoSupabase();
+          enterDashboard();
+          return;
+        }
       }
-    }else{
-      $("#footSync").textContent = "Pronto para login";
-    }
+    }catch(e){ console.warn(e); }
+
+    // Sem sessão: fica na picker
+    $("#footSync").textContent = "Pronto para login";
+    hideBoot();
   }
+
+  // Mantém estado de auth sincronizado (troca de conta, expiração, etc)
+  if(sb){
+    sb.auth.onAuthStateChange((event, session)=>{
+      if(event === "SIGNED_OUT"){
+        currentUser = null;
+        showScreen("screen-picker");
+      }
+    });
+  }
+
   boot();
 
 })();
