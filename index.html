@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#080b14" />
+<title>Banco Matrimonial</title>
+<style>
+  :root{
+    --bg:#080b14; --surface:#111a2e; --surface2:#17233d;
+    --txt:#eef3ff; --muted:#8b9bb8; --line:#1e2b47;
+    --accent:#6c8cff; --accent2:#3ddc97; --danger:#ff6b7a; --gold:#f5c45e;
+    --matheus:#6c8cff; --kathleen:#e879a6;
+    --r:22px; --r-sm:14px;
+    --shadow:0 30px 60px -20px rgba(0,0,0,.7), 0 12px 24px -12px rgba(0,0,0,.5);
+    --shadow-sm:0 8px 24px -10px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, #1a2b52 0%, transparent 55%),
+      radial-gradient(1000px 600px at -10% 110%, #16263f 0%, transparent 50%),
+      var(--bg);
+    color:var(--txt); font-size:16px; line-height:1.45; min-height:100vh;
+    padding-bottom:env(safe-area-inset-bottom); overflow-x:hidden;
+  }
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select{font:inherit}
+  svg{display:block}
+  .screen{display:none}.screen.active{display:block}
+
+  .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+  .login-card{
+    width:100%;max-width:420px;
+    background:linear-gradient(165deg,rgba(23,35,61,.92),rgba(12,18,32,.95));
+    border:1px solid var(--line);border-radius:28px;padding:36px 28px;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+    animation:floaty 7s ease-in-out infinite;
+  }
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @media(prefers-reduced-motion:reduce){.login-card{animation:none}}
+  .login-card::before{
+    content:"";position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(108,140,255,.22),transparent 70%);pointer-events:none;
+  }
+  .login-card.k::before{background:radial-gradient(circle,rgba(232,121,166,.22),transparent 70%)}
+  .badge{
+    width:72px;height:72px;border-radius:22px;margin:0 auto 20px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),#8b5cf6);
+    box-shadow:0 18px 44px -14px rgba(108,140,255,.7);
+  }
+  .badge.k{background:linear-gradient(135deg,var(--kathleen),#c2569a);box-shadow:0 18px 44px -14px rgba(232,121,166,.6)}
+  .badge svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.8}
+  .login-title{text-align:center;font-size:1.4rem;font-weight:800;margin:0 0 4px;letter-spacing:-.4px}
+  .login-sub{text-align:center;color:var(--muted);font-size:.84rem;margin:0 0 26px}
+  .field{position:relative;margin-bottom:14px}
+  .field input{
+    width:100%;padding:16px 14px 16px 48px;background:#0a1220;border:1px solid var(--line);
+    border-radius:var(--r-sm);color:var(--txt);font-size:16px;outline:none;transition:.2s;
+    letter-spacing:.5px;
+  }
+  .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.18)}
+  .field input::placeholder{color:var(--muted);letter-spacing:normal}
+  .field .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);pointer-events:none}
+  .field .icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .btn-block{
+    width:100%;padding:16px;border-radius:var(--r-sm);font-weight:700;font-size:1rem;
+    background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;
+    box-shadow:0 14px 30px -12px rgba(108,140,255,.8);transition:.12s;margin-top:6px;
+  }
+  .btn-block.k{background:linear-gradient(135deg,var(--kathleen),#c2569a);box-shadow:0 14px 30px -12px rgba(232,121,166,.8)}
+  .btn-block:hover{filter:brightness(1.08)}.btn-block:active{transform:scale(.98)}
+  .btn-block:disabled{opacity:.6;cursor:wait}
+  .login-error{color:var(--danger);font-size:.82rem;text-align:center;min-height:20px;margin-top:10px;font-weight:600}
+  .login-back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:.84rem;margin-bottom:20px;font-weight:600;transition:.15s}
+  .login-back:hover{color:var(--txt)}
+  .login-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .profiles{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:480px){.profiles{grid-template-columns:1fr 1fr}}
+  .profile{
+    background:linear-gradient(165deg,rgba(23,35,61,.9),rgba(12,18,32,.95));
+    border:1px solid var(--line);border-radius:24px;padding:28px 20px;
+    display:flex;flex-direction:column;align-items:center;gap:14px;
+    box-shadow:var(--shadow-sm);transition:.18s;text-align:center;
+  }
+  .profile:hover{transform:translateY(-4px);border-color:#35538a}
+  .profile:active{transform:translateY(-2px)}
+  .avatar-lg{
+    width:72px;height:72px;border-radius:22px;display:grid;place-items:center;
+    font-size:1.5rem;font-weight:800;color:#fff;overflow:hidden;position:relative;
+  }
+  .avatar-lg.m{background:linear-gradient(135deg,var(--matheus),#3b6fd4)}
+  .avatar-lg.k{background:linear-gradient(135deg,var(--kathleen),#b34691)}
+  .avatar-lg img{width:100%;height:100%;object-fit:cover}
+  .profile h3{margin:0;font-size:1.05rem;font-weight:700}
+  .profile p{margin:0;color:var(--muted);font-size:.78rem}
+
+  .app-header{
+    position:sticky;top:0;z-index:30;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(8,11,20,.72);border-bottom:1px solid var(--line);padding:12px 16px;
+  }
+  .app-header-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .user-chip{display:flex;align-items:center;gap:12px;min-width:0;cursor:pointer;padding:4px;border-radius:14px;transition:.15s}
+  .user-chip:hover{background:rgba(255,255,255,.03)}
+  .user-chip .avatar-sm{
+    width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+    font-size:1rem;font-weight:800;color:#fff;overflow:hidden;flex:0 0 auto;
+  }
+  .user-chip .avatar-sm.m{background:linear-gradient(135deg,var(--matheus),#3b6fd4)}
+  .user-chip .avatar-sm.k{background:linear-gradient(135deg,var(--kathleen),#b34691)}
+  .user-chip .avatar-sm img{width:100%;height:100%;object-fit:cover}
+  .user-chip .name{font-weight:700;font-size:.95rem;white-space:nowrap}
+  .user-chip .role{font-size:.72rem;color:var(--muted)}
+  .header-actions{display:flex;gap:6px}
+  .icon-btn{
+    width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+    background:var(--surface);border:1px solid var(--line);color:var(--muted);transition:.15s;
+  }
+  .icon-btn:hover{color:var(--txt);background:var(--surface2)}
+  .icon-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .app-main{max-width:1180px;margin:0 auto;padding:16px}
+  @media(min-width:768px){.app-main{padding:24px}}
+
+  .cards{display:grid;gap:14px;grid-template-columns:1fr}
+  @media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.cards{grid-template-columns:repeat(4,1fr)}}
+  .card{
+    background:linear-gradient(165deg,rgba(23,35,61,.85),rgba(12,18,32,.92));
+    border:1px solid var(--line);border-radius:var(--r);padding:18px;
+    box-shadow:var(--shadow-sm);animation:fadeUp .4s ease both;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .card .label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+  .card .label svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+  .card .value{font-size:1.5rem;font-weight:800;margin-top:8px;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+  .card .sub{color:var(--muted);font-size:.76rem;margin-top:4px}
+  .card .value.good{color:var(--accent2)}.card .value.bad{color:var(--danger)}.card .value.gold{color:var(--gold)}
+
+  .panel{
+    background:linear-gradient(165deg,rgba(23,35,61,.75),rgba(12,18,32,.85));
+    border:1px solid var(--line);border-radius:var(--r);padding:18px;
+    box-shadow:var(--shadow-sm);margin-top:14px;
+  }
+  .panel h2{font-size:.9rem;margin:0 0 14px;display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .panel h2 svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8}
+
+  .split{display:grid;gap:14px;grid-template-columns:1fr;margin-top:14px}
+  @media(min-width:1024px){.split{grid-template-columns:1.3fr .9fr;align-items:start}}
+
+  .progress{height:12px;background:#070d18;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .progress > i{display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8b5cf6,var(--accent2));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .progress.k > i{background:linear-gradient(90deg,var(--kathleen),#c2569a,var(--gold))}
+  .progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem;margin-top:10px}
+
+  form.lancamento{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  form.lancamento .full{grid-column:1/-1}
+  label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+  select,input[type=text],input[type=number],input[type=date],input[type=password]{
+    width:100%;padding:12px;background:#070d18;color:var(--txt);border:1px solid var(--line);
+    border-radius:12px;font-size:16px;outline:none;transition:.2s;
+  }
+  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
+  .btn-primary{padding:13px 18px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;transition:.12s;width:100%}
+  .btn-primary:hover{filter:brightness(1.08)}.btn-primary:active{transform:scale(.98)}
+  .btn-primary.k{background:linear-gradient(135deg,var(--kathleen),#c2569a)}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{padding:8px 14px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:.78rem;font-weight:600;transition:.15s}
+  .chip:hover{border-color:var(--accent)}
+
+  .list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto;padding-right:2px}
+  .item{
+    display:flex;align-items:center;gap:12px;background:#070d18;
+    border:1px solid var(--line);border-radius:12px;padding:10px 12px;animation:fadeUp .25s ease;
+  }
+  .item .ico{width:36px;height:36px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;background:var(--surface2);color:var(--accent)}
+  .item .ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .item .ico.rend{color:var(--accent2)}.item .ico.saque{color:var(--danger)}.item .ico.bonus{color:var(--gold)}
+  .item .info{flex:1;min-width:0}
+  .item .info b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .info span{display:block;font-size:.72rem;color:var(--muted)}
+  .item .amt{font-weight:800;font-size:.9rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .item .amt.saque{color:var(--danger)}.item .amt.rend{color:var(--accent2)}
+  .item .tools{display:flex;gap:2px}
+  .item .tool{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:var(--muted);transition:.12s}
+  .item .tool:hover{background:var(--surface2);color:var(--txt)}
+  .item .tool.danger:hover{background:#3a1620;color:var(--danger)}
+  .item .tool svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:.82rem}
+
+  .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .filter-row select{flex:1;min-width:140px}
+
+  canvas{width:100%;height:auto;display:block}
+  .chart-toggle{display:inline-flex;background:#070d18;border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:10px;gap:2px}
+  .chart-toggle button{padding:7px 14px;border-radius:7px;font-size:.75rem;font-weight:700;color:var(--muted);transition:.15s}
+  .chart-toggle button.active{background:var(--surface2);color:var(--txt)}
+
+  .selos-grid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+  @media(min-width:480px){.selos-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:768px){.selos-grid{grid-template-columns:repeat(5,1fr)}}
+  .selo{
+    background:#070d18;border:1px solid var(--line);border-radius:14px;padding:14px 10px;
+    text-align:center;position:relative;transition:.2s;opacity:.45;
+  }
+  .selo.unlocked{opacity:1;border-color:var(--gold);background:linear-gradient(160deg,#1c2440,#121a2e);box-shadow:0 8px 24px -10px rgba(245,196,94,.4)}
+  .selo.unlocked::after{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;background:radial-gradient(circle at 50% 0%,rgba(245,196,94,.18),transparent 65%)}
+  .selo .ic{width:46px;height:46px;margin:0 auto 8px;border-radius:14px;display:grid;place-items:center;background:#0c1424;border:1px solid var(--line);color:var(--muted);transition:.25s}
+  .selo.unlocked .ic{background:linear-gradient(135deg,#3a2e10,#5a4210);border-color:var(--gold);color:var(--gold);box-shadow:0 6px 16px -6px rgba(245,196,94,.6)}
+  .selo .ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .selo .nome{font-size:.72rem;font-weight:700;line-height:1.2;margin-bottom:3px}
+  .selo .val{font-size:.66rem;color:var(--muted);font-weight:600}
+  .selo .data{font-size:.6rem;color:var(--gold);margin-top:4px;font-weight:600}
+  .selo .lock{position:absolute;top:8px;right:8px;width:16px;height:16px;color:var(--muted);opacity:.6}
+  .selo.unlocked .lock{display:none}
+  .selo .lock svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .rules{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .rules li{display:flex;gap:10px;padding:10px 12px;background:#070d18;border:1px solid var(--line);border-radius:12px;font-size:.82rem}
+  .rules .n{width:22px;height:22px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;background:var(--surface2);color:var(--accent);font-size:.68rem;font-weight:800}
+
+  .duo{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  .duo .box{background:rgba(7,13,24,.6);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .duo .box .who{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--muted);margin-bottom:6px}
+  .duo .box .who .dot{width:8px;height:8px;border-radius:50%}
+  .duo .box .who .dot.m{background:var(--matheus)}.duo .box .who .dot.k{background:var(--kathleen)}
+  .duo .box .v{font-size:1.2rem;font-weight:800;font-variant-numeric:tabular-nums}
+  .duo .box .p{font-size:.7rem;color:var(--muted);margin-top:4px}
+
+  .toast{
+    position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+    opacity:0;pointer-events:none;background:#18294a;border:1px solid #2e4573;color:var(--txt);
+    padding:12px 20px;border-radius:999px;box-shadow:var(--shadow);font-size:.84rem;font-weight:600;
+    transition:.25s;z-index:80;max-width:92vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  .modal{position:fixed;inset:0;background:rgba(3,6,12,.8);display:none;place-items:center;padding:16px;z-index:90;backdrop-filter:blur(8px)}
+  .modal.open{display:grid}
+  .modal .box{
+    width:100%;max-width:540px;background:linear-gradient(165deg,rgba(23,35,61,.98),rgba(12,18,32,.98));
+    border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow);max-height:90vh;overflow:auto;
+  }
+  .modal h3{margin:0 0 16px;font-size:1rem;display:flex;align-items:center;gap:8px}
+  .modal h3 svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8}
+  .modal .actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .modal .actions button{flex:1;min-width:110px;padding:12px;border-radius:12px;font-weight:700}
+  .btn-secondary{background:var(--surface2);border:1px solid var(--line);color:var(--txt);transition:.15s}
+  .btn-secondary:hover{background:#22314f}
+  .foot{color:var(--muted);font-size:.7rem;text-align:center;margin:24px 0 6px}
+
+  .avatar-upload{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .avatar-preview{
+    width:80px;height:80px;border-radius:24px;display:grid;place-items:center;
+    font-size:1.6rem;font-weight:800;color:#fff;overflow:hidden;flex:0 0 auto;
+    background:linear-gradient(135deg,#2a3a5c,#1a2742);border:1px solid var(--line);
+  }
+  .avatar-preview img{width:100%;height:100%;object-fit:cover}
+  .avatar-upload .hint{font-size:.72rem;color:var(--muted);margin-top:6px}
+
+  #pdf-print{display:none}
+  @media print{
+    body > *:not(#pdf-print){display:none !important}
+    #pdf-print{display:block !important;background:#fff;color:#000;font-size:12px;padding:20px}
+    #pdf-print h1{font-size:20px;margin:0 0 4px}
+    #pdf-print .meta{color:#555;font-size:11px;margin-bottom:16px}
+    #pdf-print table{width:100%;border-collapse:collapse;margin-top:12px}
+    #pdf-print th,#pdf-print td{border:1px solid #ccc;padding:6px 8px;text-align:left;font-size:11px}
+    #pdf-print th{background:#eee}
+    #pdf-print .tot{font-weight:bold}
+    @page{size:A4;margin:14mm}
+  }
+
+  .loading-overlay{
+    position:fixed;inset:0;background:rgba(8,11,20,.85);backdrop-filter:blur(4px);
+    display:none;place-items:center;z-index:100;
+  }
+  .loading-overlay.show{display:grid}
+  .spinner{
+    width:44px;height:44px;border:3px solid var(--line);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<section class="screen active" id="screen-picker">
+  <div class="login-wrap">
+    <div style="width:100%;max-width:520px">
+      <div style="text-align:center;margin-bottom:28px">
+        <div class="badge"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg></div>
+        <h1 class="login-title">Banco Matrimonial</h1>
+        <p class="login-sub">Escolha seu perfil</p>
+      </div>
+      <div class="profiles">
+        <button class="profile" data-user="matheus">
+          <div class="avatar-lg m" id="pickAvatarM">M</div>
+          <div><h3>Matheus</h3><p>Entrar no painel</p></div>
+        </button>
+        <button class="profile" data-user="kathleen">
+          <div class="avatar-lg k" id="pickAvatarK">K</div>
+          <div><h3>Kathleen</h3><p>Entrar no painel</p></div>
+        </button>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:.72rem;margin-top:24px">Meta do casal: R$ 20.000 em 12 meses</p>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="screen-login-matheus">
+  <div class="login-wrap"><div class="login-card">
+    <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
+    <div class="badge"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <h1 class="login-title">Matheus</h1>
+    <p class="login-sub">Digite a data de namoro para entrar</p>
+    <form data-login="matheus">
+      <div class="field">
+        <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <input type="password" data-pass placeholder="Data (DDMMAA)" inputmode="numeric" maxlength="6" autocomplete="off" required />
+      </div>
+      <button type="submit" class="btn-block" data-submit>Entrar</button>
+      <div class="login-error" data-error></div>
+    </form>
+  </div></div>
+</section>
+
+<section class="screen" id="screen-login-kathleen">
+  <div class="login-wrap"><div class="login-card k">
+    <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
+    <div class="badge k"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <h1 class="login-title">Kathleen</h1>
+    <p class="login-sub">Digite a data de namoro para entrar</p>
+    <form data-login="kathleen">
+      <div class="field">
+        <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <input type="password" data-pass placeholder="Data (DDMMAA)" inputmode="numeric" maxlength="6" autocomplete="off" required />
+      </div>
+      <button type="submit" class="btn-block k" data-submit>Entrar</button>
+      <div class="login-error" data-error></div>
+    </form>
+  </div></div>
+</section>
+
+<section class="screen" id="screen-dash">
+  <header class="app-header"><div class="app-header-inner">
+    <div class="user-chip" id="chipPerfil" title="Editar perfil">
+      <div class="avatar-sm" id="dashAvatar">M</div>
+      <div><div class="name" id="dashName">Matheus</div><div class="role" id="dashRole">Painel pessoal</div></div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnPdf" title="Imprimir PDF"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+      <button class="icon-btn" id="btnCofre" title="Visão do casal"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <button class="icon-btn" id="btnConfig" title="Configurações"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      <button class="icon-btn" id="btnLogout" title="Sair"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+    </div>
+  </div></header>
+
+  <main class="app-main">
+    <section class="cards" id="dashCards"></section>
+    <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>Progresso pessoal</h2>
+      <div class="progress" id="dashBarra"><i></i></div>
+      <div class="progress-meta"><span id="dashBarraLeft">R$ 0</span><span id="dashBarraRight">Meta: R$ 10.000</span></div>
+      <div class="progress-meta" style="margin-top:6px"><span id="dashStreak">0 meses em dia</span><span id="dashRitmo"></span></div>
+    </section>
+
+    <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Meus selos</h2><div class="selos-grid" id="dashSelos"></div></section>
+
+    <section class="panel">
+      <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal</h2>
+      <div class="chart-toggle" id="compToggle"><button class="active" data-mode="donut">Donut</button><button data-mode="line">Linha</button></div>
+      <canvas id="dashComparativo" width="900" height="380"></canvas>
+      <div class="sub" id="dashCompHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
+    </section>
+
+    <div class="split">
+      <div>
+        <section class="panel"><h2><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo lançamento</h2>
+          <form class="lancamento" id="formLanc">
+            <div class="full"><label>Tipo</label><select id="lTipo"><option value="aporte">Aporte</option><option value="bonus">Bônus</option><option value="rendimento">Rendimento</option><option value="saque">Saque</option></select></div>
+            <div><label>Valor (R$)</label><input id="lValor" type="number" inputmode="decimal" step="0.01" min="0.01" placeholder="0,00" required /></div>
+            <div><label>Data</label><input id="lData" type="date" required /></div>
+            <div class="full"><label>Observação</label><input id="lObs" type="text" maxlength="80" placeholder="Opcional" /></div>
+            <div class="full"><button type="submit" class="btn-primary" id="lBtn">Registrar</button></div>
+          </form>
+          <div class="quick"><button type="button" class="chip" data-quick="833.33">+ R$ 833,33</button><button type="button" class="chip" data-quick="400">+ R$ 400</button><button type="button" class="chip" data-quick="rend">+ Rendimento</button></div>
+        </section>
+
+        <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Meus lançamentos</h2>
+          <div class="filter-row"><select id="filtroMes"><option value="todos">Todos os meses</option></select><select id="filtroTipo"><option value="todos">Todos os tipos</option><option value="aporte">Aportes</option><option value="bonus">Bônus</option><option value="rendimento">Rendimentos</option><option value="saque">Saques</option></select></div>
+          <div class="list" id="dashLista"></div>
+        </section>
+
+        <section class="panel"><h2><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Minha evolução</h2>
+          <div class="chart-toggle" id="indToggle"><button class="active" data-mode="line">Linha</button><button data-mode="donut">Donut</button></div>
+          <canvas id="dashChart" width="900" height="360"></canvas>
+          <div class="sub" id="dashChartHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
+        </section>
+      </div>
+
+      <div>
+        <section class="panel" style="margin-top:0"><h2><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Aportes deste mês</h2><div class="list" id="dashMes"></div></section>
+        <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Regras</h2>
+          <ul class="rules">
+            <li><span class="n">1</span><div><b>Aporte alvo:</b> R$ 833,33/pessoa. Cada um deposita o que pode, mas priorize o alvo.</div></li>
+            <li><span class="n">2</span><div><b>Conta:</b> cofrinho com liquidez diária (Mercado Pago 100% CDI).</div></li>
+            <li><span class="n">3</span><div><b>Reunião:</b> dia 10, 15 min.</div></li>
+            <li><span class="n">4</span><div><b>Saque:</b> só com acordo dos dois.</div></li>
+            <li><span class="n">5</span><div><b>Extra:</b> 13º e freelas → ≥50% para o cofre.</div></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <div class="foot" id="footSync">Conectando...</div>
+  </main>
+</section>
+
+<div class="modal" id="modalPerfil"><div class="box">
+  <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu perfil</h3>
+  <div class="avatar-upload">
+    <div class="avatar-preview" id="avatarPreview">M</div>
+    <div>
+      <button class="btn-primary" id="btnPickAvatar" style="width:auto;padding:10px 16px;font-size:.85rem">Escolher foto</button>
+      <input type="file" id="fileAvatar" accept="image/*" hidden />
+      <div class="hint">JPG/PNG até 2 MB</div>
+    </div>
+  </div>
+  <div style="margin-bottom:14px"><label>Nome</label><input id="perfilNome" type="text" maxlength="30" /></div>
+  <div class="actions"><button class="btn-primary" id="btnSavePerfil">Salvar</button><button class="btn-secondary" id="btnClosePerfil">Fechar</button></div>
+</div></div>
+
+<div class="modal" id="modalCofre"><div class="box">
+  <h3><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Visão do casal</h3>
+  <div id="cofreContent"></div>
+  <div class="actions"><button class="btn-secondary" id="btnCloseCofre">Fechar</button></div>
+</div></div>
+
+<div class="modal" id="modalConfig"><div class="box">
+  <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Configurações</h3>
+  <div style="display:grid;gap:12px">
+    <div><label>Meta do casal (R$)</label><input id="cfgMetaCasal" type="number" min="1" step="100" /></div>
+    <div><label>Mês de início (AAAA-MM)</label><input id="cfgInicio" type="month" /></div>
+    <div><label>Prazo (meses)</label><input id="cfgMeses" type="number" min="1" step="1" /></div>
+    <div><label>Meta Matheus (R$)</label><input id="cfgMetaM" type="number" min="1" step="100" /></div>
+    <div><label>Meta Kathleen (R$)</label><input id="cfgMetaK" type="number" min="1" step="100" /></div>
+    <div><label>Aporte alvo mensal (R$)</label><input id="cfgAporte" type="number" min="1" step="0.01" /></div>
+    <div><label>Taxa mensal (%)</label><input id="cfgTaxa" type="number" min="0" step="0.1" /></div>
+  </div>
+  <div class="actions" style="margin-top:16px"><button class="btn-primary" id="btnSaveCfg">Salvar</button><button class="btn-secondary" id="btnReset">Zerar dados</button></div>
+  <div class="actions"><button class="btn-secondary" id="btnCloseCfg" style="flex:1">Fechar</button></div>
+</div></div>
+
+<div class="modal" id="modalEditar"><div class="box">
+  <h3><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Editar lançamento</h3>
+  <div style="display:grid;gap:12px">
+    <div><label>Tipo</label><select id="edTipo"><option value="aporte">Aporte</option><option value="bonus">Bônus</option><option value="rendimento">Rendimento</option><option value="saque">Saque</option></select></div>
+    <div><label>Valor (R$)</label><input id="edValor" type="number" step="0.01" min="0.01" /></div>
+    <div><label>Data</label><input id="edData" type="date" /></div>
+    <div><label>Observação</label><input id="edObs" type="text" maxlength="80" /></div>
+  </div>
+  <div class="actions" style="margin-top:16px"><button class="btn-primary" id="btnSaveEdit">Salvar</button><button class="btn-secondary" id="btnCloseEdit">Cancelar</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
+<div id="pdf-print"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  "use strict";
+
+  const SUPABASE_URL = "https://bggnyxibxvghsswmhgkp.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnZ255eGlieHZnaHNzd21oZ2twIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxODk3NzcsImV4cCI6MjEwOTc2NTc3N30.VRI5MlZ_pfyHCYby5_vyAmxy6Np66AoTKqQqyEPwzi4";
+  const EMAIL_DOMAIN = "banco.local";
+  const DATA_NAMORO = "231025";
+
+  const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+  const USERS = {
+    matheus:{nome:"Matheus",inicial:"M",classe:"m"},
+    kathleen:{nome:"Kathleen",inicial:"K",classe:"k"}
+  };
+
+  const DEFAULT = {
+    metaCasal:20000,
+    inicio:new Date().toISOString().slice(0,7),
+    meses:12,
+    metaMatheus:10000,
+    metaKathleen:10000,
+    aporteAlvo:1666.66,
+    taxaMensal:0.8,
+    aportes:[],
+    selos:{matheus:{},kathleen:{},casal:{}},
+    perfis:{matheus:{nome:"Matheus",avatar:null},kathleen:{nome:"Kathleen",avatar:null}}
+  };
+
+  let state = JSON.parse(JSON.stringify(DEFAULT));
+  let currentUser = null;
+  let filtroMes = "todos", filtroTipo = "todos";
+  let editingId = null;
+  let compMode = "donut", indMode = "line";
+
+  const $ = (s,el=document)=>el.querySelector(s);
+  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+  const brl = n=>(Number(n)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const pct = n=>(Number(n)||0).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
+  const uid = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  const hojeISO = ()=>new Date().toISOString().slice(0,10);
+  const mesAtual = ()=>hojeISO().slice(0,7);
+  const fmtData = iso=>{if(!iso)return"";const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`;};
+  const esc = s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const mesLabel = ym=>{const [y,m]=ym.split("-");const n=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];return n[+m-1]+"/"+y.slice(2);};
+  const addMonth = (ym,d)=>{let [y,m]=ym.split("-").map(Number);m+=d;while(m<1){m+=12;y--}while(m>12){m-=12;y++}return y+"-"+String(m).padStart(2,"0");};
+  const monthsBetween = (a,b)=>{let [ya,ma]=a.split("-").map(Number),[yb,mb]=b.split("-").map(Number);return (yb-ya)*12+(mb-ma);};
+
+  let toastTimer;
+  function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
+  function loading(on){$("#loading").classList.toggle("show",!!on);}
+
+  const TIPO_LABEL={aporte:"Aporte",bonus:"Bônus",rendimento:"Rendimento",saque:"Saque"};
+  const TIPO_SIGN={aporte:1,bonus:1,rendimento:1,saque:-1};
+  const ICONS={
+    aporte:'<svg viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+    bonus:'<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>',
+    rendimento:'<svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+    saque:'<svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>',
+    edit:'<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+    del:'<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>',
+    wallet:'<svg viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>',
+    target:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    chart:'<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>'
+  };
+
+  const SELOS=[
+    {valor:2000,nome:"Primeiro Passo",svg:'<svg viewBox="0 0 24 24"><path d="M9 3l2 5h6l-5 4 2 6-4-3-4 3 2-6-5-4h6z"/></svg>'},
+    {valor:4000,nome:"Raiz Forte",svg:'<svg viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12C8 12 5 9 5 5c4 0 7 3 7 7z"/><path d="M12 12c4 0 7-3 7-7-4 0-7 3-7 7z"/></svg>'},
+    {valor:6000,nome:"Chama Acesa",svg:'<svg viewBox="0 0 24 24"><path d="M12 2c2 4 5 6 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 1-6 1-9z"/></svg>'},
+    {valor:8000,nome:"Meio do Caminho",svg:'<svg viewBox="0 0 24 24"><path d="M4 22V4l8 4-8 4"/><line x1="4" y1="22" x2="20" y2="22"/><line x1="4" y1="12" x2="14" y2="12"/></svg>'},
+    {valor:10000,nome:"Cofre de Ouro",svg:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="9" x2="12" y2="7"/></svg>'},
+    {valor:12000,nome:"Asa da Liberdade",svg:'<svg viewBox="0 0 24 24"><path d="M3 12c4-6 9-8 14-8-2 4-5 7-9 9"/><path d="M21 12c-4-6-9-8-14-8 2 4 5 7 9 9"/><line x1="12" y1="15" x2="12" y2="22"/></svg>'},
+    {valor:14000,nome:"Escudo do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>'},
+    {valor:16000,nome:"Estrela Guia",svg:'<svg viewBox="0 0 24 24"><path d="M12 2l3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>'},
+    {valor:18000,nome:"Coroa de Mérito",svg:'<svg viewBox="0 0 24 24"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/><circle cx="3" cy="6" r="1.5"/><circle cx="21" cy="6" r="1.5"/><circle cx="12" cy="2.5" r="1.5"/></svg>'},
+    {valor:20000,nome:"Lenda do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M6 3h12v4a6 6 0 0 1-12 0z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><line x1="12" y1="13" x2="12" y2="18"/><path d="M8 21h8l-1-3H9z"/></svg>'}
+  ];
+
+  function garantirSelos(){ if(!state.selos)state.selos={matheus:{},kathleen:{},casal:{}};["matheus","kathleen","casal"].forEach(k=>{if(!state.selos[k])state.selos[k]={};}); }
+  function verificarSelos(chave,saldo){ garantirSelos(); const novos=[]; const hoje=hojeISO(); SELOS.forEach(s=>{ if(saldo>=s.valor && !state.selos[chave][s.valor]){ state.selos[chave][s.valor]=hoje; novos.push(s);} }); return novos; }
+  function renderSelos(id,chave,saldo){ const c=document.getElementById(id); if(!c)return; garantirSelos(); c.innerHTML=SELOS.map(s=>{ const un=!!state.selos[chave][s.valor]; const d=un?new Date(state.selos[chave][s.valor]+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):""; return `<div class="selo ${un?'unlocked':''}"><div class="lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div class="ic">${s.svg}</div><div class="nome">${s.nome}</div><div class="val">${brl(s.valor)}</div>${d?`<div class="data">${d}</div>`:""}</div>`; }).join(""); }
+
+  function saldoUsuario(u){ return state.aportes.filter(a=>a.user===u).reduce((s,a)=>s+(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0),0); }
+  function saldoCasal(){ return state.aportes.reduce((s,a)=>s+(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0),0); }
+  function aportesMes(u,ym){ return state.aportes.filter(a=>a.user===u && (a.data||"").slice(0,7)===ym && (a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0); }
+  function streakMeses(u,alvo){ let c=0; let ym=mesAtual(); for(let i=0;i<24;i++){ if(aportesMes(u,ym)>=alvo)c++; else break; ym=addMonth(ym,-1);} return c; }
+
+  function showScreen(id){ $$(".screen").forEach(s=>s.classList.remove("active")); const el=document.getElementById(id); if(el)el.classList.add("active"); window.scrollTo(0,0); }
+
+  async function carregarTudoDoSupabase(){
+    if(!sb) return;
+    try{
+      const [{data:cfg},{data:aps},{data:profs}] = await Promise.all([
+        sb.from("config").select("*").eq("id",1).maybeSingle(),
+        sb.from("aportes").select("*").order("data",{ascending:true}),
+        sb.from("profiles").select("*")
+      ]);
+      if(cfg){
+        state.metaCasal = Number(cfg.meta_casal)||state.metaCasal;
+        state.inicio = cfg.inicio||state.inicio;
+        state.meses = Number(cfg.meses)||state.meses;
+        state.metaMatheus = Number(cfg.meta_matheus)||state.metaMatheus;
+        state.metaKathleen = Number(cfg.meta_kathleen)||state.metaKathleen;
+        state.aporteAlvo = Number(cfg.aporte_alvo)||state.aporteAlvo;
+        state.taxaMensal = Number(cfg.taxa_mensal)||state.taxaMensal;
+      }
+      if(aps){
+        state.aportes = aps.map(a=>({id:a.id,user:a.pessoa,tipo:a.tipo,valor:Number(a.valor),data:a.data,obs:a.obs||""}));
+      }
+      if(profs){
+        profs.forEach(p=>{
+          const u = p.pessoa || (p.nome?.toLowerCase().includes("kathleen")?"kathleen":"matheus");
+          state.perfis[u] = {nome:p.nome||USERS[u].nome, avatar:p.avatar_url||null};
+        });
+      }
+      verificarSelos("matheus", saldoUsuario("matheus"));
+      verificarSelos("kathleen", saldoUsuario("kathleen"));
+      verificarSelos("casal", saldoCasal());
+      $("#footSync").textContent = "Sincronizado com Supabase ✓";
+    }catch(e){
+      console.warn("Erro carregando do Supabase:", e);
+      $("#footSync").textContent = "Erro ao sincronizar";
+    }
+  }
+
+  async function salvarConfigSupabase(){
+    if(!sb) return;
+    await sb.from("config").upsert({
+      id:1, meta_casal:state.metaCasal, inicio:state.inicio, meses:state.meses,
+      meta_matheus:state.metaMatheus, meta_kathleen:state.metaKathleen,
+      aporte_alvo:state.aporteAlvo, taxa_mensal:state.taxaMensal,
+      updated_at:new Date().toISOString()
+    });
+  }
+
+  async function salvarAporteSupabase(a){
+    if(!sb) return;
+    const {data:{user}} = await sb.auth.getUser();
+    if(!user) return;
+    const {error} = await sb.from("aportes").upsert({
+      id:a.id, user_id:user.id, pessoa:a.user, tipo:a.tipo,
+      valor:a.valor, data:a.data, obs:a.obs||null
+    });
+    if(error) console.warn("Erro ao salvar aporte:", error);
+  }
+
+  async function deletarAporteSupabase(id){
+    if(!sb) return;
+    await sb.from("aportes").delete().eq("id",id);
+  }
+
+  $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{
+    const u = b.dataset.user;
+    showScreen("screen-login-"+u);
+    setTimeout(()=>{const i=$("#screen-login-"+u+" input[type=password]");if(i)i.focus();},120);
+  }));
+  $$("[data-back]").forEach(b=>b.addEventListener("click",()=>showScreen("screen-picker")));
+
+  $$("form[data-login]").forEach(form=>{
+    form.addEventListener("submit", async e=>{
+      e.preventDefault();
+      const user = form.dataset.login;
+      const pass = form.querySelector("[data-pass]").value.trim();
+      const errEl = form.querySelector("[data-error]");
+      const btn = form.querySelector("[data-submit]");
+      errEl.textContent = "";
+
+      if(pass !== DATA_NAMORO){
+        errEl.textContent = "Data incorreta.";
+        form.querySelector("[data-pass]").value = "";
+        return;
+      }
+      if(!sb){
+        errEl.textContent = "Supabase não carregado.";
+        return;
+      }
+
+      btn.disabled = true; loading(true);
+      try{
+        const email = user + "@" + EMAIL_DOMAIN;
+        const {data, error} = await sb.auth.signInWithPassword({email, password:DATA_NAMORO});
+        if(error){ errEl.textContent = "Conta não encontrada no Supabase."; console.warn(error); return; }
+        currentUser = user;
+        await carregarTudoDoSupabase();
+        enterDashboard();
+      }catch(ex){
+        console.warn(ex);
+        errEl.textContent = "Erro ao entrar.";
+      }finally{
+        btn.disabled = false; loading(false);
+      }
+    });
+  });
+
+  $("#btnLogout").addEventListener("click", async ()=>{
+    if(!confirm("Sair?")) return;
+    if(sb) await sb.auth.signOut();
+    currentUser = null;
+    state = JSON.parse(JSON.stringify(DEFAULT));
+    showScreen("screen-picker");
+  });
+
+  function renderAvatares(){
+    const p = state.perfis;
+    ["matheus","kathleen"].forEach(u=>{
+      const el = document.getElementById(u==="matheus"?"pickAvatarM":"pickAvatarK");
+      if(!el) return;
+      if(p[u]?.avatar) el.innerHTML = `<img src="${p[u].avatar}" alt="" />`;
+      else el.textContent = USERS[u].inicial;
+    });
+    const chipAv = $("#dashAvatar");
+    if(chipAv && currentUser){
+      const pUser = state.perfis[currentUser];
+      if(pUser?.avatar) chipAv.innerHTML = `<img src="${pUser.avatar}" alt="" />`;
+      else chipAv.textContent = USERS[currentUser].inicial;
+    }
+  }
+
+  function enterDashboard(){
+    if(!currentUser) return;
+    const info = USERS[currentUser];
+    const av = $("#dashAvatar");
+    const pUser = state.perfis[currentUser];
+    if(pUser?.avatar) av.innerHTML = `<img src="${pUser.avatar}" alt="" />`;
+    else av.textContent = info.inicial;
+    av.className = "avatar-sm " + info.classe;
+    $("#dashName").textContent = state.perfis[currentUser]?.nome || info.nome;
+    $("#dashRole").textContent = "Painel pessoal";
+    $("#dashBarra").classList.toggle("k", currentUser==="kathleen");
+    $("#lBtn").classList.toggle("k", currentUser==="kathleen");
+    $("#lData").value = hojeISO();
+    $("#lValor").value = ""; $("#lObs").value = ""; $("#lTipo").value="aporte";
+    filtroMes = "todos"; filtroTipo = "todos";
+    popularFiltroMes();
+    renderDashboard();
+    renderAvatares();
+    showScreen("screen-dash");
+  }
+
+  function renderDashboard(){
+    if(!currentUser) return;
+    const saldo = saldoUsuario(currentUser);
+    const meta = currentUser==="matheus" ? state.metaMatheus : state.metaKathleen;
+    const falta = Math.max(0, meta - saldo);
+    const p = meta>0 ? Math.min(100, (saldo/meta)*100) : 0;
+    const mes = mesAtual();
+    const tm = aportesMes(currentUser, mes);
+    const alvoPessoa = state.aporteAlvo/2;
+    const streak = streakMeses(currentUser, alvoPessoa);
+    const fim = addMonth(state.inicio, state.meses-1);
+    const restantes = Math.max(0, monthsBetween(mes, fim)+1);
+    const faltaMes = restantes>0 ? Math.max(0, meta - saldo)/restantes : 0;
+
+    $("#dashCards").innerHTML = `
+      <div class="card"><div class="label">${ICONS.wallet} Saldo pessoal</div><div class="value ${saldo>=meta?'good':''}">${brl(saldo)}</div><div class="sub">${pct(p)} da meta pessoal</div></div>
+      <div class="card"><div class="label">${ICONS.target} Falta para meta</div><div class="value ${falta===0?'good':'bad'}">${brl(falta)}</div><div class="sub">Meta: ${brl(meta)}</div></div>
+      <div class="card"><div class="label">${ICONS.calendar} Aporte do mês</div><div class="value ${tm>=alvoPessoa?'good':''}">${brl(tm)}</div><div class="sub">Alvo: ${brl(alvoPessoa)}</div></div>
+      <div class="card"><div class="label">${ICONS.chart} Ritmo</div><div class="value ${faltaMes<=alvoPessoa?'good':'bad'}">${brl(faltaMes)}/mês</div><div class="sub">${restantes} meses restantes</div></div>
+    `;
+    $("#dashBarra i").style.width = p.toFixed(2)+"%";
+    $("#dashBarraLeft").textContent = brl(saldo)+" guardados";
+    $("#dashBarraRight").textContent = "Meta: "+brl(meta);
+    $("#dashStreak").textContent = streak+" "+(streak===1?"mês":"meses")+" em dia";
+    $("#dashRitmo").textContent = "Prazo: "+mesLabel(fim);
+
+    const novos = verificarSelos(currentUser, saldo);
+    if(novos.length){ novos.forEach((s,i)=>setTimeout(()=>toast("Selo: "+s.nome),i*1100)); }
+    renderSelos("dashSelos", currentUser, saldo);
+    renderLista(); renderListaMes(); renderChart(); renderComparativo();
+  }
+
+  function popularFiltroMes(){
+    const sel = $("#filtroMes");
+    const meses = Array.from(new Set(state.aportes.filter(a=>a.user===currentUser).map(a=>(a.data||"").slice(0,7)))).sort().reverse();
+    sel.innerHTML = '<option value="todos">Todos os meses</option>' + meses.map(m=>`<option value="${m}">${mesLabel(m)}</option>`).join("");
+    sel.value = filtroMes;
+  }
+
+  function itemHTML(a){
+    const sinal = a.tipo==="saque" ? "- " : "+ ";
+    return `<div class="item" data-id="${a.id}">
+      <div class="ico ${a.tipo}">${ICONS[a.tipo]||ICONS.aporte}</div>
+      <div class="info"><b>${TIPO_LABEL[a.tipo]||a.tipo}</b><span>${fmtData(a.data)}${a.obs?" · "+esc(a.obs):""}</span></div>
+      <div class="amt ${a.tipo==='saque'?'saque':''} ${a.tipo==='rendimento'?'rend':''}">${sinal}${brl(a.valor)}</div>
+      <div class="tools"><button class="tool" data-act="edit">${ICONS.edit}</button><button class="tool danger" data-act="del">${ICONS.del}</button></div>
+    </div>`;
+  }
+  function renderLista(){
+    let arr = state.aportes.filter(a=>a.user===currentUser);
+    if(filtroMes!=="todos") arr = arr.filter(a=>(a.data||"").slice(0,7)===filtroMes);
+    if(filtroTipo!=="todos") arr = arr.filter(a=>a.tipo===filtroTipo);
+    arr.sort((a,b)=>(b.data||"").localeCompare(a.data||"")||(b.id||"").localeCompare(a.id||""));
+    $("#dashLista").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento.</div>';
+  }
+  function renderListaMes(){
+    const ym = mesAtual();
+    const arr = state.aportes.filter(a=>a.user===currentUser && (a.data||"").slice(0,7)===ym).sort((a,b)=>(b.data||"").localeCompare(a.data||""));
+    $("#dashMes").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento neste mês.</div>';
+  }
+
+  $("#formLanc").addEventListener("submit", async e=>{
+    e.preventDefault();
+    if(!currentUser) return;
+    const tipo = $("#lTipo").value;
+    const valor = parseFloat($("#lValor").value);
+    const data = $("#lData").value || hojeISO();
+    const obs = $("#lObs").value.trim();
+    if(!valor||valor<=0){ toast("Valor inválido."); return; }
+    const a = {id:uid(), user:currentUser, tipo, valor, data, obs};
+    state.aportes.push(a);
+    if(sb) await salvarAporteSupabase(a);
+    $("#lValor").value=""; $("#lObs").value="";
+    popularFiltroMes(); renderDashboard(); toast("Registrado.");
+  });
+
+  $$(".quick .chip").forEach(b=>b.addEventListener("click",()=>{
+    const v = b.dataset.quick;
+    if(v==="rend"){ $("#lTipo").value="rendimento"; $("#lValor").focus(); toast("Digite o rendimento."); return; }
+    $("#lTipo").value="aporte"; $("#lValor").value=v; $("#lData").value=hojeISO();
+  }));
+  $("#filtroMes").addEventListener("change",e=>{ filtroMes=e.target.value; renderLista(); });
+  $("#filtroTipo").addEventListener("change",e=>{ filtroTipo=e.target.value; renderLista(); });
+
+  document.addEventListener("click", async e=>{
+    const btn = e.target.closest(".tool"); if(!btn) return;
+    const item = btn.closest(".item"); const id = item?.dataset.id;
+    const a = state.aportes.find(x=>x.id===id); if(!a||a.user!==currentUser){ toast("Só pode alterar seus lançamentos."); return; }
+    if(btn.dataset.act==="del"){
+      if(!confirm("Excluir?")) return;
+      state.aportes = state.aportes.filter(x=>x.id!==id);
+      if(sb) await deletarAporteSupabase(id);
+      popularFiltroMes(); renderDashboard(); toast("Excluído.");
+    }else if(btn.dataset.act==="edit"){
+      editingId = id;
+      $("#edTipo").value = a.tipo; $("#edValor").value = a.valor; $("#edData").value = a.data; $("#edObs").value = a.obs||"";
+      $("#modalEditar").classList.add("open");
+    }
+  });
+
+  $("#btnSaveEdit").addEventListener("click", async ()=>{
+    const a = state.aportes.find(x=>x.id===editingId); if(!a) return;
+    const v = parseFloat($("#edValor").value); if(!v||v<=0){ toast("Valor inválido."); return; }
+    a.tipo = $("#edTipo").value; a.valor = v; a.data = $("#edData").value; a.obs = $("#edObs").value.trim();
+    if(sb) await salvarAporteSupabase(a);
+    $("#modalEditar").classList.remove("open"); editingId=null;
+    popularFiltroMes(); renderDashboard(); toast("Atualizado.");
+  });
+  $("#btnCloseEdit").addEventListener("click", ()=>{ $("#modalEditar").classList.remove("open"); editingId=null; });
+
+  $("#chipPerfil").addEventListener("click", ()=>{
+    if(!currentUser) return;
+    const p = state.perfis[currentUser];
+    $("#perfilNome").value = p?.nome || USERS[currentUser].nome;
+    const prev = $("#avatarPreview");
+    if(p?.avatar) prev.innerHTML = `<img src="${p.avatar}" alt="" />`;
+    else prev.textContent = USERS[currentUser].inicial;
+    $("#modalPerfil").classList.add("open");
+  });
+  $("#btnPickAvatar").addEventListener("click", ()=>$("#fileAvatar").click());
+  $("#fileAvatar").addEventListener("change", e=>{
+    const file = e.target.files[0]; if(!file) return;
+    const prev = $("#avatarPreview");
+    const reader = new FileReader();
+    reader.onload = ev => { prev.innerHTML = `<img src="${ev.target.result}" alt="" />`; };
+    reader.readAsDataURL(file);
+  });
+
+  $("#btnSavePerfil").addEventListener("click", async ()=>{
+    if(!currentUser) return;
+    const nome = $("#perfilNome").value.trim() || USERS[currentUser].nome;
+    const file = $("#fileAvatar").files[0];
+    let avatarUrl = state.perfis[currentUser]?.avatar || null;
+
+    if(file){
+      if(file.size > 2*1024*1024){ toast("Imagem > 2MB."); return; }
+      loading(true);
+      try{
+        const ext = file.name.split(".").pop().toLowerCase();
+        const {data:{user}} = await sb.auth.getUser();
+        const path = `${user.id}/${Date.now()}.${ext}`;
+        const {error:upErr} = await sb.storage.from("avatars").upload(path, file, {upsert:true, contentType:file.type});
+        if(upErr){ toast("Erro upload: "+upErr.message); loading(false); return; }
+        const {data} = sb.storage.from("avatars").getPublicUrl(path);
+        avatarUrl = data.publicUrl;
+      }catch(ex){ toast("Erro no upload."); loading(false); return; }
+      loading(false);
+    }
+
+    state.perfis[currentUser] = { nome, avatar: avatarUrl };
+
+    if(sb){
+      const {data:{user}} = await sb.auth.getUser();
+      if(user){
+        await sb.from("profiles").upsert({
+          id:user.id, nome, pessoa:currentUser,
+          avatar_url:avatarUrl, updated_at:new Date().toISOString()
+        });
+      }
+    }
+    renderAvatares();
+    enterDashboard();
+    $("#modalPerfil").classList.remove("open");
+    $("#fileAvatar").value = "";
+    toast("Perfil atualizado.");
+  });
+  $("#btnClosePerfil").addEventListener("click", ()=>{ $("#modalPerfil").classList.remove("open"); $("#fileAvatar").value=""; });
+
+  function setupCanvas(cv, ratio){
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+    const cssW = cv.clientWidth||900; const cssH = Math.round(cssW*(ratio||0.4));
+    cv.width = Math.floor(cssW*dpr); cv.height = Math.floor(cssH*dpr); cv.style.height = cssH+"px";
+    const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
+    return {ctx,w:cssW,h:cssH};
+  }
+
+  function renderChart(){
+    const cv = $("#dashChart"); if(!cv) return;
+    const {ctx,w,h} = setupCanvas(cv,0.4);
+    const arr = state.aportes.filter(a=>a.user===currentUser).slice().sort((a,b)=>(a.data||"").localeCompare(b.data||""));
+    if(!arr.length){
+      ctx.fillStyle="#8b9bb8"; ctx.font="600 14px system-ui"; ctx.textAlign="center";
+      ctx.fillText("Sem dados ainda.",w/2,h/2); $("#dashChartHint").textContent="Sem dados."; return;
+    }
+    const mapa = new Map(); let acc=0;
+    arr.forEach(a=>{const ym=(a.data||"").slice(0,7); acc+=(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0); mapa.set(ym,acc);});
+    const labels = Array.from(mapa.keys()).sort(); const vals = labels.map(k=>mapa.get(k));
+    if(!labels.includes(mesAtual())){labels.push(mesAtual()); vals.push(vals[vals.length-1]);}
+    const meta = currentUser==="matheus"?state.metaMatheus:state.metaKathleen;
+    const cor = currentUser==="kathleen"?"#e879a6":"#6c8cff";
+
+    if(indMode==="donut"){
+      const saldo = vals[vals.length-1];
+      const guardado = Math.max(0, Math.min(saldo, meta));
+      const falta = Math.max(0, meta - saldo);
+      const total = guardado + falta || 1;
+      const cx = w/2, cy = h/2-6, rOut = Math.min(w,h)*0.34, rIn = rOut*0.62;
+      const ang0 = -Math.PI/2;
+      const aGuard = ang0 + (guardado/total)*Math.PI*2;
+      ctx.beginPath(); ctx.arc(cx,cy,rOut,ang0,ang0+Math.PI*2); ctx.arc(cx,cy,rIn,ang0+Math.PI*2,ang0,true); ctx.closePath(); ctx.fillStyle="#111a2e"; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,rOut,ang0,aGuard); ctx.arc(cx,cy,rIn,aGuard,ang0,true); ctx.closePath(); ctx.fillStyle=cor; ctx.fill();
+      ctx.fillStyle="#eef3ff"; ctx.textAlign="center"; ctx.font="800 20px system-ui"; ctx.fillText(brl(saldo),cx,cy+2);
+      ctx.fillStyle="#8b9bb8"; ctx.font="12px system-ui"; ctx.fillText(pct(meta>0?saldo/meta*100:0),cx,cy+22);
+      $("#dashChartHint").textContent = "Guardado "+brl(guardado)+" · Falta "+brl(falta);
+    }else{
+      const maxV = Math.max(meta,...vals,1);
+      const padL=56,padR=16,padT=20,padB=34; const gw=w-padL-padR, gh=h-padT-padB;
+      const x=i=>padL+(labels.length>1?(i/(labels.length-1))*gw:gw/2); const y=v=>padT+gh-(v/maxV)*gh;
+      ctx.strokeStyle="#1e2b47"; ctx.lineWidth=1; ctx.font="11px system-ui"; ctx.fillStyle="#8b9bb8"; ctx.textAlign="right";
+      for(let i=0;i<=4;i++){const v=(maxV/4)*i,yy=y(v); ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke(); ctx.fillText(brl(v),padL-8,yy+4);}
+      const ym=y(meta); ctx.save(); ctx.setLineDash([6,6]); ctx.strokeStyle="#3ddc97"; ctx.beginPath(); ctx.moveTo(padL,ym); ctx.lineTo(w-padR,ym); ctx.stroke(); ctx.restore();
+      ctx.fillStyle="#3ddc97"; ctx.textAlign="left"; ctx.fillText("Meta "+brl(meta),padL+6,ym-6);
+      const grad=ctx.createLinearGradient(0,padT,0,h-padB); grad.addColorStop(0,currentUser==="kathleen"?"rgba(232,121,166,.4)":"rgba(108,140,255,.4)"); grad.addColorStop(1,"rgba(108,140,255,.02)");
+      ctx.beginPath(); ctx.moveTo(x(0),y(vals[0])); vals.forEach((v,i)=>ctx.lineTo(x(i),y(v))); ctx.lineTo(x(vals.length-1),h-padB); ctx.lineTo(x(0),h-padB); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+      ctx.beginPath(); ctx.lineWidth=2.5; ctx.strokeStyle=cor; vals.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
+      vals.forEach((v,i)=>{ctx.beginPath(); ctx.arc(x(i),y(v),3.5,0,Math.PI*2); ctx.fillStyle=cor; ctx.fill();});
+      ctx.fillStyle="#8b9bb8"; ctx.textAlign="center"; const step=Math.max(1,Math.ceil(labels.length/6));
+      labels.forEach((l,i)=>{ if(i%step!==0&&i!==labels.length-1)return; ctx.fillText(mesLabel(l),x(i),h-12); });
+      $("#dashChartHint").textContent = "Último saldo: "+brl(vals[vals.length-1]);
+    }
+  }
+
+  function renderComparativo(){
+    const cv = $("#dashComparativo"); if(!cv) return;
+    const {ctx,w,h} = setupCanvas(cv,0.42);
+    const hoje = mesAtual(); const inicio = state.inicio;
+    const meses=[]; let cur=inicio;
+    while(cur<=hoje && meses.length<24){ meses.push(cur); cur=addMonth(cur,1); }
+    if(!meses.length) meses.push(hoje);
+    if(!meses.includes(hoje)) meses.push(hoje);
+
+    const dM = meses.map(m=>state.aportes.filter(a=>a.user==="matheus"&&(a.data||"").slice(0,7)===m&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0));
+    const dK = meses.map(m=>state.aportes.filter(a=>a.user==="kathleen"&&(a.data||"").slice(0,7)===m&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0));
+    const totM = dM.reduce((a,b)=>a+b,0), totK = dK.reduce((a,b)=>a+b,0);
+
+    if(compMode==="donut"){
+      const total = totM+totK;
+      const cx=w/2, cy=h/2-6, rOut=Math.min(w,h)*0.36, rIn=rOut*0.64;
+      if(total===0){
+        ctx.beginPath(); ctx.arc(cx,cy,rOut,0,Math.PI*2); ctx.arc(cx,cy,rIn,Math.PI*2,0,true); ctx.closePath(); ctx.fillStyle="#111a2e"; ctx.fill();
+        ctx.fillStyle="#8b9bb8"; ctx.textAlign="center"; ctx.font="14px system-ui"; ctx.fillText("Sem aportes ainda",cx,cy+4);
+        $("#dashCompHint").textContent = "Sem aportes no período."; return;
+      }
+      const aM = -Math.PI/2 + (totM/total)*Math.PI*2;
+      ctx.beginPath(); ctx.arc(cx,cy,rOut,-Math.PI/2,aM); ctx.arc(cx,cy,rIn,aM,-Math.PI/2,true); ctx.closePath(); ctx.fillStyle="#6c8cff"; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,rOut,aM,-Math.PI/2+Math.PI*2); ctx.arc(cx,cy,rIn,-Math.PI/2+Math.PI*2,aM,true); ctx.closePath(); ctx.fillStyle="#e879a6"; ctx.fill();
+      ctx.fillStyle="#eef3ff"; ctx.textAlign="center"; ctx.font="800 18px system-ui"; ctx.fillText(brl(total),cx,cy+2);
+      ctx.fillStyle="#8b9bb8"; ctx.font="12px system-ui"; ctx.fillText("total",cx,cy+20);
+      ctx.textAlign="left"; ctx.font="12px system-ui";
+      ctx.fillStyle="#6c8cff"; ctx.fillRect(w/2-160,h-16,10,10);
+      ctx.fillStyle="#8b9bb8"; ctx.fillText("Matheus "+brl(totM),w/2-146,h-6);
+      ctx.fillStyle="#e879a6"; ctx.fillRect(w/2+10,h-16,10,10);
+      ctx.fillStyle="#8b9bb8"; ctx.fillText("Kathleen "+brl(totK),w/2+24,h-6);
+      $("#dashCompHint").textContent = "Distribuição total dos aportes.";
+    }else{
+      const maxV = Math.max(...dM,...dK,state.aporteAlvo/2,1);
+      const padL=52,padR=16,padT=20,padB=40; const gw=w-padL-padR, gh=h-padT-padB;
+      const x=i=>padL+(meses.length>1?(i/(meses.length-1))*gw:gw/2); const y=v=>padT+gh-(v/maxV)*gh;
+      ctx.strokeStyle="#1e2b47"; ctx.lineWidth=1; ctx.font="11px system-ui"; ctx.fillStyle="#8b9bb8"; ctx.textAlign="right";
+      for(let i=0;i<=4;i++){const v=(maxV/4)*i,yy=y(v); ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke(); ctx.fillText(brl(v),padL-8,yy+4);}
+      ctx.beginPath(); ctx.lineWidth=2.5; ctx.strokeStyle="#6c8cff"; dM.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
+      dM.forEach((v,i)=>{ctx.beginPath(); ctx.arc(x(i),y(v),3.5,0,Math.PI*2); ctx.fillStyle="#6c8cff"; ctx.fill();});
+      ctx.beginPath(); ctx.lineWidth=2.5; ctx.strokeStyle="#e879a6"; dK.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))); ctx.stroke();
+      dK.forEach((v,i)=>{ctx.beginPath(); ctx.arc(x(i),y(v),3.5,0,Math.PI*2); ctx.fillStyle="#e879a6"; ctx.fill();});
+      ctx.fillStyle="#8b9bb8"; ctx.textAlign="center"; const step=Math.max(1,Math.ceil(meses.length/6));
+      meses.forEach((m,i)=>{ if(i%step!==0&&i!==meses.length-1)return; ctx.fillText(mesLabel(m),x(i),h-12); });
+      ctx.textAlign="left"; ctx.font="12px system-ui";
+      ctx.fillStyle="#6c8cff"; ctx.fillRect(padL,h-8,10,10); ctx.fillStyle="#8b9bb8"; ctx.fillText("Matheus",padL+14,h+2);
+      ctx.fillStyle="#e879a6"; ctx.fillRect(padL+90,h-8,10,10); ctx.fillStyle="#8b9bb8"; ctx.fillText("Kathleen",padL+104,h+2);
+      $("#dashCompHint").textContent = "Aportes mensais comparados.";
+    }
+  }
+
+  $("#compToggle").addEventListener("click",e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    $$("#compToggle button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
+    compMode = b.dataset.mode; renderComparativo();
+  });
+  $("#indToggle").addEventListener("click",e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    $$("#indToggle button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
+    indMode = b.dataset.mode; renderChart();
+  });
+
+  $("#btnCofre").addEventListener("click", ()=>{
+    const total = saldoCasal(); const meta = state.metaCasal; const p = meta>0?Math.min(100,(total/meta)*100):0;
+    const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
+    const fim = addMonth(state.inicio, state.meses-1); const restantes = Math.max(0, monthsBetween(mesAtual(), fim)+1);
+    const faltaMes = restantes>0?Math.max(0,meta-total)/restantes:0;
+    $("#cofreContent").innerHTML = `
+      <div style="background:#070d18;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px">
+        <div style="color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700">Total do casal</div>
+        <div style="font-size:1.7rem;font-weight:800;margin-top:6px;color:var(--gold)">${brl(total)}</div>
+        <div style="color:var(--muted);font-size:.8rem;margin-top:4px">${pct(p)} da meta de ${brl(meta)} · faltam ${restantes} meses</div>
+        <div class="progress" style="margin-top:12px"><i style="width:${p.toFixed(2)}%"></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:8px"><span>Falta ${brl(Math.max(0,meta-total))}</span><span>${brl(faltaMes)}/mês</span></div>
+      </div>
+      <div class="duo">
+        <div class="box"><div class="who"><span class="dot m"></span> Matheus</div><div class="v">${brl(sM)}</div><div class="p">${pct(state.metaMatheus>0?(sM/state.metaMatheus)*100:0)} da meta</div></div>
+        <div class="box"><div class="who"><span class="dot k"></span> Kathleen</div><div class="v">${brl(sK)}</div><div class="p">${pct(state.metaKathleen>0?(sK/state.metaKathleen)*100:0)} da meta</div></div>
+      </div>
+      <h3 style="margin:18px 0 10px;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Selos do casal</h3>
+      <div class="selos-grid" id="cofreSelos"></div>
+    `;
+    renderSelos("cofreSelos","casal",total);
+    $("#modalCofre").classList.add("open");
+  });
+  $("#btnCloseCofre").addEventListener("click", ()=>$("#modalCofre").classList.remove("open"));
+
+  $("#btnConfig").addEventListener("click", ()=>{
+    $("#cfgMetaCasal").value = state.metaCasal; $("#cfgInicio").value = state.inicio; $("#cfgMeses").value = state.meses;
+    $("#cfgMetaM").value = state.metaMatheus; $("#cfgMetaK").value = state.metaKathleen;
+    $("#cfgAporte").value = state.aporteAlvo; $("#cfgTaxa").value = state.taxaMensal;
+    $("#modalConfig").classList.add("open");
+  });
+  $("#btnCloseCfg").addEventListener("click", ()=>$("#modalConfig").classList.remove("open"));
+  $("#btnSaveCfg").addEventListener("click", async ()=>{
+    const mc = parseFloat($("#cfgMetaCasal").value), ini = $("#cfgInicio").value, me = parseInt($("#cfgMeses").value);
+    const mm = parseFloat($("#cfgMetaM").value), mk = parseFloat($("#cfgMetaK").value);
+    const ap = parseFloat($("#cfgAporte").value), tx = parseFloat($("#cfgTaxa").value);
+    if(mc>0) state.metaCasal=mc; if(ini) state.inicio=ini; if(me>0) state.meses=me;
+    if(mm>0) state.metaMatheus=mm; if(mk>0) state.metaKathleen=mk;
+    if(ap>0) state.aporteAlvo=ap; if(tx>=0) state.taxaMensal=tx;
+    if(sb) await salvarConfigSupabase();
+    $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Salvo.");
+  });
+  $("#btnReset").addEventListener("click", async ()=>{
+    if(!confirm("Zerar TODOS os dados? Apaga também no Supabase.")) return;
+    if(sb) await sb.from("aportes").delete().neq("id","");
+    state.aportes = [];
+    state.selos = {matheus:{},kathleen:{},casal:{}};
+    $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Dados zerados.");
+  });
+
+  $("#btnPdf").addEventListener("click", ()=>{
+    $("#pdf-print").innerHTML = gerarPdfHtml();
+    window.print();
+  });
+  function gerarPdfHtml(){
+    const arr = state.aportes.slice().sort((a,b)=>(a.data||"").localeCompare(b.data||""));
+    const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
+    const total = saldoCasal();
+    const linhas = arr.map(a=>`<tr>
+      <td>${fmtData(a.data)}</td>
+      <td>${USERS[a.user]?.nome||a.user}</td>
+      <td>${TIPO_LABEL[a.tipo]||a.tipo}</td>
+      <td>${a.tipo==="saque"?"-":"+"} ${brl(a.valor)}</td>
+      <td>${esc(a.obs||"")}</td>
+    </tr>`).join("");
+    const hoje = new Date().toLocaleString("pt-BR");
+    return `
+      <h1>Banco Matrimonial — Livro Caixa</h1>
+      <div class="meta">Emitido em ${hoje} · ${arr.length} lançamento(s)</div>
+      <table>
+        <thead><tr><th>Data</th><th>Quem</th><th>Tipo</th><th>Valor</th><th>Observação</th></tr></thead>
+        <tbody>${linhas || '<tr><td colspan="5">Nenhum lançamento.</td></tr>'}</tbody>
+        <tfoot>
+          <tr class="tot"><td colspan="3">Matheus</td><td colspan="2">${brl(sM)}</td></tr>
+          <tr class="tot"><td colspan="3">Kathleen</td><td colspan="2">${brl(sK)}</td></tr>
+          <tr class="tot"><td colspan="3">Total do casal</td><td colspan="2">${brl(total)}</td></tr>
+        </tfoot>
+      </table>
+    `;
+  }
+
+  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m) m.classList.remove("open"); }));
+  let rt;
+  window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){renderChart();renderComparativo();} },180); });
+
+  async function boot(){
+    if(!sb){ $("#footSync").textContent = "Supabase não carregado"; return; }
+    const {data:{session}} = await sb.auth.getSession();
+    if(session){
+      const {data:{user}} = await sb.auth.getUser();
+      const email = (user?.email||"").toLowerCase();
+      currentUser = email.includes("matheus") ? "matheus" : email.includes("kathleen") ? "kathleen" : null;
+      if(currentUser){
+        loading(true);
+        await carregarTudoDoSupabase();
+        enterDashboard();
+        loading(false);
+      }
+    }else{
+      $("#footSync").textContent = "Pronto para login";
+    }
+  }
+  boot();
+
+})();
+</script>
+</body>
+</html>
