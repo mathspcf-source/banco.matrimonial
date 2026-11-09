@@ -31,7 +31,6 @@
   svg{display:block}
   .screen{display:none}.screen.active{display:block}
 
-  /* LOGIN */
   .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
   .login-card{
     width:100%;max-width:420px;
@@ -79,7 +78,6 @@
   .login-back:hover{color:var(--txt)}
   .login-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-  /* PICKER */
   .profiles{display:grid;gap:16px;grid-template-columns:1fr}
   @media(min-width:480px){.profiles{grid-template-columns:1fr 1fr}}
   .profile{
@@ -100,7 +98,6 @@
   .profile h3{margin:0;font-size:1.05rem;font-weight:700}
   .profile p{margin:0;color:var(--muted);font-size:.78rem}
 
-  /* APP */
   .app-header{
     position:sticky;top:0;z-index:30;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     background:rgba(8,11,20,.72);border-bottom:1px solid var(--line);padding:12px 16px;
@@ -276,7 +273,6 @@
     @page{size:A4;margin:14mm}
   }
 
-  /* LOADING overlay */
   .loading-overlay{
     position:fixed;inset:0;background:rgba(8,11,20,.85);backdrop-filter:blur(4px);
     display:none;place-items:center;z-index:100;
@@ -291,7 +287,6 @@
 </head>
 <body>
 
-<!-- PICKER -->
 <section class="screen active" id="screen-picker">
   <div class="login-wrap">
     <div style="width:100%;max-width:520px">
@@ -315,7 +310,6 @@
   </div>
 </section>
 
-<!-- LOGIN MATHEUS -->
 <section class="screen" id="screen-login-matheus">
   <div class="login-wrap"><div class="login-card">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -333,7 +327,6 @@
   </div></div>
 </section>
 
-<!-- LOGIN KATHLEEN -->
 <section class="screen" id="screen-login-kathleen">
   <div class="login-wrap"><div class="login-card k">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -351,7 +344,6 @@
   </div></div>
 </section>
 
-<!-- DASHBOARD -->
 <section class="screen" id="screen-dash">
   <header class="app-header"><div class="app-header-inner">
     <div class="user-chip" id="chipPerfil" title="Editar perfil">
@@ -421,11 +413,10 @@
         </section>
       </div>
     </div>
-    <div class="foot" id="footSync">Dados locais</div>
+    <div class="foot" id="footSync">Conectando...</div>
   </main>
 </section>
 
-<!-- MODAL PERFIL -->
 <div class="modal" id="modalPerfil"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu perfil</h3>
   <div class="avatar-upload">
@@ -433,21 +424,19 @@
     <div>
       <button class="btn-primary" id="btnPickAvatar" style="width:auto;padding:10px 16px;font-size:.85rem">Escolher foto</button>
       <input type="file" id="fileAvatar" accept="image/*" hidden />
-      <div class="hint" id="avatarHint">JPG/PNG até 2 MB</div>
+      <div class="hint">JPG/PNG até 2 MB</div>
     </div>
   </div>
   <div style="margin-bottom:14px"><label>Nome</label><input id="perfilNome" type="text" maxlength="30" /></div>
   <div class="actions"><button class="btn-primary" id="btnSavePerfil">Salvar</button><button class="btn-secondary" id="btnClosePerfil">Fechar</button></div>
 </div></div>
 
-<!-- MODAL COFRE -->
 <div class="modal" id="modalCofre"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Visão do casal</h3>
   <div id="cofreContent"></div>
   <div class="actions"><button class="btn-secondary" id="btnCloseCofre">Fechar</button></div>
 </div></div>
 
-<!-- MODAL CONFIG -->
 <div class="modal" id="modalConfig"><div class="box">
   <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Configurações</h3>
   <div style="display:grid;gap:12px">
@@ -463,7 +452,6 @@
   <div class="actions"><button class="btn-secondary" id="btnCloseCfg" style="flex:1">Fechar</button></div>
 </div></div>
 
-<!-- MODAL EDITAR -->
 <div class="modal" id="modalEditar"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Editar lançamento</h3>
   <div style="display:grid;gap:12px">
@@ -484,7 +472,6 @@
 (function(){
   "use strict";
 
-  /* ===== CONFIG SUPABASE ===== */
   const SUPABASE_URL = "https://bggnyxibxvghsswmhgkp.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnZ255eGlieHZnaHNzd21oZ2twIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxODk3NzcsImV4cCI6MjEwOTc2NTc3N30.VRI5MlZ_pfyHCYby5_vyAmxy6Np66AoTKqQqyEPwzi4";
   const EMAIL_DOMAIN = "banco.local";
@@ -492,8 +479,6 @@
 
   const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-  /* ===== CONSTANTES ===== */
-  const REMEMBER_KEY = "banco_matrimonial_sessao_v5";
   const USERS = {
     matheus:{nome:"Matheus",inicial:"M",classe:"m"},
     kathleen:{nome:"Kathleen",inicial:"K",classe:"k"}
@@ -563,7 +548,6 @@
     {valor:20000,nome:"Lenda do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M6 3h12v4a6 6 0 0 1-12 0z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><line x1="12" y1="13" x2="12" y2="18"/><path d="M8 21h8l-1-3H9z"/></svg>'}
   ];
 
-  /* ===== HELPERS DE DADOS ===== */
   function garantirSelos(){ if(!state.selos)state.selos={matheus:{},kathleen:{},casal:{}};["matheus","kathleen","casal"].forEach(k=>{if(!state.selos[k])state.selos[k]={};}); }
   function verificarSelos(chave,saldo){ garantirSelos(); const novos=[]; const hoje=hojeISO(); SELOS.forEach(s=>{ if(saldo>=s.valor && !state.selos[chave][s.valor]){ state.selos[chave][s.valor]=hoje; novos.push(s);} }); return novos; }
   function renderSelos(id,chave,saldo){ const c=document.getElementById(id); if(!c)return; garantirSelos(); c.innerHTML=SELOS.map(s=>{ const un=!!state.selos[chave][s.valor]; const d=un?new Date(state.selos[chave][s.valor]+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):""; return `<div class="selo ${un?'unlocked':''}"><div class="lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div class="ic">${s.svg}</div><div class="nome">${s.nome}</div><div class="val">${brl(s.valor)}</div>${d?`<div class="data">${d}</div>`:""}</div>`; }).join(""); }
@@ -575,7 +559,6 @@
 
   function showScreen(id){ $$(".screen").forEach(s=>s.classList.remove("active")); const el=document.getElementById(id); if(el)el.classList.add("active"); window.scrollTo(0,0); }
 
-  /* ===== SUPABASE: CARREGAR ===== */
   async function carregarTudoDoSupabase(){
     if(!sb) return;
     try{
@@ -602,7 +585,6 @@
           state.perfis[u] = {nome:p.nome||USERS[u].nome, avatar:p.avatar_url||null};
         });
       }
-      // Selos (recalcula a partir dos saldos)
       verificarSelos("matheus", saldoUsuario("matheus"));
       verificarSelos("kathleen", saldoUsuario("kathleen"));
       verificarSelos("casal", saldoCasal());
@@ -639,7 +621,6 @@
     await sb.from("aportes").delete().eq("id",id);
   }
 
-  /* ===== LOGIN ===== */
   $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{
     const u = b.dataset.user;
     showScreen("screen-login-"+u);
@@ -661,9 +642,8 @@
         form.querySelector("[data-pass]").value = "";
         return;
       }
-
       if(!sb){
-        errEl.textContent = "Supabase não carregado. Verifique a internet.";
+        errEl.textContent = "Supabase não carregado.";
         return;
       }
 
@@ -671,14 +651,13 @@
       try{
         const email = user + "@" + EMAIL_DOMAIN;
         const {data, error} = await sb.auth.signInWithPassword({email, password:DATA_NAMORO});
-        if(error){ errEl.textContent = "Conta não encontrada. Contate o admin."; console.warn(error); return; }
+        if(error){ errEl.textContent = "Conta não encontrada no Supabase."; console.warn(error); return; }
         currentUser = user;
-        localStorage.setItem(REMEMBER_KEY, user);
         await carregarTudoDoSupabase();
         enterDashboard();
       }catch(ex){
         console.warn(ex);
-        errEl.textContent = "Erro ao entrar. Tente novamente.";
+        errEl.textContent = "Erro ao entrar.";
       }finally{
         btn.disabled = false; loading(false);
       }
@@ -688,13 +667,11 @@
   $("#btnLogout").addEventListener("click", async ()=>{
     if(!confirm("Sair?")) return;
     if(sb) await sb.auth.signOut();
-    localStorage.removeItem(REMEMBER_KEY);
     currentUser = null;
     state = JSON.parse(JSON.stringify(DEFAULT));
     showScreen("screen-picker");
   });
 
-  /* ===== DASHBOARD ===== */
   function renderAvatares(){
     const p = state.perfis;
     ["matheus","kathleen"].forEach(u=>{
@@ -793,7 +770,6 @@
     $("#dashMes").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento neste mês.</div>';
   }
 
-  /* ===== LANÇAMENTOS ===== */
   $("#formLanc").addEventListener("submit", async e=>{
     e.preventDefault();
     if(!currentUser) return;
@@ -843,7 +819,6 @@
   });
   $("#btnCloseEdit").addEventListener("click", ()=>{ $("#modalEditar").classList.remove("open"); editingId=null; });
 
-  /* ===== PERFIL ===== */
   $("#chipPerfil").addEventListener("click", ()=>{
     if(!currentUser) return;
     const p = state.perfis[currentUser];
@@ -902,7 +877,6 @@
   });
   $("#btnClosePerfil").addEventListener("click", ()=>{ $("#modalPerfil").classList.remove("open"); $("#fileAvatar").value=""; });
 
-  /* ===== GRÁFICOS ===== */
   function setupCanvas(cv, ratio){
     const dpr = Math.min(window.devicePixelRatio||1, 2);
     const cssW = cv.clientWidth||900; const cssH = Math.round(cssW*(ratio||0.4));
@@ -1019,7 +993,6 @@
     indMode = b.dataset.mode; renderChart();
   });
 
-  /* ===== COFRE / CONFIG / PDF ===== */
   $("#btnCofre").addEventListener("click", ()=>{
     const total = saldoCasal(); const meta = state.metaCasal; const p = meta>0?Math.min(100,(total/meta)*100):0;
     const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
@@ -1063,10 +1036,8 @@
     $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Salvo.");
   });
   $("#btnReset").addEventListener("click", async ()=>{
-    if(!confirm("Zerar TODOS os dados do banco? Isso apaga também do Supabase.")) return;
-    if(sb){
-      await sb.from("aportes").delete().neq("id","");
-    }
+    if(!confirm("Zerar TODOS os dados? Apaga também no Supabase.")) return;
+    if(sb) await sb.from("aportes").delete().neq("id","");
     state.aportes = [];
     state.selos = {matheus:{},kathleen:{},casal:{}};
     $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Dados zerados.");
@@ -1107,12 +1078,10 @@
   let rt;
   window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){renderChart();renderComparativo();} },180); });
 
-  /* ===== BOOT ===== */
   async function boot(){
     if(!sb){ $("#footSync").textContent = "Supabase não carregado"; return; }
     const {data:{session}} = await sb.auth.getSession();
     if(session){
-      // Descobre qual usuário logado
       const {data:{user}} = await sb.auth.getUser();
       const email = (user?.email||"").toLowerCase();
       currentUser = email.includes("matheus") ? "matheus" : email.includes("kathleen") ? "kathleen" : null;
@@ -1122,6 +1091,8 @@
         enterDashboard();
         loading(false);
       }
+    }else{
+      $("#footSync").textContent = "Pronto para login";
     }
   }
   boot();
