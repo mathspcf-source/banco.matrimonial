@@ -259,47 +259,75 @@
   .filter-row select{flex:1;min-width:140px}
 
   canvas{width:100%;height:auto;display:block}
-  .chart-toggle{display:inline-flex;background:#070d18;border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:10px;gap:2px}
-  .chart-toggle button{padding:7px 14px;border-radius:7px;font-size:.75rem;font-weight:700;color:var(--muted);transition:.15s}
-  .chart-toggle button.active{background:var(--surface2);color:var(--txt)}
 
-  .selos-grid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
-  @media(min-width:480px){.selos-grid{grid-template-columns:repeat(3,1fr)}}
-  @media(min-width:768px){.selos-grid{grid-template-columns:repeat(5,1fr)}}
-  .selo{
-    background:#070d18;border:1px solid var(--line);border-radius:14px;padding:14px 10px;
-    text-align:center;position:relative;transition:.2s;opacity:.45;
+  /* ===== CARTELA DE DEPÓSITOS ===== */
+  .cartela{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    margin-top:6px;
   }
-  .selo.unlocked{opacity:1;border-color:var(--gold);background:linear-gradient(160deg,#1c2440,#121a2e);box-shadow:0 8px 24px -10px rgba(245,196,94,.4)}
-  .selo.unlocked::after{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;background:radial-gradient(circle at 50% 0%,rgba(245,196,94,.18),transparent 65%)}
-  .selo .ic{width:46px;height:46px;margin:0 auto 8px;border-radius:14px;display:grid;place-items:center;background:#0c1424;border:1px solid var(--line);color:var(--muted);transition:.25s}
-  .selo.unlocked .ic{background:linear-gradient(135deg,#3a2e10,#5a4210);border-color:var(--gold);color:var(--gold);box-shadow:0 6px 16px -6px rgba(245,196,94,.6)}
-  .selo .ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
-  .selo .nome{font-size:.72rem;font-weight:700;line-height:1.2;margin-bottom:3px}
-  .selo .val{font-size:.66rem;color:var(--muted);font-weight:600}
-  .selo .data{font-size:.6rem;color:var(--gold);margin-top:4px;font-weight:600}
-  .selo .lock{position:absolute;top:8px;right:8px;width:16px;height:16px;color:var(--muted);opacity:.6}
-  .selo.unlocked .lock{display:none}
-  .selo .lock svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-
-  .rules{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-  .rules li{display:flex;gap:10px;padding:10px 12px;background:#070d18;border:1px solid var(--line);border-radius:12px;font-size:.82rem}
-  .rules .n{width:22px;height:22px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;background:var(--surface2);color:var(--green);font-size:.68rem;font-weight:800}
-
-  form.lancamento{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-  form.lancamento .full{grid-column:1/-1}
-  label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;font-weight:600}
-  select,input[type=text],input[type=number],input[type=date],input[type=password]{
-    width:100%;padding:12px;background:#070d18;color:var(--txt);border:1px solid var(--line);
-    border-radius:12px;font-size:16px;outline:none;transition:.2s;
+  @media(min-width:640px){
+    .cartela{grid-template-columns:repeat(5,1fr);gap:10px}
   }
-  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
-  .btn-primary{padding:13px 18px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;transition:.12s;width:100%}
-  .btn-primary:hover{filter:brightness(1.08)}.btn-primary:active{transform:scale(.98)}
-  .btn-primary.k{background:linear-gradient(135deg,var(--kathleen),#c2569a)}
-  .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{padding:8px 14px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:.78rem;font-weight:600;transition:.15s}
-  .chip:hover{border-color:var(--accent)}
+  .casa{
+    background:linear-gradient(165deg,#0b1526,#0f1a2e);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 8px;
+    text-align:center;
+    position:relative;
+    transition:transform .2s ease, background .3s ease, border-color .3s ease;
+    opacity:.5;
+  }
+  .casa.on{
+    opacity:1;
+    border-color:var(--green);
+    background:linear-gradient(165deg,#0f2f27,#0a1a2e);
+    box-shadow:0 6px 20px -8px rgba(52,211,153,.4);
+  }
+  .casa.on::after{
+    content:"";
+    position:absolute;inset:0;border-radius:14px;pointer-events:none;
+    background:radial-gradient(circle at 50% 0%, rgba(52,211,153,.18), transparent 70%);
+  }
+  .casa .check{
+    position:absolute;top:6px;right:6px;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--green);color:#03140e;
+    display:grid;place-items:center;font-size:11px;font-weight:900;
+    opacity:0;transform:scale(.5);transition:.25s;
+  }
+  .casa.on .check{opacity:1;transform:scale(1)}
+  .casa .num{
+    font-size:.66rem;font-weight:700;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;
+  }
+  .casa.on .num{color:var(--green)}
+  .casa .valor{
+    font-size:.95rem;font-weight:800;color:var(--txt);
+    font-variant-numeric:tabular-nums;letter-spacing:-.3px;
+  }
+  .casa.on .valor{color:#7ee2a8}
+  .casa .moeda{
+    width:34px;height:34px;margin:0 auto 8px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    background:#0f1a2e;border:1px solid var(--line);
+    color:var(--muted);
+  }
+  .casa.on .moeda{
+    background:linear-gradient(135deg,#3a2e10,#5a4210);
+    border-color:var(--gold);color:var(--gold);
+    box-shadow:0 4px 14px -4px rgba(245,196,94,.5);
+  }
+  .casa .moeda svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .cartela-resumo{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:.78rem;color:var(--muted);
+  }
+  .cartela-resumo b{color:var(--green);font-size:.9rem}
 
   .toast{
     position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
@@ -332,40 +360,25 @@
   .avatar-preview img{width:100%;height:100%;object-fit:cover}
   .avatar-upload .hint{font-size:.72rem;color:var(--muted);margin-top:6px}
 
-  /* ===== PDF / LIVRO CAIXA — visual novo ===== */
   #pdf-print{display:none}
   @media print{
     body > *:not(#pdf-print){display:none !important}
     #pdf-print{display:block !important;background:#fff;color:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:0}
     @page{size:A4;margin:14mm}
-
-    .pdf-head{
-      display:flex;justify-content:space-between;align-items:flex-end;
-      border-bottom:3px solid #0f2f27;padding-bottom:12px;margin-bottom:18px;
-    }
+    .pdf-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #0f2f27;padding-bottom:12px;margin-bottom:18px}
     .pdf-head h1{font-size:22px;margin:0;letter-spacing:-.5px}
     .pdf-head .sub{font-size:11px;color:#555;margin-top:4px}
     .pdf-head .brand{text-align:right;font-size:10px;color:#666;line-height:1.4}
     .pdf-head .brand b{display:block;color:#0f2f27;font-size:13px;letter-spacing:.5px}
-
-    .pdf-summary{
-      display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px;
-    }
-    .pdf-summary .card{
-      border:1px solid #ddd;border-radius:8px;padding:10px 12px;background:#f7faf8;
-    }
+    .pdf-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+    .pdf-summary .card{border:1px solid #ddd;border-radius:8px;padding:10px 12px;background:#f7faf8}
     .pdf-summary .card .l{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#666;font-weight:700}
     .pdf-summary .card .v{font-size:16px;font-weight:800;color:#0f2f27;margin-top:2px}
     .pdf-summary .card .s{font-size:9px;color:#666;margin-top:2px}
     .pdf-summary .card.m{border-left:3px solid #6c8cff}
     .pdf-summary .card.k{border-left:3px solid #e879a6}
-
     .pdf-month{margin-top:16px}
-    .pdf-month h2{
-      font-size:11px;text-transform:uppercase;letter-spacing:.8px;
-      background:#0f2f27;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;margin:0;
-      display:flex;justify-content:space-between;align-items:center;
-    }
+    .pdf-month h2{font-size:11px;text-transform:uppercase;letter-spacing:.8px;background:#0f2f27;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;margin:0;display:flex;justify-content:space-between;align-items:center}
     .pdf-month h2 .tot{font-weight:600;font-size:10px;opacity:.9}
     .pdf-month table{width:100%;border-collapse:collapse;margin:0;font-size:10.5px}
     .pdf-month th{background:#eef3f1;padding:6px 8px;text-align:left;border-bottom:1px solid #ccc;font-weight:700}
@@ -483,9 +496,17 @@
       <section class="duo-dash" id="duoPessoas"></section>
 
       <section class="panel">
-        <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal</h2>
-        <div class="chart-toggle" id="compToggle"><button class="active" data-mode="donut">Donut</button><button data-mode="line">Linha</button></div>
-        <canvas id="dashComparativo" width="900" height="380"></canvas>
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>Cartela de depósitos</h2>
+        <div class="cartela" id="cartelaCasal"></div>
+        <div class="cartela-resumo">
+          <span><b id="cartelaCount">0</b> de 10 casas preenchidas</span>
+          <span>Falta <b id="cartelaFalta">R$ 20.000</b></span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Distribuição por pessoa</h2>
+        <canvas id="dashComparativo" width="900" height="360"></canvas>
         <div class="sub" id="dashCompHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
       </section>
 
@@ -508,6 +529,12 @@
         <div class="progress-meta" style="margin-top:6px"><span id="dashStreak">0 meses em dia</span><span id="dashRitmo"></span></div>
       </section>
 
+      <section class="panel">
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Meu progresso</h2>
+        <canvas id="dashChart" width="900" height="360"></canvas>
+        <div class="sub" id="dashChartHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
+      </section>
+
       <div class="split">
         <div>
           <section class="panel" style="margin-top:0"><h2><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo lançamento</h2>
@@ -524,12 +551,6 @@
           <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Meus lançamentos</h2>
             <div class="filter-row"><select id="filtroMes"><option value="todos">Todos os meses</option></select><select id="filtroTipo"><option value="todos">Todos os tipos</option><option value="aporte">Aportes</option><option value="bonus">Bônus</option><option value="rendimento">Rendimentos</option><option value="saque">Saques</option></select></div>
             <div class="list" id="dashLista"></div>
-          </section>
-
-          <section class="panel"><h2><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Minha evolução</h2>
-            <div class="chart-toggle" id="indToggle"><button class="active" data-mode="line">Linha</button><button data-mode="donut">Donut</button></div>
-            <canvas id="dashChart" width="900" height="360"></canvas>
-            <div class="sub" id="dashChartHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
           </section>
         </div>
 
@@ -634,7 +655,6 @@
   let currentUser = null;
   let filtroMes = "todos", filtroTipo = "todos";
   let editingId = null;
-  let compMode = "donut", indMode = "line";
 
   const $ = (s,el=document)=>el.querySelector(s);
   const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
@@ -667,7 +687,8 @@
     wallet:'<svg viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>',
     target:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
     calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-    chart:'<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>'
+    chart:'<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>',
+    coin:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><path d="M12 8v8"/><path d="M9.5 10.5h5"/><path d="M9.5 13.5h5"/></svg>'
   };
 
   const SELOS=[
@@ -754,7 +775,6 @@
     await sb.from("aportes").delete().eq("id",id);
   }
 
-  /* ===== TABS — desenha gráficos só depois de mostrar o container ===== */
   $("#dashTabs").addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
     $$("#dashTabs button").forEach(x=>x.classList.remove("active"));
@@ -763,7 +783,6 @@
     $("#view-"+b.dataset.view).classList.add("active");
     if(b.dataset.view==="casal") renderCasal();
     else renderPessoal();
-    // espera o navegador calcular o layout antes de desenhar
     requestAnimationFrame(()=>{
       if(b.dataset.view==="casal") renderComparativo();
       else renderChart();
@@ -933,9 +952,40 @@
       </div>
     `;
 
+    renderCartela();
     renderSelos("selosCasal", total);
     renderListaCasal();
-    renderComparativo();
+    requestAnimationFrame(renderComparativo);
+  }
+
+  /* ===== CARTELA DE DEPÓSITOS ===== */
+  function renderCartela(){
+    const meta = state.metaCasal;
+    const total = saldoCasal();
+    const casas = 10;
+    const valorCasa = meta / casas; // R$ 2.000 cada
+    const preenchidas = Math.min(casas, Math.floor(total / valorCasa));
+    const container = $("#cartelaCasal");
+    if(!container) return;
+
+    let html = "";
+    for(let i=0; i<casas; i++){
+      const on = i < preenchidas;
+      const valor = valorCasa * (i+1);
+      html += `<div class="casa ${on?'on':''}">
+        <div class="check">✓</div>
+        <div class="moeda">${ICONS.coin}</div>
+        <div class="num">${i+1}ª casa</div>
+        <div class="valor">${brl(valor)}</div>
+      </div>`;
+    }
+    container.innerHTML = html;
+
+    const falta = Math.max(0, meta - total);
+    const countEl = $("#cartelaCount");
+    const faltaEl = $("#cartelaFalta");
+    if(countEl) countEl.textContent = preenchidas;
+    if(faltaEl) faltaEl.textContent = brl(falta);
   }
 
   function renderListaCasal(){
@@ -970,7 +1020,6 @@
     const fim = addMonth(state.inicio, state.meses-1);
     const restantes = Math.max(0, monthsBetween(mes, fim)+1);
 
-    // Ritmo PESSOAL: falta pessoal ÷ meses restantes
     const faltaMesPessoal = restantes>0 ? falta/restantes : 0;
     const ritmoOk = faltaMesPessoal <= alvoPessoa;
 
@@ -987,7 +1036,7 @@
     $("#dashRitmo").textContent = "Prazo: "+mesLabel(fim);
 
     renderLista(); renderListaMes();
-    renderChart();
+    requestAnimationFrame(renderChart);
   }
 
   function popularFiltroMes(){
@@ -1145,7 +1194,6 @@
       }catch(ex){ console.warn("Exceção no upload:", ex); }
 
       if(!subiu){ avatarUrl = dataUrl; }
-
       try{ localStorage.setItem("bm_avatar_"+currentUser, avatarUrl); }catch(e){}
       loading(false);
     }
@@ -1183,7 +1231,7 @@
     });
   }
 
-  /* ===== GRÁFICOS — corrigidos ===== */
+  /* ===== DONUT — número no CENTRO ===== */
   function setupCanvas(cv, ratio){
     if(!cv) return null;
     const dpr = Math.min(window.devicePixelRatio||1, 2);
@@ -1198,10 +1246,52 @@
     return {ctx,w:cssW,h:cssH};
   }
 
-  /* ===== GRÁFICO PESSOAL ===== */
+  function desenharDonutCentro(ctx, cx, cy, rOut, rIn, segmentos, centroTexto, centroSub){
+    // fundo
+    ctx.beginPath();
+    ctx.arc(cx, cy, rOut, 0, Math.PI*2);
+    ctx.arc(cx, cy, rIn, Math.PI*2, 0, true);
+    ctx.closePath();
+    ctx.fillStyle = "#111a2e";
+    ctx.fill();
+
+    // segmentos
+    const totalSeg = segmentos.reduce((s,x)=>s+x.valor,0);
+    if(totalSeg > 0){
+      let ang = -Math.PI/2;
+      segmentos.forEach(seg=>{
+        if(seg.valor <= 0) return;
+        const aFim = ang + (seg.valor/totalSeg)*Math.PI*2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rOut, ang, aFim);
+        ctx.arc(cx, cy, rIn, aFim, ang, true);
+        ctx.closePath();
+        ctx.fillStyle = seg.cor;
+        ctx.fill();
+        ang = aFim;
+      });
+    }
+
+    // texto central
+    const meioRaio = (rOut + rIn) / 2;
+    const tamFonte = Math.max(14, Math.min(22, meioRaio * 0.7));
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillStyle = "#eef3ff";
+    ctx.font = `800 ${tamFonte}px system-ui, -apple-system, sans-serif`;
+    ctx.fillText(centroTexto, cx, cy - (centroSub ? 8 : 0));
+
+    if(centroSub){
+      ctx.fillStyle = "#8b9bb8";
+      ctx.font = `600 ${Math.max(10, tamFonte*0.55)}px system-ui, -apple-system, sans-serif`;
+      ctx.fillText(centroSub, cx, cy + tamFonte*0.7);
+    }
+  }
+
   function renderChart(){
     const cv = $("#dashChart"); if(!cv) return;
-    const s = setupCanvas(cv,0.45); if(!s) return;
+    const s = setupCanvas(cv,0.55); if(!s) return;
     const {ctx,w,h} = s;
 
     const arr = state.aportes.filter(a=>a.user===currentUser).slice().sort((a,b)=>(a.data||"").localeCompare(b.data||""));
@@ -1210,284 +1300,75 @@
       ctx.fillText("Sem dados ainda.",w/2,h/2);
       $("#dashChartHint").textContent="Sem dados."; return;
     }
-    const mapa = new Map(); let acc=0;
-    arr.forEach(a=>{const ym=(a.data||"").slice(0,7); acc+=(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0); mapa.set(ym,acc);});
-    const labels = Array.from(mapa.keys()).sort();
-    const vals = labels.map(k=>mapa.get(k));
-    if(!labels.includes(mesAtual())){ labels.push(mesAtual()); vals.push(vals[vals.length-1]); }
+    let acc=0;
+    arr.forEach(a=>{ acc+=(TIPO_SIGN[a.tipo]||1)*(Number(a.valor)||0); });
 
     const meta = currentUser==="matheus"?state.metaMatheus:state.metaKathleen;
     const cor = currentUser==="kathleen"?"#e879a6":"#34d399";
+    const guardado = Math.max(0, Math.min(acc, meta));
+    const falta = Math.max(0, meta - acc);
 
-    if(indMode==="donut"){
-      // DONUT com número FORA do gráfico (abaixo)
-      const saldo = vals[vals.length-1];
-      const guardado = Math.max(0, Math.min(saldo, meta));
-      const falta = Math.max(0, meta - saldo);
-      const total = guardado + falta || 1;
+    // donut ocupa boa parte do canvas, número no centro
+    const cx = w/2;
+    const cy = h/2 - 4;
+    const raioMax = Math.min(cx, cy) - 12;
+    const rOut = raioMax * 0.95;
+    const rIn = rOut * 0.62;
 
-      const centroY = h*0.42;
-      const raio = Math.min(w, centroY*2) * 0.32;
-      const rOut = raio;
-      const rIn = raio * 0.62;
+    desenharDonutCentro(
+      ctx, cx, cy, rOut, rIn,
+      [
+        { valor: guardado, cor: cor },
+      ],
+      brl(acc),
+      pct(meta>0?acc/meta*100:0) + " da meta"
+    );
 
-      const cx = w/2;
-      const ang0 = -Math.PI/2;
-      const aGuard = ang0 + (guardado/total)*Math.PI*2;
+    // legenda abaixo
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#8b9bb8";
+    ctx.font = "600 12px system-ui";
+    ctx.fillText(`Falta ${brl(falta)}`, cx, h - 12);
 
-      // fundo
-      ctx.beginPath();
-      ctx.arc(cx, centroY, rOut, 0, Math.PI*2);
-      ctx.arc(cx, centroY, rIn, Math.PI*2, 0, true);
-      ctx.closePath();
-      ctx.fillStyle = "#111a2e";
-      ctx.fill();
-
-      // valor guardado
-      ctx.beginPath();
-      ctx.arc(cx, centroY, rOut, ang0, aGuard);
-      ctx.arc(cx, centroY, rIn, aGuard, ang0, true);
-      ctx.closePath();
-      ctx.fillStyle = cor;
-      ctx.fill();
-
-      // legenda abaixo
-      ctx.textAlign="center";
-      ctx.fillStyle = "#eef3ff";
-      ctx.font = "800 22px system-ui, -apple-system, sans-serif";
-      ctx.fillText(brl(saldo), cx, centroY + rOut + 32);
-      ctx.fillStyle = "#8b9bb8";
-      ctx.font = "600 12px system-ui, -apple-system, sans-serif";
-      ctx.fillText(pct(meta>0?saldo/meta*100:0) + " da meta · falta " + brl(falta), cx, centroY + rOut + 52);
-      $("#dashChartHint").textContent = "Guardado "+brl(guardado)+" · Falta "+brl(falta);
-    }else{
-      // LINHA
-      const maxV = Math.max(meta, ...vals, 1);
-      const padL = 56, padR = 16, padT = 20, padB = 34;
-      const gw = w - padL - padR;
-      const gh = h - padT - padB;
-      const x = i => padL + (labels.length>1 ? (i/(labels.length-1))*gw : gw/2);
-      const y = v => padT + gh - (v/maxV)*gh;
-
-      // grid
-      ctx.strokeStyle="#1e2b47"; ctx.lineWidth=1;
-      ctx.font="11px system-ui"; ctx.fillStyle="#8b9bb8"; ctx.textAlign="right";
-      for(let i=0;i<=4;i++){
-        const v = (maxV/4)*i;
-        const yy = y(v);
-        ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke();
-        ctx.fillText(brl(v), padL-8, yy+4);
-      }
-
-      // linha da meta
-      const ym = y(meta);
-      ctx.save(); ctx.setLineDash([6,6]); ctx.strokeStyle="#34d399";
-      ctx.beginPath(); ctx.moveTo(padL,ym); ctx.lineTo(w-padR,ym); ctx.stroke();
-      ctx.restore();
-      ctx.fillStyle="#34d399"; ctx.textAlign="left";
-      ctx.fillText("Meta "+brl(meta), padL+6, ym-6);
-
-      // área
-      const grad = ctx.createLinearGradient(0,padT,0,h-padB);
-      grad.addColorStop(0, currentUser==="kathleen"?"rgba(232,121,166,.4)":"rgba(52,211,153,.4)");
-      grad.addColorStop(1, "rgba(52,211,153,.02)");
-      ctx.beginPath();
-      ctx.moveTo(x(0), y(vals[0]));
-      vals.forEach((v,i)=>ctx.lineTo(x(i),y(v)));
-      ctx.lineTo(x(vals.length-1), h-padB);
-      ctx.lineTo(x(0), h-padB);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // linha
-      ctx.beginPath();
-      ctx.lineWidth = 2.5;
-      ctx.strokeStyle = cor;
-      vals.forEach((v,i)=> i ? ctx.lineTo(x(i),y(v)) : ctx.moveTo(x(i),y(v)));
-      ctx.stroke();
-
-      // pontos
-      vals.forEach((v,i)=>{
-        ctx.beginPath();
-        ctx.arc(x(i), y(v), 3.5, 0, Math.PI*2);
-        ctx.fillStyle = cor;
-        ctx.fill();
-      });
-
-      // labels X
-      ctx.fillStyle="#8b9bb8"; ctx.textAlign="center";
-      const step = Math.max(1, Math.ceil(labels.length/6));
-      labels.forEach((l,i)=>{
-        if(i%step!==0 && i!==labels.length-1) return;
-        ctx.fillText(mesLabel(l), x(i), h-12);
-      });
-      $("#dashChartHint").textContent = "Último saldo: "+brl(vals[vals.length-1]);
-    }
+    $("#dashChartHint").textContent = "Guardado "+brl(guardado)+" · Falta "+brl(falta);
   }
 
-  /* ===== GRÁFICO COMPARATIVO (CASAL) ===== */
   function renderComparativo(){
     const cv = $("#dashComparativo"); if(!cv) return;
-    const s = setupCanvas(cv,0.45); if(!s) return;
+    const s = setupCanvas(cv,0.55); if(!s) return;
     const {ctx,w,h} = s;
 
-    const hoje = mesAtual();
-    const inicio = state.inicio;
-    const meses=[]; let cur=inicio;
-    while(cur<=hoje && meses.length<24){ meses.push(cur); cur=addMonth(cur,1); }
-    if(!meses.length) meses.push(hoje);
-    if(!meses.includes(hoje)) meses.push(hoje);
+    const totM = state.aportes.filter(a=>a.user==="matheus"&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0);
+    const totK = state.aportes.filter(a=>a.user==="kathleen"&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0);
+    const total = totM + totK;
 
-    const dM = meses.map(m=>state.aportes.filter(a=>a.user==="matheus"&&(a.data||"").slice(0,7)===m&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0));
-    const dK = meses.map(m=>state.aportes.filter(a=>a.user==="kathleen"&&(a.data||"").slice(0,7)===m&&(a.tipo==="aporte"||a.tipo==="bonus")).reduce((s,a)=>s+Number(a.valor),0));
-    const totM = dM.reduce((a,b)=>a+b,0), totK = dK.reduce((a,b)=>a+b,0);
+    const cx = w/2;
+    const cy = h/2 - 4;
+    const raioMax = Math.min(cx, cy) - 12;
+    const rOut = raioMax * 0.95;
+    const rIn = rOut * 0.62;
 
-    if(compMode==="donut"){
-      const total = totM+totK;
-      const centroY = h*0.42;
-      const raio = Math.min(w, centroY*2) * 0.32;
+    desenharDonutCentro(
+      ctx, cx, cy, rOut, rIn,
+      [
+        { valor: totM, cor: "#6c8cff" },
+        { valor: totK, cor: "#e879a6" },
+      ],
+      total > 0 ? brl(total) : "R$ 0",
+      total > 0 ? "total aportado" : "sem aportes"
+    );
 
-      if(total===0){
-        ctx.beginPath();
-        ctx.arc(w/2, centroY, raio, 0, Math.PI*2);
-        ctx.arc(w/2, centroY, raio*0.62, Math.PI*2, 0, true);
-        ctx.closePath();
-        ctx.fillStyle="#111a2e"; ctx.fill();
-        ctx.fillStyle="#8b9bb8"; ctx.textAlign="center"; ctx.font="14px system-ui";
-        ctx.fillText("Sem aportes ainda", w/2, centroY+4);
-        $("#dashCompHint").textContent = "Sem aportes no período."; return;
-      }
+    // legenda abaixo
+    const ly = h - 10;
+    ctx.textAlign = "left"; ctx.font = "600 12px system-ui";
+    const baseX = Math.max(16, w/2 - 150);
+    ctx.fillStyle="#6c8cff"; ctx.beginPath(); ctx.arc(baseX, ly-4, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle="#8b9bb8"; ctx.fillText("Matheus "+brl(totM), baseX+12, ly);
+    ctx.fillStyle="#e879a6"; ctx.beginPath(); ctx.arc(baseX+170, ly-4, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle="#8b9bb8"; ctx.fillText("Kathleen "+brl(totK), baseX+182, ly);
 
-      const cx = w/2;
-      const ang0 = -Math.PI/2;
-      const aM = ang0 + (totM/total)*Math.PI*2;
-
-      // fundo
-      ctx.beginPath();
-      ctx.arc(cx, centroY, raio, 0, Math.PI*2);
-      ctx.arc(cx, centroY, raio*0.62, Math.PI*2, 0, true);
-      ctx.closePath();
-      ctx.fillStyle = "#111a2e"; ctx.fill();
-
-      // Matheus (azul)
-      ctx.beginPath();
-      ctx.arc(cx, centroY, raio, ang0, aM);
-      ctx.arc(cx, centroY, raio*0.62, aM, ang0, true);
-      ctx.closePath();
-      ctx.fillStyle = "#6c8cff"; ctx.fill();
-
-      // Kathleen (rosa)
-      ctx.beginPath();
-      ctx.arc(cx, centroY, raio, aM, ang0+Math.PI*2);
-      ctx.arc(cx, centroY, raio*0.62, ang0+Math.PI*2, aM, true);
-      ctx.closePath();
-      ctx.fillStyle = "#e879a6"; ctx.fill();
-
-      // número total ABAIXO do donut
-      ctx.textAlign="center";
-      ctx.fillStyle="#eef3ff"; ctx.font="800 20px system-ui";
-      ctx.fillText(brl(total), cx, centroY + raio + 30);
-      ctx.fillStyle="#8b9bb8"; ctx.font="600 12px system-ui";
-      ctx.fillText("total aportado", cx, centroY + raio + 48);
-
-      // legenda
-      ctx.textAlign="left"; ctx.font="12px system-ui";
-      const ly = h-8;
-      const lx = Math.max(16, w/2 - 160);
-      ctx.fillStyle="#6c8cff"; ctx.fillRect(lx, ly-10, 10, 10);
-      ctx.fillStyle="#8b9bb8"; ctx.fillText("Matheus "+brl(totM), lx+16, ly-1);
-      ctx.fillStyle="#e879a6"; ctx.fillRect(lx+180, ly-10, 10, 10);
-      ctx.fillStyle="#8b9bb8"; ctx.fillText("Kathleen "+brl(totK), lx+196, ly-1);
-
-      $("#dashCompHint").textContent = "Distribuição total dos aportes.";
-    }else{
-      // LINHA COMPARATIVA
-      const maxV = Math.max(...dM, ...dK, state.aporteAlvo/2, 1);
-      const padL=52, padR=16, padT=20, padB=44;
-      const gw = w - padL - padR;
-      const gh = h - padT - padB;
-      const x = i => padL + (meses.length>1 ? (i/(meses.length-1))*gw : gw/2);
-      const y = v => padT + gh - (v/maxV)*gh;
-
-      // grid
-      ctx.strokeStyle="#1e2b47"; ctx.lineWidth=1;
-      ctx.font="11px system-ui"; ctx.fillStyle="#8b9bb8"; ctx.textAlign="right";
-      for(let i=0;i<=4;i++){
-        const v = (maxV/4)*i;
-        const yy = y(v);
-        ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke();
-        ctx.fillText(brl(v), padL-8, yy+4);
-      }
-
-      // área Matheus
-      const gradM = ctx.createLinearGradient(0,padT,0,h-padB);
-      gradM.addColorStop(0,"rgba(108,140,255,.25)");
-      gradM.addColorStop(1,"rgba(108,140,255,0)");
-      ctx.beginPath();
-      ctx.moveTo(x(0), y(dM[0]));
-      dM.forEach((v,i)=>ctx.lineTo(x(i), y(v)));
-      ctx.lineTo(x(dM.length-1), h-padB);
-      ctx.lineTo(x(0), h-padB);
-      ctx.closePath();
-      ctx.fillStyle = gradM; ctx.fill();
-
-      // área Kathleen
-      const gradK = ctx.createLinearGradient(0,padT,0,h-padB);
-      gradK.addColorStop(0,"rgba(232,121,166,.25)");
-      gradK.addColorStop(1,"rgba(232,121,166,0)");
-      ctx.beginPath();
-      ctx.moveTo(x(0), y(dK[0]));
-      dK.forEach((v,i)=>ctx.lineTo(x(i), y(v)));
-      ctx.lineTo(x(dK.length-1), h-padB);
-      ctx.lineTo(x(0), h-padB);
-      ctx.closePath();
-      ctx.fillStyle = gradK; ctx.fill();
-
-      // linha Matheus
-      ctx.beginPath(); ctx.lineWidth=2.5; ctx.strokeStyle="#6c8cff";
-      dM.forEach((v,i)=> i ? ctx.lineTo(x(i),y(v)) : ctx.moveTo(x(i),y(v)));
-      ctx.stroke();
-      dM.forEach((v,i)=>{ ctx.beginPath(); ctx.arc(x(i),y(v),3.5,0,Math.PI*2); ctx.fillStyle="#6c8cff"; ctx.fill(); });
-
-      // linha Kathleen
-      ctx.beginPath(); ctx.lineWidth=2.5; ctx.strokeStyle="#e879a6";
-      dK.forEach((v,i)=> i ? ctx.lineTo(x(i),y(v)) : ctx.moveTo(x(i),y(v)));
-      ctx.stroke();
-      dK.forEach((v,i)=>{ ctx.beginPath(); ctx.arc(x(i),y(v),3.5,0,Math.PI*2); ctx.fillStyle="#e879a6"; ctx.fill(); });
-
-      // labels X
-      ctx.fillStyle="#8b9bb8"; ctx.textAlign="center"; ctx.font="11px system-ui";
-      const step = Math.max(1, Math.ceil(meses.length/6));
-      meses.forEach((m,i)=>{
-        if(i%step!==0 && i!==meses.length-1) return;
-        ctx.fillText(mesLabel(m), x(i), h-22);
-      });
-
-      // legenda
-      ctx.textAlign="left"; ctx.font="12px system-ui";
-      const ly = h-4;
-      ctx.fillStyle="#6c8cff"; ctx.fillRect(padL, ly-10, 10, 10);
-      ctx.fillStyle="#8b9bb8"; ctx.fillText("Matheus", padL+14, ly-1);
-      ctx.fillStyle="#e879a6"; ctx.fillRect(padL+90, ly-10, 10, 10);
-      ctx.fillStyle="#8b9bb8"; ctx.fillText("Kathleen", padL+104, ly-1);
-
-      $("#dashCompHint").textContent = "Aportes mensais comparados.";
-    }
+    $("#dashCompHint").textContent = "Distribuição total dos aportes.";
   }
-
-  $("#compToggle").addEventListener("click",e=>{
-    const b = e.target.closest("button"); if(!b) return;
-    $$("#compToggle button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
-    compMode = b.dataset.mode;
-    requestAnimationFrame(renderComparativo);
-  });
-  $("#indToggle").addEventListener("click",e=>{
-    const b = e.target.closest("button"); if(!b) return;
-    $$("#indToggle button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
-    indMode = b.dataset.mode;
-    requestAnimationFrame(renderChart);
-  });
 
   $("#btnConfig").addEventListener("click", ()=>{
     $("#cfgMetaCasal").value = state.metaCasal; $("#cfgInicio").value = state.inicio; $("#cfgMeses").value = state.meses;
@@ -1517,7 +1398,7 @@
     $("#modalConfig").classList.remove("open"); renderCasal(); renderPessoal(); toast("Dados zerados.");
   });
 
-  /* ===== LIVRO CAIXA (PDF) — visual novo ===== */
+  /* ===== LIVRO CAIXA ===== */
   $("#btnPdf").addEventListener("click", ()=>{
     $("#pdf-print").innerHTML = gerarPdfHtml();
     setTimeout(()=>window.print(), 50);
@@ -1532,7 +1413,6 @@
     const p = meta>0 ? Math.min(100, (total/meta)*100) : 0;
     const hoje = new Date().toLocaleString("pt-BR");
 
-    // agrupa por mês
     const porMes = new Map();
     arr.forEach(a=>{
       const ym = (a.data||"").slice(0,7);
