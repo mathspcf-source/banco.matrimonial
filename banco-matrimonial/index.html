@@ -7,14 +7,13 @@
 <title>Banco Matrimonial</title>
 <style>
   :root{
-    --bg:#080b14; --bg2:#0c1220; --surface:#111a2e; --surface2:#17233d;
+    --bg:#080b14; --surface:#111a2e; --surface2:#17233d;
     --txt:#eef3ff; --muted:#8b9bb8; --line:#1e2b47;
     --accent:#6c8cff; --accent2:#3ddc97; --danger:#ff6b7a; --gold:#f5c45e;
     --matheus:#6c8cff; --kathleen:#e879a6;
     --r:22px; --r-sm:14px;
     --shadow:0 30px 60px -20px rgba(0,0,0,.7), 0 12px 24px -12px rgba(0,0,0,.5);
     --shadow-sm:0 8px 24px -10px rgba(0,0,0,.6);
-    --glass:rgba(17,26,46,.72);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;height:100%}
@@ -35,57 +34,62 @@
   /* LOGIN */
   .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
   .login-card{
-    width:100%;max-width:430px;background:linear-gradient(165deg,rgba(23,35,61,.92),rgba(12,18,32,.95));
-    border:1px solid var(--line);border-radius:28px;padding:34px 26px;
+    width:100%;max-width:420px;
+    background:linear-gradient(165deg,rgba(23,35,61,.92),rgba(12,18,32,.95));
+    border:1px solid var(--line);border-radius:28px;padding:36px 28px;
     box-shadow:var(--shadow);position:relative;overflow:hidden;
     animation:floaty 7s ease-in-out infinite;
   }
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   @media(prefers-reduced-motion:reduce){.login-card{animation:none}}
   .login-card::before{
     content:"";position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;
-    background:radial-gradient(circle,rgba(108,140,255,.25),transparent 70%);pointer-events:none;
+    background:radial-gradient(circle,rgba(108,140,255,.22),transparent 70%);pointer-events:none;
   }
-  .login-card.k::before{background:radial-gradient(circle,rgba(232,121,166,.25),transparent 70%)}
+  .login-card.k::before{background:radial-gradient(circle,rgba(232,121,166,.22),transparent 70%)}
   .badge{
-    width:76px;height:76px;border-radius:24px;margin:0 auto 20px;display:grid;place-items:center;
-    background:linear-gradient(135deg,var(--accent),#8b5cf6);box-shadow:0 18px 44px -14px rgba(108,140,255,.7);
+    width:72px;height:72px;border-radius:22px;margin:0 auto 20px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),#8b5cf6);
+    box-shadow:0 18px 44px -14px rgba(108,140,255,.7);
   }
   .badge.k{background:linear-gradient(135deg,var(--kathleen),#c2569a);box-shadow:0 18px 44px -14px rgba(232,121,166,.6)}
-  .badge svg{width:36px;height:36px;stroke:#fff;fill:none;stroke-width:1.8}
-  .login-title{text-align:center;font-size:1.45rem;font-weight:800;margin:0 0 4px;letter-spacing:-.4px}
-  .login-sub{text-align:center;color:var(--muted);font-size:.85rem;margin:0 0 24px}
+  .badge svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.8}
+  .login-title{text-align:center;font-size:1.4rem;font-weight:800;margin:0 0 4px;letter-spacing:-.4px}
+  .login-sub{text-align:center;color:var(--muted);font-size:.84rem;margin:0 0 26px}
   .field{position:relative;margin-bottom:14px}
   .field input{
-    width:100%;padding:15px 14px 15px 46px;background:#0a1220;border:1px solid var(--line);
+    width:100%;padding:16px 14px 16px 48px;background:#0a1220;border:1px solid var(--line);
     border-radius:var(--r-sm);color:var(--txt);font-size:16px;outline:none;transition:.2s;
+    letter-spacing:.5px;
   }
   .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.18)}
-  .field .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);pointer-events:none}
+  .field input::placeholder{color:var(--muted);letter-spacing:normal}
+  .field .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);pointer-events:none}
   .field .icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
   .btn-block{
-    width:100%;padding:15px;border-radius:var(--r-sm);font-weight:700;font-size:1rem;
+    width:100%;padding:16px;border-radius:var(--r-sm);font-weight:700;font-size:1rem;
     background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;
-    box-shadow:0 14px 30px -12px rgba(108,140,255,.8);transition:.12s;
+    box-shadow:0 14px 30px -12px rgba(108,140,255,.8);transition:.12s;margin-top:6px;
   }
   .btn-block.k{background:linear-gradient(135deg,var(--kathleen),#c2569a);box-shadow:0 14px 30px -12px rgba(232,121,166,.8)}
   .btn-block:hover{filter:brightness(1.08)}.btn-block:active{transform:scale(.98)}
-  .login-error{color:var(--danger);font-size:.85rem;text-align:center;min-height:20px;margin-top:6px;font-weight:600}
-  .login-back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;margin-bottom:18px;font-weight:600}
+  .btn-block:disabled{opacity:.6;cursor:wait}
+  .login-error{color:var(--danger);font-size:.82rem;text-align:center;min-height:20px;margin-top:10px;font-weight:600}
+  .login-back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:.84rem;margin-bottom:20px;font-weight:600;transition:.15s}
+  .login-back:hover{color:var(--txt)}
   .login-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-  .checkbox{display:flex;align-items:center;gap:10px;margin:8px 0 14px;color:var(--muted);font-size:.85rem;cursor:pointer}
-  .checkbox input{width:18px;height:18px;accent-color:var(--accent)}
 
   /* PICKER */
   .profiles{display:grid;gap:16px;grid-template-columns:1fr}
-  @media(min-width:520px){.profiles{grid-template-columns:1fr 1fr}}
+  @media(min-width:480px){.profiles{grid-template-columns:1fr 1fr}}
   .profile{
     background:linear-gradient(165deg,rgba(23,35,61,.9),rgba(12,18,32,.95));
-    border:1px solid var(--line);border-radius:24px;padding:26px 20px;
-    display:flex;flex-direction:column;align-items:center;gap:12px;
+    border:1px solid var(--line);border-radius:24px;padding:28px 20px;
+    display:flex;flex-direction:column;align-items:center;gap:14px;
     box-shadow:var(--shadow-sm);transition:.18s;text-align:center;
   }
   .profile:hover{transform:translateY(-4px);border-color:#35538a}
+  .profile:active{transform:translateY(-2px)}
   .avatar-lg{
     width:72px;height:72px;border-radius:22px;display:grid;place-items:center;
     font-size:1.5rem;font-weight:800;color:#fff;overflow:hidden;position:relative;
@@ -93,19 +97,20 @@
   .avatar-lg.m{background:linear-gradient(135deg,var(--matheus),#3b6fd4)}
   .avatar-lg.k{background:linear-gradient(135deg,var(--kathleen),#b34691)}
   .avatar-lg img{width:100%;height:100%;object-fit:cover}
-  .profile h3{margin:0;font-size:1.05rem}
-  .profile p{margin:0;color:var(--muted);font-size:.8rem}
+  .profile h3{margin:0;font-size:1.05rem;font-weight:700}
+  .profile p{margin:0;color:var(--muted);font-size:.78rem}
 
   /* APP */
   .app-header{
     position:sticky;top:0;z-index:30;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    background:rgba(8,11,20,.7);border-bottom:1px solid var(--line);padding:12px 16px;
+    background:rgba(8,11,20,.72);border-bottom:1px solid var(--line);padding:12px 16px;
   }
   .app-header-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .user-chip{display:flex;align-items:center;gap:12px;min-width:0;cursor:pointer}
+  .user-chip{display:flex;align-items:center;gap:12px;min-width:0;cursor:pointer;padding:4px;border-radius:14px;transition:.15s}
+  .user-chip:hover{background:rgba(255,255,255,.03)}
   .user-chip .avatar-sm{
     width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-    font-size:1rem;font-weight:800;color:#fff;overflow:hidden;flex:0 0 auto;position:relative;
+    font-size:1rem;font-weight:800;color:#fff;overflow:hidden;flex:0 0 auto;
   }
   .user-chip .avatar-sm.m{background:linear-gradient(135deg,var(--matheus),#3b6fd4)}
   .user-chip .avatar-sm.k{background:linear-gradient(135deg,var(--kathleen),#b34691)}
@@ -156,11 +161,11 @@
   form.lancamento{display:grid;gap:12px;grid-template-columns:1fr 1fr}
   form.lancamento .full{grid-column:1/-1}
   label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;font-weight:600}
-  select,input[type=text],input[type=number],input[type=date],input[type=password],textarea{
+  select,input[type=text],input[type=number],input[type=date],input[type=password]{
     width:100%;padding:12px;background:#070d18;color:var(--txt);border:1px solid var(--line);
     border-radius:12px;font-size:16px;outline:none;transition:.2s;
   }
-  select:focus,input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
+  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
   .btn-primary{padding:13px 18px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;transition:.12s;width:100%}
   .btn-primary:hover{filter:brightness(1.08)}.btn-primary:active{transform:scale(.98)}
   .btn-primary.k{background:linear-gradient(135deg,var(--kathleen),#c2569a)}
@@ -241,15 +246,14 @@
     width:100%;max-width:540px;background:linear-gradient(165deg,rgba(23,35,61,.98),rgba(12,18,32,.98));
     border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow);max-height:90vh;overflow:auto;
   }
-  .modal h3{margin:0 0 14px;font-size:1rem;display:flex;align-items:center;gap:8px}
+  .modal h3{margin:0 0 16px;font-size:1rem;display:flex;align-items:center;gap:8px}
   .modal h3 svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8}
-  .modal textarea{min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.76rem;resize:vertical}
-  .modal .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .modal .actions button{flex:1;min-width:110px;padding:11px;border-radius:12px;font-weight:700}
-  .btn-secondary{background:var(--surface2);border:1px solid var(--line);color:var(--txt)}
+  .modal .actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .modal .actions button{flex:1;min-width:110px;padding:12px;border-radius:12px;font-weight:700}
+  .btn-secondary{background:var(--surface2);border:1px solid var(--line);color:var(--txt);transition:.15s}
+  .btn-secondary:hover{background:#22314f}
   .foot{color:var(--muted);font-size:.7rem;text-align:center;margin:24px 0 6px}
 
-  /* Avatar upload */
   .avatar-upload{display:flex;align-items:center;gap:16px;margin-bottom:18px}
   .avatar-preview{
     width:80px;height:80px;border-radius:24px;display:grid;place-items:center;
@@ -257,9 +261,8 @@
     background:linear-gradient(135deg,#2a3a5c,#1a2742);border:1px solid var(--line);
   }
   .avatar-preview img{width:100%;height:100%;object-fit:cover}
-  .avatar-upload .hint{font-size:.75rem;color:var(--muted);margin-top:4px}
+  .avatar-upload .hint{font-size:.72rem;color:var(--muted);margin-top:6px}
 
-  /* PDF */
   #pdf-print{display:none}
   @media print{
     body > *:not(#pdf-print){display:none !important}
@@ -272,6 +275,18 @@
     #pdf-print .tot{font-weight:bold}
     @page{size:A4;margin:14mm}
   }
+
+  /* LOADING overlay */
+  .loading-overlay{
+    position:fixed;inset:0;background:rgba(8,11,20,.85);backdrop-filter:blur(4px);
+    display:none;place-items:center;z-index:100;
+  }
+  .loading-overlay.show{display:grid}
+  .spinner{
+    width:44px;height:44px;border:3px solid var(--line);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -280,7 +295,7 @@
 <section class="screen active" id="screen-picker">
   <div class="login-wrap">
     <div style="width:100%;max-width:520px">
-      <div style="text-align:center;margin-bottom:26px">
+      <div style="text-align:center;margin-bottom:28px">
         <div class="badge"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg></div>
         <h1 class="login-title">Banco Matrimonial</h1>
         <p class="login-sub">Escolha seu perfil</p>
@@ -288,14 +303,14 @@
       <div class="profiles">
         <button class="profile" data-user="matheus">
           <div class="avatar-lg m" id="pickAvatarM">M</div>
-          <div><h3>Matheus</h3><p>Acessar painel</p></div>
+          <div><h3>Matheus</h3><p>Entrar no painel</p></div>
         </button>
         <button class="profile" data-user="kathleen">
           <div class="avatar-lg k" id="pickAvatarK">K</div>
-          <div><h3>Kathleen</h3><p>Acessar painel</p></div>
+          <div><h3>Kathleen</h3><p>Entrar no painel</p></div>
         </button>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:.72rem;margin-top:22px">Meta: R$ 20.000 em 12 meses</p>
+      <p style="text-align:center;color:var(--muted);font-size:.72rem;margin-top:24px">Meta do casal: R$ 20.000 em 12 meses</p>
     </div>
   </div>
 </section>
@@ -305,12 +320,14 @@
   <div class="login-wrap"><div class="login-card">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
     <div class="badge"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <h1 class="login-title">Matheus</h1><p class="login-sub">Entre com seu email e senha</p>
+    <h1 class="login-title">Matheus</h1>
+    <p class="login-sub">Digite a data de namoro para entrar</p>
     <form data-login="matheus">
-      <div class="field"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><input type="email" data-email placeholder="Email" autocomplete="email" required /></div>
-      <div class="field"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><input type="password" data-pass placeholder="Senha" autocomplete="current-password" required /></div>
-      <label class="checkbox"><input type="checkbox" data-remember /> Manter conectado</label>
-      <button type="submit" class="btn-block">Entrar</button>
+      <div class="field">
+        <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <input type="password" data-pass placeholder="Data (DDMMAA)" inputmode="numeric" maxlength="6" autocomplete="off" required />
+      </div>
+      <button type="submit" class="btn-block" data-submit>Entrar</button>
       <div class="login-error" data-error></div>
     </form>
   </div></div>
@@ -321,12 +338,14 @@
   <div class="login-wrap"><div class="login-card k">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
     <div class="badge k"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <h1 class="login-title">Kathleen</h1><p class="login-sub">Entre com seu email e senha</p>
+    <h1 class="login-title">Kathleen</h1>
+    <p class="login-sub">Digite a data de namoro para entrar</p>
     <form data-login="kathleen">
-      <div class="field"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><input type="email" data-email placeholder="Email" autocomplete="email" required /></div>
-      <div class="field"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><input type="password" data-pass placeholder="Senha" autocomplete="current-password" required /></div>
-      <label class="checkbox"><input type="checkbox" data-remember /> Manter conectado</label>
-      <button type="submit" class="btn-block k">Entrar</button>
+      <div class="field">
+        <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <input type="password" data-pass placeholder="Data (DDMMAA)" inputmode="numeric" maxlength="6" autocomplete="off" required />
+      </div>
+      <button type="submit" class="btn-block k" data-submit>Entrar</button>
       <div class="login-error" data-error></div>
     </form>
   </div></div>
@@ -402,11 +421,11 @@
         </section>
       </div>
     </div>
-    <div class="foot" id="footSync">Dados locais (Supabase não configurado)</div>
+    <div class="foot" id="footSync">Dados locais</div>
   </main>
 </section>
 
-<!-- MODAL PERFIL / AVATAR -->
+<!-- MODAL PERFIL -->
 <div class="modal" id="modalPerfil"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu perfil</h3>
   <div class="avatar-upload">
@@ -456,16 +475,8 @@
   <div class="actions" style="margin-top:16px"><button class="btn-primary" id="btnSaveEdit">Salvar</button><button class="btn-secondary" id="btnCloseEdit">Cancelar</button></div>
 </div></div>
 
-<!-- MODAL BACKUP -->
-<div class="modal" id="modalBackup"><div class="box">
-  <h3><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Backup local</h3>
-  <p style="color:var(--muted);font-size:.8rem;margin:0 0 10px">Backup do localStorage (não inclui dados do Supabase).</p>
-  <textarea id="backupText" readonly></textarea>
-  <div class="actions"><button class="btn-primary" id="btnCopyBackup">Copiar</button><button class="btn-secondary" id="btnCloseBackup">Fechar</button></div>
-  <div style="margin-top:14px"><p style="color:var(--muted);font-size:.8rem;margin:0 0 8px">Restaurar:</p><textarea id="restoreText" placeholder="Cole o JSON..."></textarea><div class="actions"><button class="btn-primary" id="btnRestore">Restaurar</button></div></div>
-</div></div>
-
 <div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
 <div id="pdf-print"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -473,28 +484,19 @@
 (function(){
   "use strict";
 
-  /* ============================================================
-     CONFIGURAÇÃO SUPABASE
-     Preencha abaixo quando as tabelas/bucket estiverem prontos.
-     Enquanto SUPABASE_ENABLED = false, tudo roda em localStorage.
-  ============================================================ */
+  /* ===== CONFIG SUPABASE ===== */
   const SUPABASE_URL = "https://bggnyxibxvghsswmhgkp.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnZ255eGlieHZnaHNzd21oZ2twIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxODk3NzcsImV4cCI6MjEwOTc2NTc3N30.VRI5MlZ_pfyHCYby5_vyAmxy6Np66AoTKqQqyEPwzi4";
-  const SUPABASE_ENABLED = false; // <<< MUDE PARA true quando terminar a configuração
+  const EMAIL_DOMAIN = "banco.local";
+  const DATA_NAMORO = "231025";
 
-  let sb = null;
-  if (SUPABASE_ENABLED && window.supabase) {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
+  const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-  /* ============================================================
-     ESTADO / CHAVES
-  ============================================================ */
-  const KEY = "banco_matrimonial_v4";
-  const REMEMBER_KEY = "banco_matrimonial_sessao_v4";
+  /* ===== CONSTANTES ===== */
+  const REMEMBER_KEY = "banco_matrimonial_sessao_v5";
   const USERS = {
-    matheus:{nome:"Matheus",inicial:"M",classe:"m",email:""},
-    kathleen:{nome:"Kathleen",inicial:"K",classe:"k",email:""}
+    matheus:{nome:"Matheus",inicial:"M",classe:"m"},
+    kathleen:{nome:"Kathleen",inicial:"K",classe:"k"}
   };
 
   const DEFAULT = {
@@ -510,44 +512,28 @@
     perfis:{matheus:{nome:"Matheus",avatar:null},kathleen:{nome:"Kathleen",avatar:null}}
   };
 
-  let state = load();
+  let state = JSON.parse(JSON.stringify(DEFAULT));
   let currentUser = null;
   let filtroMes = "todos", filtroTipo = "todos";
   let editingId = null;
   let compMode = "donut", indMode = "line";
-  let perfilEditando = null;
 
-  function load(){
-    try{
-      const raw = localStorage.getItem(KEY);
-      if(!raw) return JSON.parse(JSON.stringify(DEFAULT));
-      const p = JSON.parse(raw);
-      return {
-        ...JSON.parse(JSON.stringify(DEFAULT)),
-        ...p,
-        aportes:Array.isArray(p.aportes)?p.aportes:[],
-        selos:p.selos||{matheus:{},kathleen:{},casal:{}},
-        perfis:p.perfis||{matheus:{nome:"Matheus",avatar:null},kathleen:{nome:"Kathleen",avatar:null}}
-      };
-    }catch(e){ return JSON.parse(JSON.stringify(DEFAULT)); }
-  }
-  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){ toast("Falha ao salvar localmente."); } }
-
-  const $=(s,el=document)=>el.querySelector(s);
-  const $$=(s,el=document)=>Array.from(el.querySelectorAll(s));
-  const brl=n=>(Number(n)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-  const pct=n=>(Number(n)||0).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
-  const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-  const hojeISO=()=>new Date().toISOString().slice(0,10);
-  const mesAtual=()=>hojeISO().slice(0,7);
-  const fmtData=iso=>{if(!iso)return"";const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`;};
-  const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const mesLabel=ym=>{const [y,m]=ym.split("-");const n=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];return n[+m-1]+"/"+y.slice(2);};
-  const addMonth=(ym,d)=>{let [y,m]=ym.split("-").map(Number);m+=d;while(m<1){m+=12;y--}while(m>12){m-=12;y++}return y+"-"+String(m).padStart(2,"0");};
-  const monthsBetween=(a,b)=>{let [ya,ma]=a.split("-").map(Number),[yb,mb]=b.split("-").map(Number);return (yb-ya)*12+(mb-ma);};
+  const $ = (s,el=document)=>el.querySelector(s);
+  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+  const brl = n=>(Number(n)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const pct = n=>(Number(n)||0).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
+  const uid = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  const hojeISO = ()=>new Date().toISOString().slice(0,10);
+  const mesAtual = ()=>hojeISO().slice(0,7);
+  const fmtData = iso=>{if(!iso)return"";const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`;};
+  const esc = s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const mesLabel = ym=>{const [y,m]=ym.split("-");const n=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];return n[+m-1]+"/"+y.slice(2);};
+  const addMonth = (ym,d)=>{let [y,m]=ym.split("-").map(Number);m+=d;while(m<1){m+=12;y--}while(m>12){m-=12;y++}return y+"-"+String(m).padStart(2,"0");};
+  const monthsBetween = (a,b)=>{let [ya,ma]=a.split("-").map(Number),[yb,mb]=b.split("-").map(Number);return (yb-ya)*12+(mb-ma);};
 
   let toastTimer;
   function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
+  function loading(on){$("#loading").classList.toggle("show",!!on);}
 
   const TIPO_LABEL={aporte:"Aporte",bonus:"Bônus",rendimento:"Rendimento",saque:"Saque"};
   const TIPO_SIGN={aporte:1,bonus:1,rendimento:1,saque:-1};
@@ -577,6 +563,7 @@
     {valor:20000,nome:"Lenda do Casal",svg:'<svg viewBox="0 0 24 24"><path d="M6 3h12v4a6 6 0 0 1-12 0z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><line x1="12" y1="13" x2="12" y2="18"/><path d="M8 21h8l-1-3H9z"/></svg>'}
   ];
 
+  /* ===== HELPERS DE DADOS ===== */
   function garantirSelos(){ if(!state.selos)state.selos={matheus:{},kathleen:{},casal:{}};["matheus","kathleen","casal"].forEach(k=>{if(!state.selos[k])state.selos[k]={};}); }
   function verificarSelos(chave,saldo){ garantirSelos(); const novos=[]; const hoje=hojeISO(); SELOS.forEach(s=>{ if(saldo>=s.valor && !state.selos[chave][s.valor]){ state.selos[chave][s.valor]=hoje; novos.push(s);} }); return novos; }
   function renderSelos(id,chave,saldo){ const c=document.getElementById(id); if(!c)return; garantirSelos(); c.innerHTML=SELOS.map(s=>{ const un=!!state.selos[chave][s.valor]; const d=un?new Date(state.selos[chave][s.valor]+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):""; return `<div class="selo ${un?'unlocked':''}"><div class="lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div class="ic">${s.svg}</div><div class="nome">${s.nome}</div><div class="val">${brl(s.valor)}</div>${d?`<div class="data">${d}</div>`:""}</div>`; }).join(""); }
@@ -588,107 +575,15 @@
 
   function showScreen(id){ $$(".screen").forEach(s=>s.classList.remove("active")); const el=document.getElementById(id); if(el)el.classList.add("active"); window.scrollTo(0,0); }
 
-  /* ============================================================
-     AVATARES
-  ============================================================ */
-  function renderAvatares(){
-    const p = state.perfis;
-    ["matheus","kathleen"].forEach(u=>{
-      const el = document.getElementById(u==="matheus"?"pickAvatarM":"pickAvatarK");
-      if(!el) return;
-      if(p[u]?.avatar){
-        el.innerHTML = `<img src="${p[u].avatar}" alt="" />`;
-      }else{
-        el.textContent = USERS[u].inicial;
-      }
-    });
-    const chipAv = $("#dashAvatar");
-    if(chipAv && currentUser){
-      const pUser = state.perfis[currentUser];
-      if(pUser?.avatar){
-        chipAv.innerHTML = `<img src="${pUser.avatar}" alt="" />`;
-      }else{
-        chipAv.textContent = USERS[currentUser].inicial;
-      }
-    }
-  }
-
-  async function uploadAvatar(user, file){
-    if(!file) return null;
-    if(file.size > 2*1024*1024){ toast("Imagem maior que 2 MB."); return null; }
-    // Se Supabase ativo, envia para o bucket
-    if(sb){
-      const ext = file.name.split(".").pop().toLowerCase();
-      const path = `${user}/${Date.now()}.${ext}`;
-      const { error } = await sb.storage.from("avatars").upload(path, file, { upsert: true, contentType: file.type });
-      if(error){ toast("Erro ao enviar: "+error.message); return null; }
-      const { data } = sb.storage.from("avatars").getPublicUrl(path);
-      return data.publicUrl;
-    }
-    // Fallback local: base64
-    return new Promise(res=>{
-      const reader = new FileReader();
-      reader.onload = ()=>res(reader.result);
-      reader.onerror = ()=>res(null);
-      reader.readAsDataURL(file);
-    });
-  }
-
-  /* ============================================================
-     NAVEGAÇÃO / LOGIN
-  ============================================================ */
-  $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{ const u=b.dataset.user; showScreen("screen-login-"+u); setTimeout(()=>{const i=$("#screen-login-"+u+" input[type=email]");if(i)i.focus();},120); }));
-  $$("[data-back]").forEach(b=>b.addEventListener("click",()=>showScreen("screen-picker")));
-
-  $$("form[data-login]").forEach(form=>{
-    form.addEventListener("submit", async e=>{
-      e.preventDefault();
-      const user = form.dataset.login;
-      const email = form.querySelector("[data-email]").value.trim();
-      const pass = form.querySelector("[data-pass]").value;
-      const errEl = form.querySelector("[data-error]");
-      const remember = form.querySelector("[data-remember]").checked;
-      errEl.textContent = "";
-
-      if(sb){
-        // Supabase Auth real
-        const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-        if(error){ errEl.textContent = "Email ou senha incorretos."; return; }
-        // Mapeia usuário: você pode usar user_metadata ou email
-        currentUser = (data.user?.user_metadata?.pessoa) || (email.toLowerCase().includes("matheus") ? "matheus" : "kathleen");
-        if(remember) localStorage.setItem(REMEMBER_KEY, currentUser);
-        await carregarDoSupabase();
-        enterDashboard();
-      }else{
-        // Fallback local: senha fixa (para testar sem Supabase)
-        // Como você vai integrar, mantemos 231025 como senha local
-        if(pass === "231025"){
-          currentUser = user;
-          if(remember) localStorage.setItem(REMEMBER_KEY, currentUser);
-          enterDashboard();
-        }else{
-          errEl.textContent = "Senha incorreta (modo local: 231025).";
-        }
-      }
-    });
-  });
-
-  $("#btnLogout").addEventListener("click", async ()=>{
-    if(!confirm("Sair?")) return;
-    if(sb) await sb.auth.signOut();
-    localStorage.removeItem(REMEMBER_KEY);
-    currentUser = null;
-    showScreen("screen-picker");
-  });
-
-  /* ============================================================
-     SUPABASE: CARREGAR / SALVAR
-  ============================================================ */
-  async function carregarDoSupabase(){
-    if(!sb || !currentUser) return;
+  /* ===== SUPABASE: CARREGAR ===== */
+  async function carregarTudoDoSupabase(){
+    if(!sb) return;
     try{
-      // Config
-      const { data: cfg } = await sb.from("config").select("*").eq("id",1).maybeSingle();
+      const [{data:cfg},{data:aps},{data:profs}] = await Promise.all([
+        sb.from("config").select("*").eq("id",1).maybeSingle(),
+        sb.from("aportes").select("*").order("data",{ascending:true}),
+        sb.from("profiles").select("*")
+      ]);
       if(cfg){
         state.metaCasal = Number(cfg.meta_casal)||state.metaCasal;
         state.inicio = cfg.inicio||state.inicio;
@@ -698,54 +593,45 @@
         state.aporteAlvo = Number(cfg.aporte_alvo)||state.aporteAlvo;
         state.taxaMensal = Number(cfg.taxa_mensal)||state.taxaMensal;
       }
-      // Aportes (todos, para comparativo)
-      const { data: aps } = await sb.from("aportes").select("*").order("data",{ascending:true});
       if(aps){
-        state.aportes = aps.map(a=>({
-          id:a.id, user:a.pessoa, tipo:a.tipo,
-          valor:Number(a.valor), data:a.data, obs:a.obs||""
-        }));
+        state.aportes = aps.map(a=>({id:a.id,user:a.pessoa,tipo:a.tipo,valor:Number(a.valor),data:a.data,obs:a.obs||""}));
       }
-      // Perfis
-      const { data: profs } = await sb.from("profiles").select("*");
       if(profs){
         profs.forEach(p=>{
-          const u = p.nome?.toLowerCase().includes("kathleen") ? "kathleen" : "matheus";
-          state.perfis[u] = { nome: p.nome||USERS[u].nome, avatar: p.avatar_url||null };
+          const u = p.pessoa || (p.nome?.toLowerCase().includes("kathleen")?"kathleen":"matheus");
+          state.perfis[u] = {nome:p.nome||USERS[u].nome, avatar:p.avatar_url||null};
         });
       }
-      save();
-      $("#footSync").textContent = "Sincronizado com Supabase";
+      // Selos (recalcula a partir dos saldos)
+      verificarSelos("matheus", saldoUsuario("matheus"));
+      verificarSelos("kathleen", saldoUsuario("kathleen"));
+      verificarSelos("casal", saldoCasal());
+      $("#footSync").textContent = "Sincronizado com Supabase ✓";
     }catch(e){
-      console.warn("Erro ao carregar do Supabase:", e);
-      $("#footSync").textContent = "Erro ao sincronizar — usando dados locais";
+      console.warn("Erro carregando do Supabase:", e);
+      $("#footSync").textContent = "Erro ao sincronizar";
     }
   }
 
   async function salvarConfigSupabase(){
     if(!sb) return;
     await sb.from("config").upsert({
-      id:1,
-      meta_casal:state.metaCasal,
-      inicio:state.inicio,
-      meses:state.meses,
-      meta_matheus:state.metaMatheus,
-      meta_kathleen:state.metaKathleen,
-      aporte_alvo:state.aporteAlvo,
-      taxa_mensal:state.taxaMensal,
+      id:1, meta_casal:state.metaCasal, inicio:state.inicio, meses:state.meses,
+      meta_matheus:state.metaMatheus, meta_kathleen:state.metaKathleen,
+      aporte_alvo:state.aporteAlvo, taxa_mensal:state.taxaMensal,
       updated_at:new Date().toISOString()
     });
   }
 
   async function salvarAporteSupabase(a){
     if(!sb) return;
-    // Precisa do id do usuário autenticado
-    const { data: { user } } = await sb.auth.getUser();
+    const {data:{user}} = await sb.auth.getUser();
     if(!user) return;
-    await sb.from("aportes").upsert({
+    const {error} = await sb.from("aportes").upsert({
       id:a.id, user_id:user.id, pessoa:a.user, tipo:a.tipo,
       valor:a.valor, data:a.data, obs:a.obs||null
     });
+    if(error) console.warn("Erro ao salvar aporte:", error);
   }
 
   async function deletarAporteSupabase(id){
@@ -753,9 +639,78 @@
     await sb.from("aportes").delete().eq("id",id);
   }
 
-  /* ============================================================
-     DASHBOARD
-  ============================================================ */
+  /* ===== LOGIN ===== */
+  $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{
+    const u = b.dataset.user;
+    showScreen("screen-login-"+u);
+    setTimeout(()=>{const i=$("#screen-login-"+u+" input[type=password]");if(i)i.focus();},120);
+  }));
+  $$("[data-back]").forEach(b=>b.addEventListener("click",()=>showScreen("screen-picker")));
+
+  $$("form[data-login]").forEach(form=>{
+    form.addEventListener("submit", async e=>{
+      e.preventDefault();
+      const user = form.dataset.login;
+      const pass = form.querySelector("[data-pass]").value.trim();
+      const errEl = form.querySelector("[data-error]");
+      const btn = form.querySelector("[data-submit]");
+      errEl.textContent = "";
+
+      if(pass !== DATA_NAMORO){
+        errEl.textContent = "Data incorreta.";
+        form.querySelector("[data-pass]").value = "";
+        return;
+      }
+
+      if(!sb){
+        errEl.textContent = "Supabase não carregado. Verifique a internet.";
+        return;
+      }
+
+      btn.disabled = true; loading(true);
+      try{
+        const email = user + "@" + EMAIL_DOMAIN;
+        const {data, error} = await sb.auth.signInWithPassword({email, password:DATA_NAMORO});
+        if(error){ errEl.textContent = "Conta não encontrada. Contate o admin."; console.warn(error); return; }
+        currentUser = user;
+        localStorage.setItem(REMEMBER_KEY, user);
+        await carregarTudoDoSupabase();
+        enterDashboard();
+      }catch(ex){
+        console.warn(ex);
+        errEl.textContent = "Erro ao entrar. Tente novamente.";
+      }finally{
+        btn.disabled = false; loading(false);
+      }
+    });
+  });
+
+  $("#btnLogout").addEventListener("click", async ()=>{
+    if(!confirm("Sair?")) return;
+    if(sb) await sb.auth.signOut();
+    localStorage.removeItem(REMEMBER_KEY);
+    currentUser = null;
+    state = JSON.parse(JSON.stringify(DEFAULT));
+    showScreen("screen-picker");
+  });
+
+  /* ===== DASHBOARD ===== */
+  function renderAvatares(){
+    const p = state.perfis;
+    ["matheus","kathleen"].forEach(u=>{
+      const el = document.getElementById(u==="matheus"?"pickAvatarM":"pickAvatarK");
+      if(!el) return;
+      if(p[u]?.avatar) el.innerHTML = `<img src="${p[u].avatar}" alt="" />`;
+      else el.textContent = USERS[u].inicial;
+    });
+    const chipAv = $("#dashAvatar");
+    if(chipAv && currentUser){
+      const pUser = state.perfis[currentUser];
+      if(pUser?.avatar) chipAv.innerHTML = `<img src="${pUser.avatar}" alt="" />`;
+      else chipAv.textContent = USERS[currentUser].inicial;
+    }
+  }
+
   function enterDashboard(){
     if(!currentUser) return;
     const info = USERS[currentUser];
@@ -804,7 +759,7 @@
     $("#dashRitmo").textContent = "Prazo: "+mesLabel(fim);
 
     const novos = verificarSelos(currentUser, saldo);
-    if(novos.length){ save(); novos.forEach((s,i)=>setTimeout(()=>toast("Selo: "+s.nome),i*1100)); }
+    if(novos.length){ novos.forEach((s,i)=>setTimeout(()=>toast("Selo: "+s.nome),i*1100)); }
     renderSelos("dashSelos", currentUser, saldo);
     renderLista(); renderListaMes(); renderChart(); renderComparativo();
   }
@@ -838,9 +793,7 @@
     $("#dashMes").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento neste mês.</div>';
   }
 
-  /* ============================================================
-     LANÇAMENTOS
-  ============================================================ */
+  /* ===== LANÇAMENTOS ===== */
   $("#formLanc").addEventListener("submit", async e=>{
     e.preventDefault();
     if(!currentUser) return;
@@ -851,7 +804,6 @@
     if(!valor||valor<=0){ toast("Valor inválido."); return; }
     const a = {id:uid(), user:currentUser, tipo, valor, data, obs};
     state.aportes.push(a);
-    save();
     if(sb) await salvarAporteSupabase(a);
     $("#lValor").value=""; $("#lObs").value="";
     popularFiltroMes(); renderDashboard(); toast("Registrado.");
@@ -871,7 +823,7 @@
     const a = state.aportes.find(x=>x.id===id); if(!a||a.user!==currentUser){ toast("Só pode alterar seus lançamentos."); return; }
     if(btn.dataset.act==="del"){
       if(!confirm("Excluir?")) return;
-      state.aportes = state.aportes.filter(x=>x.id!==id); save();
+      state.aportes = state.aportes.filter(x=>x.id!==id);
       if(sb) await deletarAporteSupabase(id);
       popularFiltroMes(); renderDashboard(); toast("Excluído.");
     }else if(btn.dataset.act==="edit"){
@@ -885,72 +837,72 @@
     const a = state.aportes.find(x=>x.id===editingId); if(!a) return;
     const v = parseFloat($("#edValor").value); if(!v||v<=0){ toast("Valor inválido."); return; }
     a.tipo = $("#edTipo").value; a.valor = v; a.data = $("#edData").value; a.obs = $("#edObs").value.trim();
-    save();
     if(sb) await salvarAporteSupabase(a);
     $("#modalEditar").classList.remove("open"); editingId=null;
     popularFiltroMes(); renderDashboard(); toast("Atualizado.");
   });
   $("#btnCloseEdit").addEventListener("click", ()=>{ $("#modalEditar").classList.remove("open"); editingId=null; });
 
-  /* ============================================================
-     PERFIL / AVATAR
-  ============================================================ */
+  /* ===== PERFIL ===== */
   $("#chipPerfil").addEventListener("click", ()=>{
     if(!currentUser) return;
-    perfilEditando = currentUser;
     const p = state.perfis[currentUser];
     $("#perfilNome").value = p?.nome || USERS[currentUser].nome;
     const prev = $("#avatarPreview");
     if(p?.avatar) prev.innerHTML = `<img src="${p.avatar}" alt="" />`;
     else prev.textContent = USERS[currentUser].inicial;
-    $("#avatarHint").textContent = sb ? "Enviado para o Supabase Storage" : "JPG/PNG até 2 MB (salvo localmente)";
     $("#modalPerfil").classList.add("open");
   });
-
   $("#btnPickAvatar").addEventListener("click", ()=>$("#fileAvatar").click());
-  $("#fileAvatar").addEventListener("change", async e=>{
+  $("#fileAvatar").addEventListener("change", e=>{
     const file = e.target.files[0]; if(!file) return;
     const prev = $("#avatarPreview");
-    // Preview imediato
     const reader = new FileReader();
     reader.onload = ev => { prev.innerHTML = `<img src="${ev.target.result}" alt="" />`; };
     reader.readAsDataURL(file);
   });
 
   $("#btnSavePerfil").addEventListener("click", async ()=>{
-    if(!perfilEditando) return;
-    const nome = $("#perfilNome").value.trim() || USERS[perfilEditando].nome;
+    if(!currentUser) return;
+    const nome = $("#perfilNome").value.trim() || USERS[currentUser].nome;
     const file = $("#fileAvatar").files[0];
-    let avatarUrl = state.perfis[perfilEditando]?.avatar || null;
+    let avatarUrl = state.perfis[currentUser]?.avatar || null;
+
     if(file){
-      avatarUrl = await uploadAvatar(perfilEditando, file);
-      if(avatarUrl === null){ toast("Não foi possível processar a imagem."); return; }
+      if(file.size > 2*1024*1024){ toast("Imagem > 2MB."); return; }
+      loading(true);
+      try{
+        const ext = file.name.split(".").pop().toLowerCase();
+        const {data:{user}} = await sb.auth.getUser();
+        const path = `${user.id}/${Date.now()}.${ext}`;
+        const {error:upErr} = await sb.storage.from("avatars").upload(path, file, {upsert:true, contentType:file.type});
+        if(upErr){ toast("Erro upload: "+upErr.message); loading(false); return; }
+        const {data} = sb.storage.from("avatars").getPublicUrl(path);
+        avatarUrl = data.publicUrl;
+      }catch(ex){ toast("Erro no upload."); loading(false); return; }
+      loading(false);
     }
-    state.perfis[perfilEditando] = { nome, avatar: avatarUrl };
-    save();
-    // Salvar no Supabase
+
+    state.perfis[currentUser] = { nome, avatar: avatarUrl };
+
     if(sb){
-      const { data: { user } } = await sb.auth.getUser();
+      const {data:{user}} = await sb.auth.getUser();
       if(user){
         await sb.from("profiles").upsert({
-          id: user.id,
-          nome: nome,
-          avatar_url: avatarUrl,
-          updated_at: new Date().toISOString()
+          id:user.id, nome, pessoa:currentUser,
+          avatar_url:avatarUrl, updated_at:new Date().toISOString()
         });
       }
     }
     renderAvatares();
-    if(currentUser === perfilEditando) enterDashboard();
+    enterDashboard();
     $("#modalPerfil").classList.remove("open");
     $("#fileAvatar").value = "";
     toast("Perfil atualizado.");
   });
   $("#btnClosePerfil").addEventListener("click", ()=>{ $("#modalPerfil").classList.remove("open"); $("#fileAvatar").value=""; });
 
-  /* ============================================================
-     GRÁFICOS
-  ============================================================ */
+  /* ===== GRÁFICOS ===== */
   function setupCanvas(cv, ratio){
     const dpr = Math.min(window.devicePixelRatio||1, 2);
     const cssW = cv.clientWidth||900; const cssH = Math.round(cssW*(ratio||0.4));
@@ -958,7 +910,6 @@
     const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
     return {ctx,w:cssW,h:cssH};
   }
-  function roundRect(ctx,x,y,w,h,r){ if(h<r)r=h/2; ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r); ctx.lineTo(x+w,y+h); ctx.lineTo(x,y+h); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath(); }
 
   function renderChart(){
     const cv = $("#dashChart"); if(!cv) return;
@@ -1068,9 +1019,7 @@
     indMode = b.dataset.mode; renderChart();
   });
 
-  /* ============================================================
-     COFRE / CONFIG / BACKUP / PDF
-  ============================================================ */
+  /* ===== COFRE / CONFIG / PDF ===== */
   $("#btnCofre").addEventListener("click", ()=>{
     const total = saldoCasal(); const meta = state.metaCasal; const p = meta>0?Math.min(100,(total/meta)*100):0;
     const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
@@ -1091,8 +1040,6 @@
       <h3 style="margin:18px 0 10px;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Selos do casal</h3>
       <div class="selos-grid" id="cofreSelos"></div>
     `;
-    const novos = verificarSelos("casal", total);
-    if(novos.length){ save(); novos.forEach((s,i)=>setTimeout(()=>toast("Selo do casal: "+s.nome),i*1100)); }
     renderSelos("cofreSelos","casal",total);
     $("#modalCofre").classList.add("open");
   });
@@ -1112,30 +1059,17 @@
     if(mc>0) state.metaCasal=mc; if(ini) state.inicio=ini; if(me>0) state.meses=me;
     if(mm>0) state.metaMatheus=mm; if(mk>0) state.metaKathleen=mk;
     if(ap>0) state.aporteAlvo=ap; if(tx>=0) state.taxaMensal=tx;
-    save();
     if(sb) await salvarConfigSupabase();
     $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Salvo.");
   });
-  $("#btnReset").addEventListener("click", ()=>{
-    if(!confirm("Zerar TODOS os dados locais?")) return;
-    state = JSON.parse(JSON.stringify(DEFAULT)); save();
+  $("#btnReset").addEventListener("click", async ()=>{
+    if(!confirm("Zerar TODOS os dados do banco? Isso apaga também do Supabase.")) return;
+    if(sb){
+      await sb.from("aportes").delete().neq("id","");
+    }
+    state.aportes = [];
+    state.selos = {matheus:{},kathleen:{},casal:{}};
     $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Dados zerados.");
-  });
-
-  $("#btnBackup").addEventListener("click", ()=>{
-    $("#backupText").value = JSON.stringify(state,null,2); $("#restoreText").value = "";
-    $("#modalBackup").classList.add("open");
-  });
-  $("#btnCloseBackup").addEventListener("click", ()=>$("#modalBackup").classList.remove("open"));
-  $("#btnCopyBackup").addEventListener("click", async ()=>{ try{ await navigator.clipboard.writeText($("#backupText").value); toast("Copiado."); }catch{ $("#backupText").select(); toast("Copie manualmente.");} });
-  $("#btnRestore").addEventListener("click", ()=>{
-    const txt = $("#restoreText").value.trim(); if(!txt){ toast("Cole o JSON."); return; }
-    try{
-      const p = JSON.parse(txt); if(!Array.isArray(p.aportes)) throw new Error("formato");
-      if(!confirm("Substituir todos os dados?")) return;
-      state = { ...JSON.parse(JSON.stringify(DEFAULT)), ...p };
-      save(); renderDashboard(); $("#modalBackup").classList.remove("open"); toast("Restaurado.");
-    }catch(e){ toast("JSON inválido."); }
   });
 
   $("#btnPdf").addEventListener("click", ()=>{
@@ -1170,23 +1104,27 @@
   }
 
   $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m) m.classList.remove("open"); }));
-
   let rt;
   window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){renderChart();renderComparativo();} },180); });
 
-  /* ============================================================
-     BOOT
-  ============================================================ */
-  renderAvatares();
-  const sessao = localStorage.getItem(REMEMBER_KEY);
-  if(sessao && USERS[sessao]){
-    currentUser = sessao;
-    if(sb){
-      sb.auth.getSession().then(({data})=>{ if(data.session) enterDashboard(); else showScreen("screen-picker"); });
-    }else{
-      enterDashboard();
+  /* ===== BOOT ===== */
+  async function boot(){
+    if(!sb){ $("#footSync").textContent = "Supabase não carregado"; return; }
+    const {data:{session}} = await sb.auth.getSession();
+    if(session){
+      // Descobre qual usuário logado
+      const {data:{user}} = await sb.auth.getUser();
+      const email = (user?.email||"").toLowerCase();
+      currentUser = email.includes("matheus") ? "matheus" : email.includes("kathleen") ? "kathleen" : null;
+      if(currentUser){
+        loading(true);
+        await carregarTudoDoSupabase();
+        enterDashboard();
+        loading(false);
+      }
     }
   }
+  boot();
 
 })();
 </script>
