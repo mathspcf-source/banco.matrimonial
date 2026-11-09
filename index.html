@@ -58,7 +58,6 @@
   .login-title{text-align:center;font-size:1.4rem;font-weight:800;margin:0 0 4px;letter-spacing:-.4px}
   .login-sub{text-align:center;color:var(--muted);font-size:.84rem;margin:0 0 26px}
 
-  /* INPUT — cadeado embutido como background (só um, sempre alinhado) */
   .field{position:relative;margin-bottom:14px;width:100%}
   .field input{
     width:100%;
@@ -144,6 +143,23 @@
   .app-main{max-width:1180px;margin:0 auto;padding:16px}
   @media(min-width:768px){.app-main{padding:24px}}
 
+  /* ===== TABS DO DASHBOARD ===== */
+  .dash-tabs{
+    display:flex;gap:6px;background:#070d18;border:1px solid var(--line);
+    border-radius:14px;padding:5px;margin-bottom:16px;
+  }
+  .dash-tabs button{
+    flex:1;padding:11px 14px;border-radius:10px;font-size:.85rem;font-weight:700;
+    color:var(--muted);transition:.15s;
+  }
+  .dash-tabs button.active{background:var(--surface2);color:var(--txt)}
+  .dash-tabs button .badge-pill{
+    display:inline-block;margin-left:6px;background:var(--green);color:#03140e;
+    padding:1px 7px;border-radius:999px;font-size:.66rem;font-weight:800;
+  }
+  .view{display:none}
+  .view.active{display:block}
+
   .cards{display:grid;gap:14px;grid-template-columns:1fr}
   @media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
   @media(min-width:1024px){.cards{grid-template-columns:repeat(4,1fr)}}
@@ -158,6 +174,7 @@
   .card .value{font-size:1.5rem;font-weight:800;margin-top:8px;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
   .card .sub{color:var(--muted);font-size:.76rem;margin-top:4px}
   .card.saldo .value{color:var(--green)}
+  .card.casal .value{color:var(--gold)}
   .card .value.good{color:var(--green)}
   .card .value.bad{color:var(--warn)}
   .card .value.gold{color:var(--gold)}
@@ -178,20 +195,44 @@
   .progress.k > i{background:linear-gradient(90deg,var(--kathleen),#c2569a,var(--green))}
   .progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem;margin-top:10px}
 
-  form.lancamento{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-  form.lancamento .full{grid-column:1/-1}
-  label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;font-weight:600}
-  select,input[type=text],input[type=number],input[type=date],input[type=password]{
-    width:100%;padding:12px;background:#070d18;color:var(--txt);border:1px solid var(--line);
-    border-radius:12px;font-size:16px;outline:none;transition:.2s;
+  /* ===== VISÃO DO CASAL ===== */
+  .duo-dash{display:grid;gap:14px;grid-template-columns:1fr}
+  @media(min-width:600px){.duo-dash{grid-template-columns:1fr 1fr}}
+  .person-card{
+    background:linear-gradient(165deg,rgba(23,35,61,.85),rgba(12,18,32,.92));
+    border:1px solid var(--line);border-radius:var(--r);padding:20px;
+    box-shadow:var(--shadow-sm);
   }
-  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
-  .btn-primary{padding:13px 18px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;transition:.12s;width:100%}
-  .btn-primary:hover{filter:brightness(1.08)}.btn-primary:active{transform:scale(.98)}
-  .btn-primary.k{background:linear-gradient(135deg,var(--kathleen),#c2569a)}
-  .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{padding:8px 14px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:.78rem;font-weight:600;transition:.15s}
-  .chip:hover{border-color:var(--accent)}
+  .person-card.m{border-top:3px solid var(--matheus)}
+  .person-card.k{border-top:3px solid var(--kathleen)}
+  .person-card .head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .person-card .head .avatar-sm{
+    width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+    font-weight:800;color:#fff;overflow:hidden;flex:0 0 auto;font-size:1.05rem;
+  }
+  .person-card.m .head .avatar-sm{background:linear-gradient(135deg,var(--matheus),#3b6fd4)}
+  .person-card.k .head .avatar-sm{background:linear-gradient(135deg,var(--kathleen),#b34691)}
+  .person-card .head .avatar-sm img{width:100%;height:100%;object-fit:cover}
+  .person-card .head b{font-size:1rem}
+  .person-card .head .sub{font-size:.72rem;color:var(--muted)}
+  .person-card .num{font-size:1.7rem;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;letter-spacing:-.6px}
+  .person-card .meta{font-size:.75rem;color:var(--muted);margin-top:4px}
+  .person-card .row{display:flex;justify-content:space-between;font-size:.78rem;margin-top:10px;color:var(--muted)}
+  .person-card .row b{color:var(--txt)}
+
+  .total-casal{
+    background:linear-gradient(135deg,#0f2f27,#0a1a2e 60%);
+    border:1px solid #1e5b46;border-radius:var(--r);padding:22px;
+    box-shadow:var(--shadow);margin-bottom:14px;position:relative;overflow:hidden;
+  }
+  .total-casal::after{
+    content:"";position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(52,211,153,.22),transparent 65%);pointer-events:none;
+  }
+  .total-casal .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+  .total-casal .num{font-size:2.2rem;font-weight:800;color:var(--green);margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+  .total-casal .sub{font-size:.8rem;color:var(--muted);margin-top:4px}
+  .total-casal .progress{margin-top:14px;height:14px}
 
   .list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto;padding-right:2px}
   .item{
@@ -214,6 +255,9 @@
   .item .tool:hover{background:var(--surface2);color:var(--txt)}
   .item .tool.danger:hover{background:#3a2e10;color:var(--warn)}
   .item .tool svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .item .who-tag{font-size:.62rem;padding:2px 8px;border-radius:999px;margin-left:6px;font-weight:800;letter-spacing:.04em}
+  .item .who-tag.m{background:rgba(108,140,255,.15);color:var(--matheus)}
+  .item .who-tag.k{background:rgba(232,121,166,.15);color:var(--kathleen)}
   .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:.82rem}
 
   .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
@@ -247,13 +291,20 @@
   .rules li{display:flex;gap:10px;padding:10px 12px;background:#070d18;border:1px solid var(--line);border-radius:12px;font-size:.82rem}
   .rules .n{width:22px;height:22px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;background:var(--surface2);color:var(--green);font-size:.68rem;font-weight:800}
 
-  .duo{display:grid;gap:14px;grid-template-columns:1fr 1fr}
-  .duo .box{background:rgba(7,13,24,.6);border:1px solid var(--line);border-radius:14px;padding:14px}
-  .duo .box .who{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--muted);margin-bottom:6px}
-  .duo .box .who .dot{width:8px;height:8px;border-radius:50%}
-  .duo .box .who .dot.m{background:var(--matheus)}.duo .box .who .dot.k{background:var(--kathleen)}
-  .duo .box .v{font-size:1.2rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--green)}
-  .duo .box .p{font-size:.7rem;color:var(--muted);margin-top:4px}
+  form.lancamento{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  form.lancamento .full{grid-column:1/-1}
+  label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+  select,input[type=text],input[type=number],input[type=date],input[type=password]{
+    width:100%;padding:12px;background:#070d18;color:var(--txt);border:1px solid var(--line);
+    border-radius:12px;font-size:16px;outline:none;transition:.2s;
+  }
+  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.15)}
+  .btn-primary{padding:13px 18px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),#7c6cff);color:#fff;transition:.12s;width:100%}
+  .btn-primary:hover{filter:brightness(1.08)}.btn-primary:active{transform:scale(.98)}
+  .btn-primary.k{background:linear-gradient(135deg,var(--kathleen),#c2569a)}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{padding:8px 14px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:.78rem;font-weight:600;transition:.15s}
+  .chip:hover{border-color:var(--accent)}
 
   .toast{
     position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
@@ -313,6 +364,7 @@
 </head>
 <body>
 
+<!-- ============ PICKER ============ -->
 <section class="screen active" id="screen-picker">
   <div class="login-wrap">
     <div style="width:100%;max-width:520px">
@@ -336,6 +388,7 @@
   </div>
 </section>
 
+<!-- ============ LOGIN MATHEUS ============ -->
 <section class="screen" id="screen-login-matheus">
   <div class="login-wrap"><div class="login-card">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -352,6 +405,7 @@
   </div></div>
 </section>
 
+<!-- ============ LOGIN KATHLEEN ============ -->
 <section class="screen" id="screen-login-kathleen">
   <div class="login-wrap"><div class="login-card k">
     <button class="login-back" data-back><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
@@ -368,6 +422,7 @@
   </div></div>
 </section>
 
+<!-- ============ DASHBOARD ============ -->
 <section class="screen" id="screen-dash">
   <header class="app-header"><div class="app-header-inner">
     <div class="user-chip" id="chipPerfil" title="Editar perfil">
@@ -376,71 +431,102 @@
     </div>
     <div class="header-actions">
       <button class="icon-btn" id="btnPdf" title="Imprimir PDF"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
-      <button class="icon-btn" id="btnCofre" title="Visão do casal"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
       <button class="icon-btn" id="btnConfig" title="Configurações"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       <button class="icon-btn" id="btnLogout" title="Sair"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
     </div>
   </div></header>
 
   <main class="app-main">
-    <section class="cards" id="dashCards"></section>
-    <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>Progresso pessoal</h2>
-      <div class="progress" id="dashBarra"><i></i></div>
-      <div class="progress-meta"><span id="dashBarraLeft">R$ 0</span><span id="dashBarraRight">Meta: R$ 10.000</span></div>
-      <div class="progress-meta" style="margin-top:6px"><span id="dashStreak">0 meses em dia</span><span id="dashRitmo"></span></div>
-    </section>
 
-    <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Meus selos</h2><div class="selos-grid" id="dashSelos"></div></section>
+    <!-- TABS -->
+    <div class="dash-tabs" id="dashTabs">
+      <button class="active" data-view="casal">Visão do casal</button>
+      <button data-view="pessoal">Meu painel</button>
+    </div>
 
-    <section class="panel">
-      <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal</h2>
-      <div class="chart-toggle" id="compToggle"><button class="active" data-mode="donut">Donut</button><button data-mode="line">Linha</button></div>
-      <canvas id="dashComparativo" width="900" height="380"></canvas>
-      <div class="sub" id="dashCompHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
-    </section>
+    <!-- ===== VIEW: CASAL ===== -->
+    <div class="view active" id="view-casal">
 
-    <div class="split">
-      <div>
-        <section class="panel"><h2><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo lançamento</h2>
-          <form class="lancamento" id="formLanc">
-            <div class="full"><label>Tipo</label><select id="lTipo"><option value="aporte">Aporte</option><option value="bonus">Bônus</option><option value="rendimento">Rendimento</option><option value="saque">Saque</option></select></div>
-            <div><label>Valor (R$)</label><input id="lValor" type="number" inputmode="decimal" step="0.01" min="0.01" placeholder="0,00" required /></div>
-            <div><label>Data</label><input id="lData" type="date" required /></div>
-            <div class="full"><label>Observação</label><input id="lObs" type="text" maxlength="80" placeholder="Opcional" /></div>
-            <div class="full"><button type="submit" class="btn-primary" id="lBtn">Registrar</button></div>
-          </form>
-          <div class="quick"><button type="button" class="chip" data-quick="833.33">+ R$ 833,33</button><button type="button" class="chip" data-quick="400">+ R$ 400</button><button type="button" class="chip" data-quick="rend">+ Rendimento</button></div>
-        </section>
+      <section class="total-casal" id="totalCasalBox"></section>
 
-        <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Meus lançamentos</h2>
-          <div class="filter-row"><select id="filtroMes"><option value="todos">Todos os meses</option></select><select id="filtroTipo"><option value="todos">Todos os tipos</option><option value="aporte">Aportes</option><option value="bonus">Bônus</option><option value="rendimento">Rendimentos</option><option value="saque">Saques</option></select></div>
-          <div class="list" id="dashLista"></div>
-        </section>
+      <section class="duo-dash" id="duoPessoas"></section>
 
-        <section class="panel"><h2><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Minha evolução</h2>
-          <div class="chart-toggle" id="indToggle"><button class="active" data-mode="line">Linha</button><button data-mode="donut">Donut</button></div>
-          <canvas id="dashChart" width="900" height="360"></canvas>
-          <div class="sub" id="dashChartHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
-        </section>
-      </div>
+      <section class="panel">
+        <h2><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comparativo mensal (os dois)</h2>
+        <div class="chart-toggle" id="compToggle"><button class="active" data-mode="donut">Donut</button><button data-mode="line">Linha</button></div>
+        <canvas id="dashComparativo" width="900" height="380"></canvas>
+        <div class="sub" id="dashCompHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
+      </section>
 
-      <div>
-        <section class="panel" style="margin-top:0"><h2><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Aportes deste mês</h2><div class="list" id="dashMes"></div></section>
-        <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Regras</h2>
-          <ul class="rules">
-            <li><span class="n">1</span><div><b>Aporte alvo:</b> R$ 833,33/pessoa. Cada um deposita o que pode, mas priorize o alvo.</div></li>
-            <li><span class="n">2</span><div><b>Conta:</b> cofrinho com liquidez diária (Mercado Pago 100% CDI).</div></li>
-            <li><span class="n">3</span><div><b>Reunião:</b> dia 10, 15 min.</div></li>
-            <li><span class="n">4</span><div><b>Saque:</b> só com acordo dos dois.</div></li>
-            <li><span class="n">5</span><div><b>Extra:</b> 13º e freelas → ≥50% para o cofre.</div></li>
-          </ul>
-        </section>
+      <section class="panel">
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Selos do casal</h2>
+        <div class="selos-grid" id="selosCasal"></div>
+      </section>
+
+      <section class="panel">
+        <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Últimos lançamentos do casal</h2>
+        <div class="list" id="listaCasal"></div>
+      </section>
+
+    </div>
+
+    <!-- ===== VIEW: PESSOAL ===== -->
+    <div class="view" id="view-pessoal">
+
+      <section class="cards" id="dashCards"></section>
+      <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg>Progresso pessoal</h2>
+        <div class="progress" id="dashBarra"><i></i></div>
+        <div class="progress-meta"><span id="dashBarraLeft">R$ 0</span><span id="dashBarraRight">Meta: R$ 10.000</span></div>
+        <div class="progress-meta" style="margin-top:6px"><span id="dashStreak">0 meses em dia</span><span id="dashRitmo"></span></div>
+      </section>
+
+      <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Meus selos</h2><div class="selos-grid" id="dashSelos"></div></section>
+
+      <div class="split">
+        <div>
+          <section class="panel" style="margin-top:0"><h2><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo lançamento</h2>
+            <form class="lancamento" id="formLanc">
+              <div class="full"><label>Tipo</label><select id="lTipo"><option value="aporte">Aporte</option><option value="bonus">Bônus</option><option value="rendimento">Rendimento</option><option value="saque">Saque</option></select></div>
+              <div><label>Valor (R$)</label><input id="lValor" type="number" inputmode="decimal" step="0.01" min="0.01" placeholder="0,00" required /></div>
+              <div><label>Data</label><input id="lData" type="date" required /></div>
+              <div class="full"><label>Observação</label><input id="lObs" type="text" maxlength="80" placeholder="Opcional" /></div>
+              <div class="full"><button type="submit" class="btn-primary" id="lBtn">Registrar</button></div>
+            </form>
+            <div class="quick"><button type="button" class="chip" data-quick="833.33">+ R$ 833,33</button><button type="button" class="chip" data-quick="400">+ R$ 400</button><button type="button" class="chip" data-quick="rend">+ Rendimento</button></div>
+          </section>
+
+          <section class="panel"><h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Meus lançamentos</h2>
+            <div class="filter-row"><select id="filtroMes"><option value="todos">Todos os meses</option></select><select id="filtroTipo"><option value="todos">Todos os tipos</option><option value="aporte">Aportes</option><option value="bonus">Bônus</option><option value="rendimento">Rendimentos</option><option value="saque">Saques</option></select></div>
+            <div class="list" id="dashLista"></div>
+          </section>
+
+          <section class="panel"><h2><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Minha evolução</h2>
+            <div class="chart-toggle" id="indToggle"><button class="active" data-mode="line">Linha</button><button data-mode="donut">Donut</button></div>
+            <canvas id="dashChart" width="900" height="360"></canvas>
+            <div class="sub" id="dashChartHint" style="margin-top:8px;color:var(--muted);font-size:.74rem">—</div>
+          </section>
+        </div>
+
+        <div>
+          <section class="panel" style="margin-top:0"><h2><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Aportes deste mês</h2><div class="list" id="dashMes"></div></section>
+          <section class="panel"><h2><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Regras</h2>
+            <ul class="rules">
+              <li><span class="n">1</span><div><b>Aporte alvo:</b> R$ 833,33/pessoa. Cada um deposita o que pode, mas priorize o alvo.</div></li>
+              <li><span class="n">2</span><div><b>Conta:</b> cofrinho com liquidez diária (Mercado Pago 100% CDI).</div></li>
+              <li><span class="n">3</span><div><b>Reunião:</b> dia 10, 15 min.</div></li>
+              <li><span class="n">4</span><div><b>Saque:</b> só com acordo dos dois.</div></li>
+              <li><span class="n">5</span><div><b>Extra:</b> 13º e freelas → ≥50% para o cofre.</div></li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
+
     <div class="foot" id="footSync">Conectando...</div>
   </main>
 </section>
 
+<!-- ============ MODAIS ============ -->
 <div class="modal" id="modalPerfil"><div class="box">
   <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu perfil</h3>
   <div class="avatar-upload">
@@ -453,12 +539,6 @@
   </div>
   <div style="margin-bottom:14px"><label>Nome</label><input id="perfilNome" type="text" maxlength="30" /></div>
   <div class="actions"><button class="btn-primary" id="btnSavePerfil">Salvar</button><button class="btn-secondary" id="btnClosePerfil">Fechar</button></div>
-</div></div>
-
-<div class="modal" id="modalCofre"><div class="box">
-  <h3><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Visão do casal</h3>
-  <div id="cofreContent"></div>
-  <div class="actions"><button class="btn-secondary" id="btnCloseCofre">Fechar</button></div>
 </div></div>
 
 <div class="modal" id="modalConfig"><div class="box">
@@ -645,6 +725,19 @@
     await sb.from("aportes").delete().eq("id",id);
   }
 
+  /* ===== TABS DO DASHBOARD ===== */
+  $("#dashTabs").addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    $$("#dashTabs button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    $$(".view").forEach(v=>v.classList.remove("active"));
+    $("#view-"+b.dataset.view).classList.add("active");
+    if(b.dataset.view==="casal") renderCasal();
+    else renderPessoal();
+    window.scrollTo(0,0);
+  });
+
+  /* ===== PICKER / LOGIN ===== */
   $$("#screen-picker .profile").forEach(b=>b.addEventListener("click",()=>{
     const u = b.dataset.user;
     showScreen("screen-login-"+u);
@@ -696,6 +789,7 @@
     showScreen("screen-picker");
   });
 
+  /* ===== AVATARES / ENTRADA ===== */
   function renderAvatares(){
     const p = state.perfis;
     ["matheus","kathleen"].forEach(u=>{
@@ -728,12 +822,94 @@
     $("#lValor").value = ""; $("#lObs").value = ""; $("#lTipo").value="aporte";
     filtroMes = "todos"; filtroTipo = "todos";
     popularFiltroMes();
-    renderDashboard();
     renderAvatares();
+    renderCasal();
+    renderPessoal();
     showScreen("screen-dash");
   }
 
-  function renderDashboard(){
+  /* ===== VIEW CASAL ===== */
+  function renderCasal(){
+    if(!currentUser) return;
+
+    const total = saldoCasal();
+    const meta = state.metaCasal;
+    const p = meta>0 ? Math.min(100, (total/meta)*100) : 0;
+    const falta = Math.max(0, meta - total);
+    const fim = addMonth(state.inicio, state.meses-1);
+    const restantes = Math.max(0, monthsBetween(mesAtual(), fim)+1);
+    const faltaMes = restantes>0 ? falta/restantes : 0;
+
+    $("#totalCasalBox").innerHTML = `
+      <div class="label">Total do casal</div>
+      <div class="num">${brl(total)}</div>
+      <div class="sub">${pct(p)} da meta de ${brl(meta)} · faltam ${restantes} meses</div>
+      <div class="progress"><i style="width:${p.toFixed(2)}%"></i></div>
+      <div class="progress-meta">
+        <span>Falta ${brl(falta)}</span>
+        <span>${brl(faltaMes)}/mês para fechar</span>
+      </div>
+    `;
+
+    // Cards dos dois
+    const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
+    const mM = state.metaMatheus, mK = state.metaKathleen;
+    const pM = mM>0 ? Math.min(100,(sM/mM)*100) : 0;
+    const pK = mK>0 ? Math.min(100,(sK/mK)*100) : 0;
+    const mes = mesAtual();
+    const tmM = aportesMes("matheus", mes), tmK = aportesMes("kathleen", mes);
+    const avM = state.perfis.matheus?.avatar, avK = state.perfis.kathleen?.avatar;
+
+    $("#duoPessoas").innerHTML = `
+      <div class="person-card m">
+        <div class="head">
+          <div class="avatar-sm">${avM?`<img src="${avM}" alt="" />`:"M"}</div>
+          <div><b>Matheus</b><div class="sub">${pct(pM)} da meta individual</div></div>
+        </div>
+        <div class="num">${brl(sM)}</div>
+        <div class="meta">Meta: ${brl(mM)}</div>
+        <div class="row"><span>Aporte deste mês</span><b>${brl(tmM)}</b></div>
+        <div class="progress" style="margin-top:10px;height:8px"><i style="width:${pM.toFixed(2)}%"></i></div>
+      </div>
+      <div class="person-card k">
+        <div class="head">
+          <div class="avatar-sm">${avK?`<img src="${avK}" alt="" />`:"K"}</div>
+          <div><b>Kathleen</b><div class="sub">${pct(pK)} da meta individual</div></div>
+        </div>
+        <div class="num">${brl(sK)}</div>
+        <div class="meta">Meta: ${brl(mK)}</div>
+        <div class="row"><span>Aporte deste mês</span><b>${brl(tmK)}</b></div>
+        <div class="progress k" style="margin-top:10px;height:8px"><i style="width:${pK.toFixed(2)}%"></i></div>
+      </div>
+    `;
+
+    renderComparativo();
+    renderSelos("selosCasal","casal",total);
+    renderListaCasal();
+  }
+
+  function renderListaCasal(){
+    const box = $("#listaCasal");
+    const arr = state.aportes.slice().sort((a,b)=>(b.data||"").localeCompare(a.data||"")||(b.id||"").localeCompare(a.id||"")).slice(0,20);
+    if(!arr.length){
+      box.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>'; return;
+    }
+    box.innerHTML = arr.map(a=>{
+      const sinal = a.tipo==="saque" ? "- " : "+ ";
+      const who = a.user==="matheus" ? "Matheus" : "Kathleen";
+      return `<div class="item">
+        <div class="ico ${a.tipo}">${ICONS[a.tipo]||ICONS.aporte}</div>
+        <div class="info">
+          <b>${TIPO_LABEL[a.tipo]||a.tipo} <span class="who-tag ${a.user}">${who}</span></b>
+          <span>${fmtData(a.data)}${a.obs?" · "+esc(a.obs):""}</span>
+        </div>
+        <div class="amt ${a.tipo==='saque'?'saque':''} ${a.tipo==='rendimento'?'rend':''}">${sinal}${brl(a.valor)}</div>
+      </div>`;
+    }).join("");
+  }
+
+  /* ===== VIEW PESSOAL ===== */
+  function renderPessoal(){
     if(!currentUser) return;
     const saldo = saldoUsuario(currentUser);
     const meta = currentUser==="matheus" ? state.metaMatheus : state.metaKathleen;
@@ -762,7 +938,7 @@
     const novos = verificarSelos(currentUser, saldo);
     if(novos.length){ novos.forEach((s,i)=>setTimeout(()=>toast("Selo: "+s.nome),i*1100)); }
     renderSelos("dashSelos", currentUser, saldo);
-    renderLista(); renderListaMes(); renderChart(); renderComparativo();
+    renderLista(); renderListaMes(); renderChart();
   }
 
   function popularFiltroMes(){
@@ -794,6 +970,7 @@
     $("#dashMes").innerHTML = arr.length ? arr.map(itemHTML).join("") : '<div class="empty">Nenhum lançamento neste mês.</div>';
   }
 
+  /* ===== LANÇAMENTOS ===== */
   $("#formLanc").addEventListener("submit", async e=>{
     e.preventDefault();
     if(!currentUser) return;
@@ -806,7 +983,7 @@
     state.aportes.push(a);
     if(sb) await salvarAporteSupabase(a);
     $("#lValor").value=""; $("#lObs").value="";
-    popularFiltroMes(); renderDashboard(); toast("Registrado.");
+    popularFiltroMes(); renderCasal(); renderPessoal(); toast("Registrado.");
   });
 
   $$(".quick .chip").forEach(b=>b.addEventListener("click",()=>{
@@ -825,7 +1002,7 @@
       if(!confirm("Excluir?")) return;
       state.aportes = state.aportes.filter(x=>x.id!==id);
       if(sb) await deletarAporteSupabase(id);
-      popularFiltroMes(); renderDashboard(); toast("Excluído.");
+      popularFiltroMes(); renderCasal(); renderPessoal(); toast("Excluído.");
     }else if(btn.dataset.act==="edit"){
       editingId = id;
       $("#edTipo").value = a.tipo; $("#edValor").value = a.valor; $("#edData").value = a.data; $("#edObs").value = a.obs||"";
@@ -839,10 +1016,11 @@
     a.tipo = $("#edTipo").value; a.valor = v; a.data = $("#edData").value; a.obs = $("#edObs").value.trim();
     if(sb) await salvarAporteSupabase(a);
     $("#modalEditar").classList.remove("open"); editingId=null;
-    popularFiltroMes(); renderDashboard(); toast("Atualizado.");
+    popularFiltroMes(); renderCasal(); renderPessoal(); toast("Atualizado.");
   });
   $("#btnCloseEdit").addEventListener("click", ()=>{ $("#modalEditar").classList.remove("open"); editingId=null; });
 
+  /* ===== PERFIL ===== */
   $("#chipPerfil").addEventListener("click", ()=>{
     if(!currentUser) return;
     const p = state.perfis[currentUser];
@@ -914,6 +1092,7 @@
   });
   $("#btnClosePerfil").addEventListener("click", ()=>{ $("#modalPerfil").classList.remove("open"); $("#fileAvatar").value=""; });
 
+  /* ===== GRÁFICOS ===== */
   function setupCanvas(cv, ratio){
     const dpr = Math.min(window.devicePixelRatio||1, 2);
     const cssW = cv.clientWidth||900; const cssH = Math.round(cssW*(ratio||0.4));
@@ -1030,31 +1209,7 @@
     indMode = b.dataset.mode; renderChart();
   });
 
-  $("#btnCofre").addEventListener("click", ()=>{
-    const total = saldoCasal(); const meta = state.metaCasal; const p = meta>0?Math.min(100,(total/meta)*100):0;
-    const sM = saldoUsuario("matheus"), sK = saldoUsuario("kathleen");
-    const fim = addMonth(state.inicio, state.meses-1); const restantes = Math.max(0, monthsBetween(mesAtual(), fim)+1);
-    const faltaMes = restantes>0?Math.max(0,meta-total)/restantes:0;
-    $("#cofreContent").innerHTML = `
-      <div style="background:#070d18;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px">
-        <div style="color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700">Total do casal</div>
-        <div style="font-size:1.7rem;font-weight:800;margin-top:6px;color:var(--green)">${brl(total)}</div>
-        <div style="color:var(--muted);font-size:.8rem;margin-top:4px">${pct(p)} da meta de ${brl(meta)} · faltam ${restantes} meses</div>
-        <div class="progress" style="margin-top:12px"><i style="width:${p.toFixed(2)}%"></i></div>
-        <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:8px"><span>Falta ${brl(Math.max(0,meta-total))}</span><span>${brl(faltaMes)}/mês</span></div>
-      </div>
-      <div class="duo">
-        <div class="box"><div class="who"><span class="dot m"></span> Matheus</div><div class="v">${brl(sM)}</div><div class="p">${pct(state.metaMatheus>0?(sM/state.metaMatheus)*100:0)} da meta</div></div>
-        <div class="box"><div class="who"><span class="dot k"></span> Kathleen</div><div class="v">${brl(sK)}</div><div class="p">${pct(state.metaKathleen>0?(sK/state.metaKathleen)*100:0)} da meta</div></div>
-      </div>
-      <h3 style="margin:18px 0 10px;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Selos do casal</h3>
-      <div class="selos-grid" id="cofreSelos"></div>
-    `;
-    renderSelos("cofreSelos","casal",total);
-    $("#modalCofre").classList.add("open");
-  });
-  $("#btnCloseCofre").addEventListener("click", ()=>$("#modalCofre").classList.remove("open"));
-
+  /* ===== CONFIG ===== */
   $("#btnConfig").addEventListener("click", ()=>{
     $("#cfgMetaCasal").value = state.metaCasal; $("#cfgInicio").value = state.inicio; $("#cfgMeses").value = state.meses;
     $("#cfgMetaM").value = state.metaMatheus; $("#cfgMetaK").value = state.metaKathleen;
@@ -1070,16 +1225,17 @@
     if(mm>0) state.metaMatheus=mm; if(mk>0) state.metaKathleen=mk;
     if(ap>0) state.aporteAlvo=ap; if(tx>=0) state.taxaMensal=tx;
     if(sb) await salvarConfigSupabase();
-    $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Salvo.");
+    $("#modalConfig").classList.remove("open"); renderCasal(); renderPessoal(); toast("Salvo.");
   });
   $("#btnReset").addEventListener("click", async ()=>{
     if(!confirm("Zerar TODOS os dados? Apaga também no Supabase.")) return;
     if(sb) await sb.from("aportes").delete().neq("id","");
     state.aportes = [];
     state.selos = {matheus:{},kathleen:{},casal:{}};
-    $("#modalConfig").classList.remove("open"); renderDashboard(); toast("Dados zerados.");
+    $("#modalConfig").classList.remove("open"); renderCasal(); renderPessoal(); toast("Dados zerados.");
   });
 
+  /* ===== PDF ===== */
   $("#btnPdf").addEventListener("click", ()=>{
     $("#pdf-print").innerHTML = gerarPdfHtml();
     window.print();
@@ -1111,9 +1267,10 @@
     `;
   }
 
+  /* ===== BOOT ===== */
   $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m) m.classList.remove("open"); }));
   let rt;
-  window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){renderChart();renderComparativo();} },180); });
+  window.addEventListener("resize",()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(currentUser){ renderChart(); renderComparativo(); } },180); });
 
   async function boot(){
     if(!sb){ $("#footSync").textContent = "Supabase não carregado"; return; }
